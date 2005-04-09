@@ -77,7 +77,7 @@ if (-x "/usr/bin/monodis" ) {
 {
   local $/="";
   open(FILE, 'debian/control');
-  @filedata = <FILE>;
+  my @filedata = <FILE>;
   close FILE;
   if (!($filedata[0] =~ /Build-Depends: .*cli-common \(>= 0\.1\)/)) {
       warning("Warning! No Build-Depends on cli-common (>= 0.1)!");

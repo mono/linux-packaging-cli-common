@@ -1,4 +1,4 @@
-cli-common (0.1-1) experimental; urgency=low
+cli-common (0.1) experimental; urgency=low
 
   * Mirco 'meebey' Bauer
     + Initial release.

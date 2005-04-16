@@ -53,6 +53,10 @@ Don't set a strong versioned dependency on mono-jit or other CLR packages.
 This option can be used to specify a relaxed dependency on the VM
 by-hand in the control file, eg. "mono-jit | cli-virtual-machine".
 
+=item B<--internal-mono>                             
+
+Uses the mono runtime in . (used for bootstrapping mono packages)  
+
 =cut
 
 init();
@@ -62,7 +66,7 @@ my $cli = '/usr/bin/cli';
 my $cli_version = `$cli --version 2>&1`;
 my $cli_parser;
 
-if (-x "/usr/bin/monodis" ) {
+if (-x "/usr/bin/monodis") {
     $clr = "mono";
     $cli_parser = "/usr/bin/monodis";
     verbose_print("Will use Mono (/usr/bin/monodis) for CIL parsing.");
@@ -85,21 +89,23 @@ if (-x "/usr/bin/monodis" ) {
 }
 
 if (!defined $cli_version || $cli_version eq "" ) {
-    error( "No CLR is installed, aborting. (Probably forgot to Build-Depend on cli-virtual-machine.)");
-} elsif ($clr eq "mono") {
+    warning("Warning! No CLR is installed. (Probably forgot to Build-Depend on cli-virtual-machine.)");
+} else {
+  if ($clr eq "mono") {
     if ($cli_version =~ /(mint|version)\ ([\d\.]+)/) {
       $cli_version = "$2";
     } else {
       error("Unable to parse Mono version out of \"$cli_version\".");
     }
-} elsif ($clr eq "pnet") {
+  } elsif ($clr eq "pnet") {
     if ($cli_version =~ /ILRUN\ ([\d\.]+)/) {
       $cli_version = "$1";
     } else {
       error("Unable to parse Portable.NET version out of \"$cli_version\".");
     }
-} else {
+  } else {
     error("Unable to detect CLR, aborting.");
+  }
 }
 
 # Cleaning the paths given on the command line

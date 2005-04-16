@@ -75,6 +75,10 @@ compatible and "major" versions break with compatibility.
 Exclude files that contain "item" anywhere in their filename or directory 
 from being treated as shared libraries.
 
+=item B<--internal-mono>
+
+Uses the mono runtime in . (used for bootstrapping mono packages)
+
 =back
 
 =head1 EXAMPLES
@@ -121,7 +125,11 @@ my $cli_parser;
 
 if (-x "/usr/bin/monodis") {
     $clr = "mono";
-    $cli_parser = "/usr/bin/monodis";
+    if (defined($dh{INTERNAL_MONO_FLAG})) {
+      $cli_parser = "";
+    } else {
+      $cli_parser = "/usr/bin/monodis";
+    }
     verbose_print("Will use Mono (/usr/bin/monodis) for CIL parsing.");
 } elsif (-x "/usr/bin/ildasm") {
     $clr = "pnet";

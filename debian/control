@@ -1,0 +1,21 @@
+Source: cli-common
+Section: interpreters
+Priority: optional
+Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
+Uploaders: Mirco Bauer <meebey@meebey.net>
+Build-Depends: debhelper (>> 4.0.0)
+Standards-Version: 3.6.1
+
+Package: cli-common
+Architecture: all
+Depends: mono-utils | pnet-compiler
+Description: base of all CLI (.NET) packages
+ This package must be installed if a CLI (Common Language Infrastructure)/.NET
+ environment is desired.
+ .
+ It covers useful integration and information for CLI implementations in
+ Debian GNU/Linux, including:
+  * The CLI policy describs how CLI packages should behave and integrate.
+  * Automatic dependency tracking for CLI packages (via dh_clideps and 
+    dh_makeclilibs).
+  * A FAQ for users of CLI/.NET applications.

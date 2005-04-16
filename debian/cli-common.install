@@ -1,0 +1,3 @@
+dh_makeclilibs	/usr/bin/
+dh_clideps	/usr/bin/
+ildasm-monodis	/usr/share/cli-common/

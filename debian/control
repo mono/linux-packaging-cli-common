@@ -8,7 +8,7 @@ Standards-Version: 3.6.1
 
 Package: cli-common
 Architecture: all
-Depends: debhelper (>> 4.0.0), mono-utils | pnet-compiler
+Depends: debhelper (>> 4.0.0), mono-utils | cil-disassembler, mono-mcs | strong-name-tool
 Description: base of all CLI (.NET) packages
  This package must be installed if a CLI (Common Language Infrastructure)/.NET
  environment is desired.

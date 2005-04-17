@@ -15,7 +15,7 @@ Description: base of all CLI (.NET) packages
  .
  It covers useful integration and information for CLI implementations in
  Debian GNU/Linux, including:
-  * The CLI policy describs how CLI packages should behave and integrate.
+  * The CLI policy describes how CLI packages should behave and integrate.
   * Automatic dependency tracking for CLI packages (via dh_clideps and 
     dh_makeclilibs).
   * A FAQ for users of CLI/.NET applications.

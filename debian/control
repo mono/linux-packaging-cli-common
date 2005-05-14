@@ -3,12 +3,12 @@ Section: interpreters
 Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Mirco Bauer <meebey@meebey.net>
-Build-Depends: debhelper (>> 4.0.0)
+Build-Depends: debhelper (>= 4.0.0)
 Standards-Version: 3.6.1
 
 Package: cli-common
 Architecture: all
-Depends: debhelper (>> 4.0.0), mono-utils | cil-disassembler, mono-mcs | strong-name-tool
+Depends: debhelper (>= 4.0.0), mono-utils | cil-disassembler, mono-mcs | strong-name-tool
 Description: base of all CLI (.NET) packages
  This package must be installed if a CLI (Common Language Infrastructure)/.NET
  environment is desired.
@@ -18,4 +18,4 @@ Description: base of all CLI (.NET) packages
   * The CLI policy describes how CLI packages should behave and integrate.
   * Automatic dependency tracking for CLI packages (via dh_clideps and 
     dh_makeclilibs).
-  * A FAQ for users of CLI/.NET applications.
+  * A FAQ for package maintainers of CLI/.NET applications.

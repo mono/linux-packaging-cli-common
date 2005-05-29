@@ -1,3 +1,9 @@
+cli-common (0.1.3.0) unstable; urgency=low
+
+  * upload to unstable
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sat, 14 May 2005 16:47:37 +0200
+
 cli-common (0.1.3) experimental; urgency=low
 
   * Mirco 'meebey' Bauer

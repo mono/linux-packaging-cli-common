@@ -24,7 +24,7 @@ install: build
 	dh_clean -k
 	dh_installdirs
 	for x in dh_clideps dh_makeclilibs; \
-	  do chmod +x $$x; pod2man $$x > $$x.1; done
+	  do chmod +x $$x; pod2man -c "Debhelper for CLI (.NET)" $$x > $$x.1; done
 
 # Build architecture-independent files here.
 binary-indep: build install

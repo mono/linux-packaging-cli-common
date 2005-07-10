@@ -2,9 +2,12 @@ cli-common (0.1.4) unstable; urgency=low
 
   * NOT RELEASED YET
   * Mirco 'meebey' Bauer
-    + changed title of generated manpages (Closes: #288198)
+    + Changed title of generated manpages. (Closes: #288198)
+    + Applied patch by Ingo Saitz that allows to use a built mono in debian/
+      (using internal-mono switch).
+    + Added debian/compat.
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 29 May 2005 19:52:32 +0200
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 10 Jul 2005 19:46:23 +0200
 
 cli-common (0.1.3.0) unstable; urgency=low
 

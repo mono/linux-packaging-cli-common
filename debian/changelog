@@ -1,6 +1,5 @@
 cli-common (0.1.4) unstable; urgency=low
 
-  * NOT RELEASED YET
   * Mirco 'meebey' Bauer
     + Changed title of generated manpages. (Closes: #288198)
     + Applied patch by Ingo Saitz that allows to use a built mono in debian/

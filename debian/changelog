@@ -1,5 +1,6 @@
 cli-common (0.1.5) unstable; urgency=low
 
+  * NOT RELEASED YET
   * Mirco 'meebey' Bauer
     + /usr/share/doc/cli-common contains now the CLI policy.
     + debian/control:
@@ -7,6 +8,7 @@ cli-common (0.1.5) unstable; urgency=low
       - Changed Build-Depends to Build-Depends-Indep.
     + debian/rules:
       - Added calls to generate the CLI policy from SGML.
+      - Moved pod2man calls to build target.
     + debian/cli-common.docs:
       - Added generated CLI policy documents.
 

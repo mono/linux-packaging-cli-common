@@ -1,0 +1,273 @@
+<!doctype debiandoc public "-//DebianDoc//DTD DebianDoc//EN"> <book>
+  <title>
+    Debian CLI Policy (DRAFT)
+  </title>
+  
+  <author>
+    <name>Mirco Bauer</name>
+    <email>meebey@meebey.net</email>
+  </author>
+  <author>
+    <name>Brandon Hale</name>
+    <email>brandon@smarterits.com</email>
+  </author>
+  
+  <version>
+    Version 0.1.1
+  </version>
+
+  <abstract>
+    This document lays out basic policies regarding packaging Mono and other
+    CLRs or CLI-based applications/libraries on Debian GNU/Linux.
+  </abstract>
+
+  <copyright>
+    <copyrightsummary>
+    	Copyright &copy; 2005 Mirco Bauer and Brandon Hale.
+    </copyrightsummary>
+    
+    <p>This manual is free software; you may redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the Free
+    Software Foundation; either version 2, or (at your option) any later
+    version.</p>
+
+    <p>This is distributed in the hope that it will be useful, but without
+    any warranty; without even the implied warranty of merchantability or
+    fitness for a particular purpose. See the GNU General Public License
+    for more details.</p>
+
+    <p>A copy of the GNU General Public License is available as
+    /usr/share/common-licenses/GPL in the Debian GNU/Linux distribution or
+    on the World Wide Web at the GNU General Public Licence. You can also
+    obtain it by writing to the Free Software Foundation, Inc., 59 Temple
+    Place - Suite 330, Boston, MA 02111-1307, USA.</p>
+  </copyright>
+
+  <toc>
+
+  <chapt>
+    <heading>Used Terms</heading>
+    
+    <p>The ".NET" area uses an own set of abbreviations, which can
+    look confusing to other people.
+    Here a short list with their explanations:</p>
+    
+    <sect>
+      <heading>CLI - Common Language Infrastructure</heading>
+      
+      <p>This is what most people mean when they say ".NET".
+      The CLI defines mainly  the virtual machine, bytecode and how everything
+      works together and is an <url id="http://www.iso.org/iso/en/CatalogueDetailPage.CatalogueDetail?CSNUMBER=36769" name="ISO"> and <url id="http://www.ecma-international.org/publications/standards/Ecma-335.htm" name="ECMA"> standard.</p>
+    </sect>
+    
+    <sect>
+      <heading>CLR - Common Language Runtime</heading>
+     
+      <p>The CLR is an implementation of the CLI (often with a lot of addons
+      for developers), like Mono or Microsoft .NET Framework is.</p>
+    </sect>
+    
+    <sect>
+      <heading>CIL - Common Intermediate Language</heading>
+      
+      <p>CIL is the the format of the bytecode (for binaries and libraries)
+      used by CLI.</p>
+    </sect>
+    
+    <sect>
+      <heading>".NET" or long "Microsoft .NET Framework"</heading>
+      
+      <p>The word .NET is a marketing word by Microsoft, which is basically a
+      CLR with added Microsoft technologies like: ASP.NET, VB.NET,
+      System.Windows.Forms, Passport and a lot of other things.
+      <strong>We highly discourage from using any form of the word ".NET", it is
+      burdened by copyright and marketing.</strong> We  advice to use the correct
+      term instead, which is often CLI.</p>
+    </sect>
+  </chapt>
+
+  <chapt>
+    <heading>Library Package Naming</heading>
+    
+    <p>Most other languages have unified names for library/plugins/module
+    packages in Debian, which makes it easier for users and maintainers. Perl
+    for example uses libfoo-perl, Java uses also libfoo-java. For CLI libraries
+    (CIL bytecode) libfoo-cil should be used, e.g. libgecko-cil. The term
+    "sharp" does not represent the language, a CLI library can be used with all
+    CLI implemented/enabled languages like C#, J#, ASP.NET, VB.NET (<url
+    id="http://www.go-mono.com/languages.html" name="click here"> for the full
+    list), this is why the extension "-cil" is the right one.</p>
+  </chapt>
+
+  <chapt>
+    <heading>Build Dependencies</heading>
+
+    <p>At a minimum, CLI applications must build-depend on the following
+    packages: <package>cli-common</package> (&gt;= 0.1.3),
+    <package>mono-mcs</package> (&gt;= 1.0) | c-sharp-compiler</p>
+
+    <p>If your package is Arch: all, you should specify this as
+    Build-Depends-Indep.</p>
+
+    <p>Software that access Mono via the C interface (libmono.so) or requires
+    the mono.pc file must build-depend also on: libmono-dev (&gt;= 1.0)</p>
+    
+    <sect>
+      <heading>cli-common</heading> 
+      
+      <p>All CLI applications must build-depend on
+      <package>cli-common</package> (&gt;= 0.1.3) and use the included dh_*
+      scripts (this version may change later, when cli-common has changes which
+      are required to be used by all CLI packages, the CLI Policy version will
+      represent such change).</p>
+      
+      <p>
+        dh_clideps
+        <list>
+          <item>Call this in the binary-indep stage of debian/rules to generate
+          a list of runtime dependencies, similar to dh_shlibdeps.</item>
+          <item>Add ${cli:Depends} to your Depends: in debian/control.</item>
+        </list>
+      </p>
+
+      <p>
+        dh_makeclilibs
+        <list>
+          <item>Call this in the binary-indep stage of debian/rules if your
+          package contains DLLs that other packages may make use of (e.g.
+          libgtk2.0-cil or libgecko-cil).</item>
+        </list>
+      </p>
+      
+      <p>See <manref name="dh_clideps" section="1"> or <manref
+      name="dh_makeclilibs" section="1"> for details about the parameters.</p>
+    </sect>
+  </chapt>
+
+  <chapt>
+    <heading>Migrating Existing Packages</heading>
+    
+    <p>Many CLI packages already exist in Debian, or are in ITP, and conform to
+    the deprecated <url id="http://wiki.debian.net/?MonoConventions"
+    name="Mono Conventions">.</p>
+
+    <p>Any <file>debian/rules</file> hacks or patches that exist to redirect
+    files to <file>/usr/share/dotnet</file> should be removed, and adjusted
+    according to upstream file locations (<file>/usr/lib</file>). See
+    <url id="http://wiki.debian.net/?MonoDebianPlan" name="Mono Debian Plan">
+    for the rationale behind this change.</p>
+
+    <p>Also, be sure to replace references to dh_netdepends, dh_makenetlibs, and
+    ${net:Depends} with the CLI functions detailed above.</p>
+
+    <p>
+      Please remove any build-deps on <package>mono-jit</package>,
+      <package>mono-mint</package>, <package>mono-utils</package> (this one had
+      the dh_* helper scripts which are now in <package>cli-common</package>)
+      and <package>libmono-dev</package> (use this one only if the package
+      really links against <package>mono</package> or requires the mono.pc
+      file).
+    </p>
+  </chapt>
+
+  <chapt>
+    <heading>Mono Specifics</heading>
+    
+    <p>This section will offer workarounds to common problems encountered when
+    packaging Mono-specific applications for Debian.</p>
+    <sect>
+      <heading>Naming</heading>
+      
+      <p>The official name of the Mono Project is: Mono, mono:: or mono.
+      To keep it unified (more transparent to the user) it should be <em>always
+      </em> called "Mono", not MONO, not mono, not mono:: even no
+      mixing with .NET in it. The explanation of Mono goes into the package
+      <em>long</em> description.</p>
+    </sect>
+
+    <sect>
+      <heading>DLL Maps</heading>
+      
+      <p>Often times, upstream software developers are not
+      packagers, and vice versa. Developers do not necessarily test their
+      software with packaging issues in mind. The most common problem we
+      see from this are missing dll exceptions.</p>
+
+      <sect1>
+        <heading>Introduction</heading>
+        
+        <p>When Mono code invokes an external library, it usually calls
+        something like [DllImport("foo")]. "foo" is expanded to libfoo.so, and
+        searched for in your library path.</p>
+
+        <p>In Debian and some other binary Linux distributions, packages are
+        split into runtime and -dev packages. Since the versioned library
+        libfoo.so.X is usually used at runtime, and .so is a symlink only used
+        at build time, .so is moved to the -dev package.</p>
+
+        <p>When packaging an application which uses libfoo, we don't want
+        normal users to need to need the -dev packages just to run the
+        application. As you saw above, however, Mono defaults to looking for
+        the unversioned .so, which is unavailable in the runtime packages.</p>
+      </sect1>
+      
+      <sect1>
+      	<heading>Solution</heading>
+      	
+        <p>We can fix this by creating a dll map to the exe or dll that is
+        trying to invoke libfoo.
+        If libfoo is invoked by the dll bar.dll, we will create an xml file,
+        bar.dll.config to tell Mono which .so we really want to load at runtime.
+        bar.dll.config should be installed to the same directory as bar.dll.</p>
+
+        <p>
+          <example>
+  &lt;configuration&gt;
+    &lt;dllmap dll="foo" target="libfoo.so.0"/&gt;
+  &lt;/configuration&gt;
+          </example>
+        </p>
+
+        <p>A config file can contain as many dllmap directives as are needed.
+        If the upstream developer already ships a config file, but it is
+        incomplete, you should create a patch against it in your package.</p>
+
+        <p>Most Mono software developers are very helpful people, and will
+        readily accept patches to solve this type of bug if you bring it to
+        their attention. Please be sure to inform them of all these changes.</p>
+      </sect1>
+    </sect>
+    
+    <sect>
+      <heading>MONO_SHARED_DIR</heading>
+      
+      <p>The Mono runtime uses a shared directory, by default
+      <file>~/.wapi</file>. This directory will be created/used when any CLI
+      application is executed (like the C# compiler mcs).</p>
+      
+      <p>
+        Here comes 2 problems with it:
+        <list>
+          <item>In an autobuilder environment often does no home directory
+          exist.</item>
+          <item>Mono uses the wrong home directory when running within fakeroot
+          (it tries <file>/root/.wapi</file> instead of <file>$HOME/.wapi
+          </file>).</item>
+        </list>
+      </p>
+      
+      <p>Means when you don't set MONO_SHARED_DIR explicity, the package
+      building will fail! Applications will either hang, die with strange Mono
+      runtime errors or segfault (for instance dh_clideps or dh_makeclideps,
+      they use monodis).
+      So change the MONO_SHARED_DIR by calling
+      <example>
+  export MONO_SHARED_DIR=$(CURDIR)
+      </example>
+      in the debian/rules file.</p>
+      <p>The clean target should later remove $(MONO_SHARED_DIR)/.wapi.
+      For more information what this .wapi directory is used for, please take
+      a look at <manref name="mono" section="1">.</p>
+    </sect>
+  </chapt>
+</book>

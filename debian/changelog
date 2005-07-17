@@ -3,10 +3,12 @@ cli-common (0.1.5) unstable; urgency=low
   * Mirco 'meebey' Bauer
     + /usr/share/doc/cli-common contains now the CLI policy.
     + debian/control:
-      - Added debiandoc-sgml to build-deps-indep.
+      - Added debiandoc-sgml and tetex-extra to build-deps-indep.
       - Changed Build-Depends to Build-Depends-Indep.
     + debian/rules:
       - Added calls to generate the CLI policy from SGML.
+    + debian/cli-common.docs:
+      - Added generated CLI policy documents.
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 17 Jul 2005 22:58:37 +0200
 

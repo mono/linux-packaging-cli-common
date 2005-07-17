@@ -3,7 +3,7 @@ Section: interpreters
 Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Mirco Bauer <meebey@meebey.net>
-Build-Depends-Indep: debhelper (>= 4.0.0), debiandoc-sgml
+Build-Depends-Indep: debhelper (>= 4.0.0), debiandoc-sgml, tetex-extra
 Standards-Version: 3.6.1
 
 Package: cli-common

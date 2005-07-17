@@ -17,8 +17,8 @@
   </version>
 
   <abstract>
-    This document lays out basic policies regarding packaging Mono and other
-    CLRs or CLI-based applications/libraries on Debian GNU/Linux.
+    This document lays out basic policies regarding packaging Mono, other
+    CLRs and CLI-based applications/libraries on Debian GNU/Linux.
   </abstract>
 
   <copyright>

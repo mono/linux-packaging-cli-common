@@ -8,14 +8,18 @@ VERSION = $(shell dpkg-parsechangelog | grep ^Vers | cut -d\  -f2)
 build: build-stamp
 build-stamp:
 	dh_testdir
+	debiandoc2text cli-policy.sgml
+	debiandoc2html cli-policy.sgml
+	debiandoc2pdf cli-policy.sgml
 	touch build-stamp
 
 clean:
 	dh_testdir
 	dh_testroot
 	rm -f dh_clideps.1 dh_makeclilibs.1
+	rm -fr cli-policy.html cli-policy.text cli-policy.pdf
 	rm -f build-stamp
-	rm -rf $(CURDIR)/.wapi
+	rm -rf $(MONO_SHARED_DIR)/.wapi
 	dh_clean
 
 install: build

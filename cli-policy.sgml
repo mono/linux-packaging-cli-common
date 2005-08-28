@@ -48,21 +48,21 @@
   <chapt id="history">
     <heading>Policy History</heading>
     
-    <p>Here are the changes of the Debian CLI Policy documented.</p>
+    <p>Here are the changes to the Debian CLI Policy document.</p>
     
     <p>
       Changes from 0.1.1 to 0.2.0:
       <list>
         <item><ref id="history">: Added chapter "Policy History"</item>
-        <item><ref id="build-deps">: Compiler dependency is now not strict on
+        <item><ref id="build-deps">: Compiler dependency is no longer strict on
         mono-mcs</item>
-        <item><ref id="cli-common">: Added dh_makeclilibs must be called before
+        <item><ref id="cli-common">: Note that dh_makeclilibs must be called before
         dh_clideps</item>
         <item><ref id="build-deps">: Moved dh_clideps and dh_makeclilibs into
-        own subsections</item>
+        their own subsections</item>
         <item><ref id="file-perms">: Added chapter "File Permissions"</item>
         <item><ref id="migrating">: cli-wrapper is now deprecated</item>
-        <item><ref id="dll-maps-intro">: Added external link for
+        <item><ref id="dll-maps-intro">: Added an external link for
         DllNotFoundException</item>
       </list>
     </p>
@@ -237,7 +237,7 @@
     
     <p>Do not use the cli-wrapper (<file>/usr/bin/cli-wrapper</file>) anymore.
     It is deprecated and will be removed soon! Either use the upstream shell
-    script to invoke the application or write an own one, which calls
+    script to invoke the application or write one, which calls
     <file>/usr/bin/mono</file> or <file>/usr/bin/cli</file> (if it runs also
     on other CLRs like <url id="http://www.southern-storm.com.au/portable_net.html"
     name="Portable.NET">).</p>

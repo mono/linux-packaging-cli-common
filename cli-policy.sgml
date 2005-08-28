@@ -126,7 +126,7 @@
     <heading>Build Dependencies</heading>
 
     <p>At a minimum, CLI packages must build-depend on
-    <package>cli-common</package> (&gt;= 0.1.3) and the compiler.</p>
+    <package>cli-common</package> (&gt;= 0.2.0) and the compiler.</p>
     
     <p>
       Current CLI compilers in Debian:

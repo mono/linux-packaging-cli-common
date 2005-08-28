@@ -1,8 +1,9 @@
 cli-common (0.2.0) unstable; urgency=low
 
-  * NOT RELEASED YET
   * Mirco 'meebey' Bauer
+    + Ported the CLI policy in SGML.
     + /usr/share/doc/cli-common contains now the CLI policy.
+    + Includes CLI policy version 0.2.0.
     + debian/control:
       - Added debiandoc-sgml and tetex-extra to build-deps-indep.
       - Changed Build-Depends to Build-Depends-Indep.
@@ -11,6 +12,14 @@ cli-common (0.2.0) unstable; urgency=low
       - Moved pod2man calls to build target.
     + debian/cli-common.docs:
       - Added generated CLI policy documents.
+    + dh_clideps:
+      - Added error handling/messages when monodis fails for some reason.
+      - Fixed bug, it was not generating required dependencies when run in
+        internal-mono mode, caused wrong CLI deps for mono packages.
+      - Packages with no .exe files will no longer have a mono-jit
+        dependency.
+      - The versioned dependency of mono-jit for applications will be >= 1.0
+        when using .NET 1.0 and >= 1.1.8.1-1 when using .NET 2.0 now.
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 28 Aug 2005 15:53:48 +0200
 

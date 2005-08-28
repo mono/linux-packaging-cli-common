@@ -13,12 +13,12 @@
   </author>
   
   <version>
-    Version 0.1.1
+    Version 0.2.0
   </version>
 
   <abstract>
     This document lays out basic policies regarding packaging Mono, other
-    CLRs and CLI-based applications/libraries on Debian GNU/Linux.
+    CLRs and CLI based applications/libraries on Debian GNU/Linux.
   </abstract>
 
   <copyright>
@@ -45,6 +45,29 @@
 
   <toc>
 
+  <chapt id="history">
+    <heading>Policy History</heading>
+    
+    <p>Here are the changes of the Debian CLI Policy documented.</p>
+    
+    <p>
+      Changes from 0.1.1 to 0.2.0:
+      <list>
+        <item><ref id="history">: Added chapter "Policy History"</item>
+        <item><ref id="build-deps">: Compiler dependency is now not strict on
+        mono-mcs</item>
+        <item><ref id="cli-common">: Added dh_makeclilibs must be called before
+        dh_clideps</item>
+        <item><ref id="build-deps">: Moved dh_clideps and dh_makeclilibs into
+        own subsections</item>
+        <item><ref id="file-perms">: Added chapter "File Permissions"</item>
+        <item><ref id="migrating">: cli-wrapper is now deprecated</item>
+        <item><ref id="dll-maps-intro">: Added external link for
+        DllNotFoundException</item>
+      </list>
+    </p>
+  </chapt>
+  
   <chapt>
     <heading>Used Terms</heading>
     
@@ -99,52 +122,95 @@
     list), this is why the extension "-cil" is the right one.</p>
   </chapt>
 
-  <chapt>
+  <chapt id="build-deps">
     <heading>Build Dependencies</heading>
 
-    <p>At a minimum, CLI applications must build-depend on the following
-    packages: <package>cli-common</package> (&gt;= 0.1.3),
-    <package>mono-mcs</package> (&gt;= 1.0) | c-sharp-compiler</p>
-
+    <p>At a minimum, CLI packages must build-depend on
+    <package>cli-common</package> (&gt;= 0.1.3) and the compiler.</p>
+    
+    <p>
+      Current CLI compilers in Debian:
+      <list>
+        <item>C#: <package>mono-mcs</package> (&gt;= 1.0) | c-sharp-compiler
+        </item>
+        <!-- <item>Nemerle: </item> -->
+        <item>Boo: <package>boo</package> (&gt;= 0.5.6)</item>
+      </list>
+    </p>
+    
     <p>If your package is Arch: all, you should specify this as
     Build-Depends-Indep.</p>
 
     <p>Software that access Mono via the C interface (libmono.so) or requires
     the mono.pc file must build-depend also on: libmono-dev (&gt;= 1.0)</p>
     
-    <sect>
+    <sect id="cli-common">
       <heading>cli-common</heading> 
       
-      <p>All CLI applications must build-depend on
+      <p>All CLI applications/libraries must build-depend on
       <package>cli-common</package> (&gt;= 0.1.3) and use the included dh_*
       scripts (this version may change later, when cli-common has changes which
       are required to be used by all CLI packages, the CLI Policy version will
       represent such change).</p>
       
-      <p>
-        dh_clideps
-        <list>
-          <item>Call this in the binary-indep stage of debian/rules to generate
-          a list of runtime dependencies, similar to dh_shlibdeps.</item>
-          <item>Add ${cli:Depends} to your Depends: in debian/control.</item>
-        </list>
-      </p>
-
-      <p>
-        dh_makeclilibs
-        <list>
-          <item>Call this in the binary-indep stage of debian/rules if your
-          package contains DLLs that other packages may make use of (e.g.
-          libgtk2.0-cil or libgecko-cil).</item>
-        </list>
-      </p>
+      <p><em>Be sure to run dh_makeclilibs before dh_clideps!</em> Otherwise,
+      if two binary packages from the same source package depend on one
+      another, dh_clideps will not be able to determine depedencies.</p>
       
       <p>See <manref name="dh_clideps" section="1"> or <manref
       name="dh_makeclilibs" section="1"> for details about the parameters.</p>
+      
+      <sect1>
+        <heading>dh_clideps</heading>
+        
+        <p>
+          <list>
+            <item>Call dh_clideps in the binary-indep stage of debian/rules to
+            generate a list of runtime dependencies, similar to dh_shlibdeps.
+            </item>
+            <item>Add ${cli:Depends} to your Depends: in debian/control.</item>
+          </list>
+        </p>
+      </sect1>
+      
+      <sect1>
+        <heading>dh_makeclilibs</heading>
+        
+        <p>
+          <list>
+            <item>Call dh_makeclilibs in the binary-indep stage of debian/rules
+            if your package contains DLLs that other packages may make use of
+            (e.g. libgtk2.0-cil or libgecko-cil). It will generate a clilib
+            file similiar to dh_makeshlibs.</item>
+          </list>
+        </p>
+      </sect1>
     </sect>
   </chapt>
 
-  <chapt>
+
+  <chapt id="file-perms">
+    <heading>File Permissions</heading>
+    
+    <p>Source code files (*.cs, *.vb, *.boo, etc) should be non-executable.</p>
+
+    <p>*.dll files (libraries) should be non-executable.<p>
+
+    <p>*.mdb files (debug symbols) should be non-executable.<p>
+   
+    <p>*.exe files (applications) must have the executable flag (+x) set to be
+    compatibile with binfmt (direct invokation like ./foo.exe).</p>
+    
+    <p>To insure that the file permissions are right, you should call the
+    following at the end of your install target in debian/rules:
+      <example>
+      find debian/ -type f -name "*.dll" -or -name "*.mdb" -or -name "*.cs" | xargs chmod -x
+      find debian/ -type f -name "*.exe" | xargs chmod +x
+      </example>
+    </p>
+  </chapt>
+  
+  <chapt id="migrating">
     <heading>Migrating Existing Packages</heading>
     
     <p>Many CLI packages already exist in Debian, or are in ITP, and conform to
@@ -168,9 +234,16 @@
       really links against <package>mono</package> or requires the mono.pc
       file).
     </p>
+    
+    <p>Do not use the cli-wrapper (<file>/usr/bin/cli-wrapper</file>) anymore.
+    It is deprecated and will be removed soon! Either use the upstream shell
+    script to invoke the application or write an own one, which calls
+    <file>/usr/bin/mono</file> or <file>/usr/bin/cli</file> (if it runs also
+    on other CLRs like <url id="http://www.southern-storm.com.au/portable_net.html"
+    name="Portable.NET">).</p>
   </chapt>
 
-  <chapt>
+  <chapt id="mono">
     <heading>Mono Specifics</heading>
     
     <p>This section will offer workarounds to common problems encountered when
@@ -193,7 +266,7 @@
       software with packaging issues in mind. The most common problem we
       see from this are missing dll exceptions.</p>
 
-      <sect1>
+      <sect1 id="dll-maps-intro">
         <heading>Introduction</heading>
         
         <p>When Mono code invokes an external library, it usually calls
@@ -209,6 +282,11 @@
         normal users to need to need the -dev packages just to run the
         application. As you saw above, however, Mono defaults to looking for
         the unversioned .so, which is unavailable in the runtime packages.</p>
+
+        <p>When the dll map is missing or upstream forgot the dllmap, it will
+        result in a <url id="http://www.mono-project.com/DllNotFoundException"
+        name="DllNotFoundException">. This will stop the execution of the
+        program.</p>
       </sect1>
       
       <sect1>
@@ -256,7 +334,7 @@
         </list>
       </p>
       
-      <p>Means when you don't set MONO_SHARED_DIR explicity, the package
+      <p>Means when you don't set MONO_SHARED_DIR explicitly, the package
       building will fail! Applications will either hang, die with strange Mono
       runtime errors or segfault (for instance dh_clideps or dh_makeclideps,
       they use monodis).

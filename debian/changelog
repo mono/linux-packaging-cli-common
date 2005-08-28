@@ -1,4 +1,4 @@
-cli-common (0.1.5) unstable; urgency=low
+cli-common (0.2.0) unstable; urgency=low
 
   * NOT RELEASED YET
   * Mirco 'meebey' Bauer
@@ -12,7 +12,7 @@ cli-common (0.1.5) unstable; urgency=low
     + debian/cli-common.docs:
       - Added generated CLI policy documents.
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 17 Jul 2005 22:58:37 +0200
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 28 Aug 2005 15:53:48 +0200
 
 cli-common (0.1.4) unstable; urgency=low
 

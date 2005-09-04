@@ -1,3 +1,14 @@
+cli-common (0.2.1) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + Added mono/2.0 to MONO_PATH in dh_clideps and dh_makeclilibs for
+      internal-mono mode, this caused FTBFS.
+      (thanks to Sebastian Dröge <mail@slomosnail.de> for investigating)
+    + Using debian/tmp/usr/bin/monodis in dh_makeclilibs again.
+    + Updated to Standards Version 3.6.2.1 (no changes).
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Fri, 2 Sep 2005 18:35:20 +0200
+
 cli-common (0.2.0) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

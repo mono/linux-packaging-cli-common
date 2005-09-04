@@ -75,9 +75,9 @@ compatible and "major" versions break with compatibility.
 Exclude files that contain "item" anywhere in their filename or directory 
 from being treated as shared libraries.
 
-=item B<--internal-mono>
+=item B<internal-mono>
 
-Uses the mono runtime in . (used for bootstrapping mono packages)
+Uses the Mono runtime in . (used for bootstrapping Mono packages)
 
 =back
 

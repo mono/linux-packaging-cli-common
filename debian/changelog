@@ -1,3 +1,11 @@
+cli-common (0.2.2) unstable; urgency=low
+
+  * NOT RELEASED YET
+  * Mirco 'meebey' Bauer
+    + fixed manpage of dh_makeclilibs, "internal-mono" not "--internal-mono".
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 4 Sep 2005 22:38:57 +0200
+
 cli-common (0.2.1) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

@@ -197,6 +197,8 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
                     $needs_net_1_0 = 1;
                   } elsif ($vers eq "2.0.3600.0") {
                     $needs_net_2_0 = 1;
+                  } elsif ($vers eq "2.0.0.0") {
+                    $needs_net_2_0 = 1;
                   } else {
                     warning("Warning! Unknown mscorlib version: $vers!");
                   }
@@ -234,10 +236,10 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     my $deps;
     if (!defined($dh{R_FLAG}) && $found_exe) {
         if ($clr eq "mono") {
-          if ($needs_net_1_0) {
-            $deps = "mono-jit (>= 1.0)";
-          } elsif ($needs_net_2_0) {
+          if ($needs_net_2_0) {
             $deps = "mono-jit (>= 1.1.8.1-1)";
+          } elsif ($needs_net_1_0) {
+            $deps = "mono-jit (>= 1.0)";
           } else {
             $deps = "mono-jit (>= $cli_version)";
           }

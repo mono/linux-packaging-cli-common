@@ -1,10 +1,12 @@
 cli-common (0.2.2) unstable; urgency=low
 
-  * NOT RELEASED YET
   * Mirco 'meebey' Bauer
-    + fixed manpage of dh_makeclilibs, "internal-mono" not "--internal-mono".
+    + Fixed manpage of dh_makeclilibs, "internal-mono" not "--internal-mono".
+    + dh_clideps knows now 2.0.0.0 version of mscorlib.
+    + Fixed bug in dh_clideps, when .NET 1.0 and 2.0 were used in the same
+      package, the generated dependency was only for .NET 1.0 then.
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 4 Sep 2005 22:38:57 +0200
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sat, 24 Sep 2005 15:46:42 +0200
 
 cli-common (0.2.1) unstable; urgency=low
 

@@ -1,3 +1,11 @@
+cli-common (0.2.3) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + Added LD_LIBRARY_PATH to dh_makeclilibs and dh_clideps for the
+      internal-mono mode, this fixes full bootstrapping of Mono.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 2 Oct 2005 17:45:28 +0200
+
 cli-common (0.2.2) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

@@ -13,7 +13,7 @@
   </author>
   
   <version>
-    Version 0.2.0
+    Version 0.2.1
   </version>
 
   <abstract>
@@ -50,6 +50,13 @@
     
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
+    <p>
+      Changes from 0.2.0 to 0.2.1:
+      <list>
+        <item><ref id="cli-common">: Added examples for debhelper and CDBS.</item>
+      </list>
+    </p>
+
     <p>
       Changes from 0.1.1 to 0.2.0:
       <list>
@@ -148,15 +155,17 @@
       <heading>cli-common</heading> 
       
       <p>All CLI applications/libraries must build-depend on
-      <package>cli-common</package> (&gt;= 0.1.3) and use the included dh_*
+      <package>cli-common</package> (&gt;= 0.2.0) and use the included dh_*
       scripts (this version may change later, when cli-common has changes which
       are required to be used by all CLI packages, the CLI Policy version will
       represent such change).</p>
       
-      <p><em>Be sure to run dh_makeclilibs before dh_clideps!</em> Otherwise,
-      if two binary packages from the same source package depend on one
+      <p>
+      <p><em>Be sure to run dh_shlibdeps (if the package is arch-dep) before
+      dh_clideps is called. Also run dh_makeclilibs before dh_clideps!</em>
+      Otherwise, if two binary packages from the same source package depend on one
       another, dh_clideps will not be able to determine depedencies.</p>
-      
+
       <p>See <manref name="dh_clideps" section="1"> or <manref
       name="dh_makeclilibs" section="1"> for details about the parameters.</p>
       
@@ -165,6 +174,9 @@
         
         <p>
           <list>
+            <item>Call dh_shlibdeps in the binary-arch stage of debian/rules,
+            this is required so dh_clideps will not generate duplicate
+            dependencies (if used with -d parameter).</item>
             <item>Call dh_clideps in the binary-indep stage of debian/rules to
             generate a list of runtime dependencies, similar to dh_shlibdeps.
             </item>
@@ -179,10 +191,44 @@
         <p>
           <list>
             <item>Call dh_makeclilibs in the binary-indep stage of debian/rules
-            if your package contains DLLs that other packages may make use of
-            (e.g. libgtk2.0-cil or libgecko-cil). It will generate a clilib
-            file similiar to dh_makeshlibs.</item>
+            if your package contains libraries (*.dll files) that other
+            packages may make use of (e.g. libgtk2.0-cil or libgecko-cil). It
+            will generate a clilib file similiar to dh_makeshlibs.</item>
           </list>
+        </p>
+      </sect1>
+
+      <sect1>
+        <heading>Debhelper Example</heading>
+        <p>
+          For binary-arch packages:
+          <example>
+binary-arch: build install
+        ...
+        dh_shlibdeps -a
+        dh_makeclilibs -V
+        dh_clideps -a -d
+        ...
+          </example>
+
+          For binary-indep packages:
+          <example>
+binary-indep: build install
+        dh_makeclilibs -V
+        dh_clideps -i
+          </example>
+        </p>
+      </sect1>
+
+      <sect1>
+        <heading>CDBS Example</heading>
+        <p>
+          <example>
+common-binary-predeb-arch common-binary-predeb-indep::
+	dh_shlibdeps
+	dh_makeclilibs -V
+	dh_clideps -d
+          </example>
         </p>
       </sect1>
     </sect>
@@ -194,11 +240,11 @@
     
     <p>Source code files (*.cs, *.vb, *.boo, etc) should be non-executable.</p>
 
-    <p>*.dll files (libraries) should be non-executable.<p>
+    <p>Library files (*.dll) should be non-executable.<p>
 
-    <p>*.mdb files (debug symbols) should be non-executable.<p>
+    <p>Debug symbol files (*.mdb) should be non-executable.<p>
    
-    <p>*.exe files (applications) must have the executable flag (+x) set to be
+    <p>Application files (*.exe) must have the executable flag (+x) set to be
     compatibile with binfmt (direct invokation like ./foo.exe).</p>
     
     <p>To insure that the file permissions are right, you should call the

@@ -1,10 +1,13 @@
-cli-common (0.2.4) unstable; urgency=low
+cli-common (0.2.3pre1) unstable; urgency=low
 
+  * NOT RELEASED YET
   * Mirco 'meebey' Bauer
     + Includes CLI policy version 0.2.1.
     + Added LD_LIBRARY_PATH to "mono" call for internal-mono mode.
+    + Fixed dllmap parser regex in dh_clideps and dh_makeclideps, to not use
+      the full filename but the SONAME.
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 15 Jan 2005 05:04:28 +0100
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Mon, 20 Feb 2006 00:59:07 +0100
 
 cli-common (0.2.3) unstable; urgency=low
 

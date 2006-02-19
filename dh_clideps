@@ -299,7 +299,7 @@ sub extraDeps {
    }
 
    $config = `cat $config`;
-   while ($config=~s/\Wtarget\W*=\W*(\w[\w.\-\d]+)//) {
+   while ($config=~s/\Wtarget\W*=\W*(\w[\w.\-\d]+\.so\.\d+)//) {
       $ret.= (", ".$shlibdata{$1}) if(defined($shlibdata{$1}));
    }
    $ret =~ s/^, // if $ret;

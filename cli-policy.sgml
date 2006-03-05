@@ -168,9 +168,8 @@
         would be named <package>libavahi1.0-cil</package>, after it's major (first) and minor (second) version
         component in the GAC.</p>
 
-        <p>When packaging the first version of a library, the <em>package name</em> can be unversioned, e.g. 
-        <package>libfoo-cil</package>. If the author never breaks ABI compatibility from this initial version,
-        there is no need to reflect this compatiblity in the package name.</p>
+        <p>To avoid un-necessary renamings, existing package names will not be changed but when the ABI changes,
+        the new naming scheme must be used.</p>
 
         <p>It should be noted that there are two somewhat common exceptions to this versioned naming scheme.
           <list>
@@ -179,7 +178,7 @@
               assembly version in the GAC.<p>
               An example of this is <package>libgtk2.0-cil</package>. The name libgtk2.0-cil came from older releases of Gtk# which was 2.0, later upstream changed it to 2.4 to reflect the version of GTK+. The assembly version 
               2.8.0.0 is ABI compatible with binaries built against 2.4.0.0 and 2.6.0.0, and can be substituted with a policy
-              file at runtime. You would name the package after the least compatible version, 2.4.0.0 in this case, making the name <package>libgtk2.4-cil</package>, while it's compatible with 2.6 and 2.8.</p>
+              file at runtime. You would name the package after the oldest compatible version, 2.4.0.0 in this case, making the name <package>libgtk2.4-cil</package>, while it's compatible with 2.6 and 2.8.</p>
             </item>
             <item>"Unstable" Libraries
               <p>These libraries are usually in an early stage of development and

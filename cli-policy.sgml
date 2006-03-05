@@ -13,17 +13,17 @@
   </author>
   
   <version>
-    Version 0.2.1
+    Version 0.3.0
   </version>
 
   <abstract>
     This document lays out basic policies regarding packaging Mono, other
-    CLRs and CLI based applications/libraries on Debian GNU/Linux.
+    <qref id="CLR">CLRs</qref> and <qref id="CLI">CLI</qref> based applications/libraries on Debian GNU/Linux.
   </abstract>
 
   <copyright>
     <copyrightsummary>
-    	Copyright &copy; 2005 Mirco Bauer and Brandon Hale.
+    	Copyright &copy; 2005-2006 Mirco Bauer and Brandon Hale.
     </copyrightsummary>
     
     <p>This manual is free software; you may redistribute it and/or modify it
@@ -50,6 +50,15 @@
     
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
+    <p>
+      Changes from 0.2.1 to 0.3.0:
+      <list>
+        <item><ref id=".NET">: Added URL for the ".NET" term.</item>
+        <item><ref id="GAC">: Added explanation of GAC.</item>
+        <item><ref id="GAC-pkgs">: Added section for naming of GAC packages.</item>
+      </list>
+    </p>
+
     <p>
       Changes from 0.2.0 to 0.2.1:
       <list>
@@ -82,7 +91,7 @@
     look confusing to other people.
     Here a short list with their explanations:</p>
     
-    <sect>
+    <sect id="CLI">
       <heading>CLI - Common Language Infrastructure</heading>
       
       <p>This is what most people mean when they say ".NET".
@@ -90,43 +99,98 @@
       works together and is an <url id="http://www.iso.org/iso/en/CatalogueDetailPage.CatalogueDetail?CSNUMBER=36769" name="ISO"> and <url id="http://www.ecma-international.org/publications/standards/Ecma-335.htm" name="ECMA"> standard.</p>
     </sect>
     
-    <sect>
+    <sect id="CLR">
       <heading>CLR - Common Language Runtime</heading>
      
-      <p>The CLR is an implementation of the CLI (often with a lot of addons
+      <p>The CLR is an implementation of the <qref id="CLI">CLI</qref> (often with a lot of addons/tools
       for developers), like Mono or Microsoft .NET Framework is.</p>
     </sect>
     
-    <sect>
+    <sect id="CIL">
       <heading>CIL - Common Intermediate Language</heading>
       
-      <p>CIL is the the format of the bytecode (for binaries and libraries)
-      used by CLI.</p>
+      <p>CIL is the format of the bytecode (for binaries and libraries)
+      used by <qref id="CLI">CLI</qref>.</p>
     </sect>
     
-    <sect>
+    <sect id=".NET">
       <heading>".NET" or long "Microsoft .NET Framework"</heading>
       
       <p>The word .NET is a marketing word by Microsoft, which is basically a
       CLR with added Microsoft technologies like: ASP.NET, VB.NET,
-      System.Windows.Forms, Passport and a lot of other things.
-      <strong>We highly discourage from using any form of the word ".NET", it is
-      burdened by copyright and marketing.</strong> We  advice to use the correct
-      term instead, which is often CLI.</p>
+      System.Windows.Forms, Passport and a lot of other things.<p>
+
+      <p><strong>We highly discourage from using any form of the word ".NET", it is
+      burdened by copyright and marketing.</strong>  We  advice to use the correct
+      term instead, which is usually <qref id="CLI">CLI</qref>.</p>
+
+      <p>If you really want to use the ".NET" term in a correct form please refer to the
+      <url id="http://www.microsoft.com/mscorp/ip/trademarks/netguide.asp" name="Microsoft .NET Guidelines"></p>
+    </sect>
+
+    <sect id="GAC">
+      <heading>GAC - Global Assembly Cache</heading>
+
+      <p>The GAC contains and manages the libraries for the <qref id="CLR">CLR</qref>.
+      It allows users to install multiple versions of the same library and load
+      the right version when an application is executed.</p>
+      <p>Mono stores the GAC at <file>/usr/lib/mono/gac</file></p>
+      <p>Portable.NET stores the GAC at <file>/usr/lib/cscc/lib</file></p>
     </sect>
   </chapt>
 
   <chapt>
-    <heading>Library Package Naming</heading>
-    
-    <p>Most other languages have unified names for library/plugins/module
-    packages in Debian, which makes it easier for users and maintainers. Perl
-    for example uses libfoo-perl, Java uses also libfoo-java. For CLI libraries
-    (CIL bytecode) libfoo-cil should be used, e.g. libgecko-cil. The term
-    "sharp" does not represent the language, a CLI library can be used with all
-    CLI implemented/enabled languages like C#, J#, ASP.NET, VB.NET (<url
-    id="http://www.go-mono.com/languages.html" name="click here"> for the full
-    list), this is why the extension "-cil" is the right one.</p>
+    <heading>Library Packaging</heading>
+
+    <sect>
+      <heading>Package Naming</heading>
+
+      <p>Most other languages have unified names for library/plugins/module
+      packages in Debian, which makes it easier for users and maintainers. Perl
+      for example uses libfoo-perl, Java uses also libfoo-java. For 
+      <qref id="CLI">CLI</qref> libraries (<qref id="CIL">CIL</qref> bytecode) 
+      libfoo-cil should be used, e.g. libgecko-cil. The sometimes used term 
+      "sharp" does not represent the language, a <qref id="CLI">CLI</qref> library
+      can be used with all <qref id="CLI">CLI</qref> implemented/enabled languages
+      like C#, Boo, Nemerle, J#, ASP.NET, VB.NET 
+      (<url id="http://www.mono-project.com/Languages" name="full list">),
+      this is why the extension "-cil" is the right one.</p>
+
+      <sect1 id="GAC-pkgs">
+        <heading>GAC Packages</heading>
+
+        <p>When installed in the <qref id="GAC">GAC</qref>, <qref id="CIL">CIL</qref>
+        library package name should also reflect the version of the library.
+        This mirrors the SOVERSION-based <url 
+        id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
+        name="naming of native library packages">. The package containing the library 
+        <file>/usr/lib/mono/gac/avahi-sharp/1.0.0.0__4d116c78973743f5/avahi-sharp.dll</file>
+        would be named <package>libavahi1.0-cil</package>, after it's major (first) and minor (second) version
+        component in the GAC.</p>
+
+        <p>When packaging the first version of a library, the <em>package name</em> can be unversioned, e.g. 
+        <package>libfoo-cil</package>. If the author never breaks ABI compatibility from this initial version,
+        there is no need to reflect this compatiblity in the package name.</p>
+
+        <p>It should be noted that there are two somewhat common exceptions to this versioned naming scheme.
+          <list>
+            <item>Policy Files
+              <p>Some libraries are ABI compatible across minor versions. They can use a policy file to override the
+              assembly version in the GAC.<p>
+              An example of this is <package>libgtk2.0-cil</package>. The name libgtk2.0-cil came from older releases of Gtk# which was 2.0, later upstream changed it to 2.4 to reflect the version of GTK+. The assembly version 
+              2.8.0.0 is ABI compatible with binaries built against 2.4.0.0 and 2.6.0.0, and can be substituted with a policy
+              file at runtime. You would name the package after the least compatible version, 2.4.0.0 in this case, making the name <package>libgtk2.4-cil</package>, while it's compatible with 2.6 and 2.8.</p>
+            </item>
+            <item>"Unstable" Libraries
+              <p>These libraries are usually in an early stage of development and
+              offer little or no promises about API or ABI stability. These libraries
+              are not always strongly versioned, and should not be installed into the <qref id="GAC">GAC</qref>.
+              The package name should not contain the assembly version.</p>
+            </item>
+          </list>
+        </p>
+      </sect1>
+    </sect>
   </chapt>
 
   <chapt id="build-deps">
@@ -138,10 +202,13 @@
     <p>
       Current CLI compilers in Debian:
       <list>
-        <item>C#: <package>mono-mcs</package> (&gt;= 1.0) | c-sharp-compiler
+        <item>
+          C#: <package>mono-mcs</package> (&gt;= 1.0) | c-sharp-compiler
         </item>
         <!-- <item>Nemerle: </item> -->
-        <item>Boo: <package>boo</package> (&gt;= 0.5.6)</item>
+        <item>
+          Boo: <package>boo</package> (&gt;= 0.5.6)
+        </item>
       </list>
     </p>
     

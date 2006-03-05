@@ -2,7 +2,7 @@ cli-common (0.2.3pre1) unstable; urgency=low
 
   * NOT RELEASED YET
   * Mirco 'meebey' Bauer
-    + Includes CLI policy version 0.2.1.
+    + Includes CLI policy version 0.3.0.
     + Added LD_LIBRARY_PATH to "mono" call for internal-mono mode.
     + Fixed dllmap parser regex in dh_clideps and dh_makeclideps, to not use
       the full filename but the SONAME.

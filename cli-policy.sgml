@@ -11,9 +11,13 @@
     <name>Brandon Hale</name>
     <email>brandon@smarterits.com</email>
   </author>
+  <author>
+    <name>Sebastian Dröge</name>
+    <email>slomo@ubuntu.com</email>
+  </author>
   
   <version>
-    Version 0.3.0
+    Version 0.4.0
   </version>
 
   <abstract>
@@ -23,7 +27,7 @@
 
   <copyright>
     <copyrightsummary>
-    	Copyright &copy; 2005-2006 Mirco Bauer and Brandon Hale.
+    	Copyright &copy; 2005-2006 Mirco Bauer, Brandon Hale and Sebastian Dröge.
     </copyrightsummary>
     
     <p>This manual is free software; you may redistribute it and/or modify it
@@ -50,6 +54,13 @@
     
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
+    <p>
+      Changes from 0.3.0 to 0.4.0:
+      <list>
+        <item><ref id="library-packaging">: Reworked the Library Packaging chapter.</item>
+	<item><ref id="build-deps">: Added nemerle to the compilers.</item>
+      </list>
+    </p>    
     <p>
       Changes from 0.2.1 to 0.3.0:
       <list>
@@ -139,56 +150,101 @@
     </sect>
   </chapt>
 
-  <chapt>
+  <chapt id="library-packaging">
     <heading>Library Packaging</heading>
 
-    <sect>
-      <heading>Package Naming</heading>
+    <sect id="GAC-pkgs">
+      <heading>GAC Library Packages</heading>
 
-      <p>Most other languages have unified names for library/plugins/module
-      packages in Debian, which makes it easier for users and maintainers. Perl
-      for example uses libfoo-perl, Java uses also libfoo-java. For 
-      <qref id="CLI">CLI</qref> libraries (<qref id="CIL">CIL</qref> bytecode) 
-      libfoo-cil should be used, e.g. libgecko-cil. The sometimes used term 
-      "sharp" does not represent the language, a <qref id="CLI">CLI</qref> library
-      can be used with all <qref id="CLI">CLI</qref> implemented/enabled languages
-      like C#, Boo, Nemerle, J#, ASP.NET, VB.NET 
-      (<url id="http://www.mono-project.com/Languages" name="full list">),
-      this is why the extension "-cil" is the right one.</p>
+      <p>These are libraries that are installed into the <qref id="GAC">GAC</qref>.
+         They should provide at least provide decent ABI stability and should be
+	 useful for other packages too. This libraries must be additionally installed
+	 into <file>/usr/lib/packagename</file>
+	 (NOT <file>/usr/lib/mono/packagename</file>).</p>
+	 
+      <sect1>
+        <heading>Package Naming and Versioning</heading>
+	
+	<p>Libraries that are installed into the <qref id="GAC">GAC</qref> must be
+	   strong-named, i.e. signed with signing key. Each of this libraries has
+	   a assembly version number that consists of 4 parts (major, minor, build
+	   and revision number) and when loading libraries from the
+	   <qref id="GAC">GAC</qref> it is required that all 4 parts and the public
+	   signing key fingerprint are exactly the same.</p>
 
-      <sect1 id="GAC-pkgs">
-        <heading>GAC Packages</heading>
-
-        <p>When installed in the <qref id="GAC">GAC</qref>, <qref id="CIL">CIL</qref>
-        library package name should also reflect the version of the library.
-        This mirrors the SOVERSION-based <url 
-        id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
-        name="naming of native library packages">. The package containing the library 
-        <file>/usr/lib/mono/gac/avahi-sharp/1.0.0.0__4d116c78973743f5/avahi-sharp.dll</file>
-        would be named <package>libavahi1.0-cil</package>, after it's major (first) and minor (second) version
-        component in the GAC.</p>
+	<p>It's general practice that a library stays ABI compatible when only the
+	   build and revision number change. To reflect the ABI stability and prevent
+	   breakages when a ABI incompatible version is release a similar solution as
+	   for <url 
+	   id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
+	   name="native library packages"> is chosen. The major and minor number mirror
+	   the SONAME and the resulting package name is libfooX.Y-cil, where X is the
+	   major and Y the minor number. The -cil suffix is chosen to prevent confusion
+	   with native library packages. You should never use "sharp" in the package
+	   name as it doesn't represent the language and a <qref id="CLI">CLI</qref>
+	   library can be used with all <qref id="CLI">CLI</qref> implemented/enabled
+	   languages like C#, Boo, Nemerle, J#, ASP.NET, VB.NET (<url
+	   id="http://www.mono-project.com/Languages" name="full list">).</p>
 
         <p>To avoid un-necessary renamings, existing package names will not be changed but when the ABI changes,
         the new naming scheme must be used.</p>
 
-        <p>It should be noted that there are two somewhat common exceptions to this versioned naming scheme.
-          <list>
-            <item>Policy Files
-              <p>Some libraries are ABI compatible across minor versions. They can use a policy file to override the
-              assembly version in the GAC.<p>
-              An example of this is <package>libgtk2.0-cil</package>. The name libgtk2.0-cil came from older releases of Gtk# which was 2.0, later upstream changed it to 2.4 to reflect the version of GTK+. The assembly version 
-              2.8.0.0 is ABI compatible with binaries built against 2.4.0.0 and 2.6.0.0, and can be substituted with a policy
-              file at runtime. You would name the package after the oldest compatible version, 2.4.0.0 in this case, making the name <package>libgtk2.4-cil</package>, while it's compatible with 2.6 and 2.8.</p>
-            </item>
-            <item>"Unstable" Libraries
-              <p>These libraries are usually in an early stage of development and
-              offer little or no promises about API or ABI stability. These libraries
-              are not always strongly versioned, and should not be installed into the <qref id="GAC">GAC</qref>.
-              The package name should not contain the assembly version.</p>
-            </item>
-          </list>
-        </p>
+	<p>When upstream doesn't use the major and minor number to reflect ABI stability
+	   or breaks ABI with a change in build or revision the package must be renamed
+	   to libfooA.B.C.D-cil (where A, B, C, D is the complete assembly version) and all
+	   <qref id="policy-files">Policy Files </qref> must be dropped until a new major or minor
+	   version is released.</p>
+
+	<p>Upstream could use wildcards in the assembly versions ("1.2.*" for example) which
+	   are filled by the compiler with a random value. You must replace these wildcards
+	   with 0 ("1.2.0.0" in the example) to make it possible to use
+	   <qref id="policy-files">Policy Files </qref> and make predictable version numbers</p>
       </sect1>
+
+      <sect1 id="policy-files">
+        <heading>Policy Files</heading>
+
+	<p>As explained above a exact match of the version number is required
+	   to load from the <qref id="GAC">GAC</qref>. To override this behaviour
+	   and make different versions of ABI compatible library packages really
+	   ABI compatible you have to use <url
+	   id="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconcreatingpublisherpolicyfile.asp"
+	   name="Policy Files">. They have to be called policy.X.Y.foo.dll (where X and Y
+	   are the major and minor number of the assembly it should be compatible with),
+	   must be signed with the same signing key as the original assembly and installed
+	   into the <qref id="GAC">GAC</qref>. For informations how to create them
+	   look at the site linked above.</p>
+	   
+	<p>You should only override the <qref id="GAC">GAC</qref> policy when the
+	   different versions are really ABI compatible. You can verify this with
+	   the <file>/usr/lib/mono/1.0/mono-api-info.exe</file> program combined
+	   with <file>/usr/lib/mono/1.0/mono-api-diff.exe</file>. When there is a
+	   missing_total attribute in the assembly node the libraries are NOT ABI
+	   compatible. When there is a extra_total attribute the new library
+	   is not guarantueed to be backward ABI compatible and you should raise
+	   the minimal version in the clilibs control file for that package.</p>
+     </sect1>
+     <sect1>
+        <heading>Public Signing Keyfiles</heading>
+
+	<p>When installing libraries into the <qref id="GAC">GAC</qref> signing
+	   is required. The signing key can either be supplied by upstream or you
+	   have to create your own one using the sn utility. This must be put into
+	   your package and used for all following versions of the library.</p>
+      </sect1>
+    </sect>
+
+    <sect id="non-GAC-pkgs">
+      <heading>non-GAC Library Packages</heading>
+
+      <p>non-GAC Library Packages contain libraries that are in no way ABI stable,
+         may be not strong-named and are usually in an early stage of development.</p>
+
+      <p>They should be named libfoo-cil (without a version in the package name)
+         and should not be installed into the <qref id="GAC">GAC</qref> but only
+	 into <file>/usr/lib/packagename</file>. Applications using them must
+	 copy the libraries they need into their own package library directory.
+	 You can compare this with static linking of native libraries</p>
     </sect>
   </chapt>
 
@@ -204,7 +260,9 @@
         <item>
           C#: <package>mono-mcs</package> (&gt;= 1.0) | c-sharp-compiler
         </item>
-        <!-- <item>Nemerle: </item> -->
+        <item>
+	  Nemerle: <package>nemerle</package>
+	</item>
         <item>
           Boo: <package>boo</package> (&gt;= 0.5.6)
         </item>

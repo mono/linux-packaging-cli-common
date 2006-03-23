@@ -23,6 +23,8 @@ It also automatically generates the postinst and prerm commands needed
 to late install the assemblies. See L<dh_installdeb(1)> for an
 explanation of how this works.
 
+This is based on L<dh_installemacsen(1)> in the emacsen-common package.
+
 =head1 OPTIONS
 
 =over 4

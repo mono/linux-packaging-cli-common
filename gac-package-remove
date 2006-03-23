@@ -1,0 +1,17 @@
+#!/bin/bash
+
+for file in /usr/lib/cli-common/remove-gac.d/*
+  do	
+  if [ -x $file ]; then
+      # Figure out the formal name
+      B="$(basename $file)"
+      F=$B
+
+      if [ -f /usr/lib/cli-common/mapping.d/$B ]; then
+	  F=$(cat /usr/lib/cli-common/mapping.d/$B)
+      fi
+
+      echo "Removing $1 from $F"
+      $file $1
+  fi
+done

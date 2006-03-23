@@ -1,3 +1,10 @@
-dh_makeclilibs	/usr/bin/
-dh_clideps	/usr/bin/
-ildasm-monodis	/usr/share/cli-common/
+dh_makeclilibs		/usr/bin/
+dh_clideps		/usr/bin/
+dh_installcligac	/usr/bin/
+ildasm-monodis		/usr/share/cli-common/
+gac-install		/usr/lib/cli-common/
+gac-remove		/usr/lib/cli-common/
+gac-package-install	/usr/lib/cli-common/
+gac-package-remove	/usr/lib/cli-common/
+postinst-cligac		/usr/share/debhelper/autoscripts/
+prerm-cligac		/usr/share/debhelper/autoscripts/

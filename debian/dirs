@@ -1,4 +1,2 @@
-usr/lib/cli-common/mapping.d
-usr/lib/cli-common/install-gac.d
-usr/lib/cli-common/remove-gac.d
+usr/lib/cli-common/runtimes.d
 usr/lib/cli-common/packages.d

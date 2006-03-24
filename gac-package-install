@@ -100,7 +100,7 @@ foreach my $dll (@dlls)
 }
 
 # Go through the installation targets
-foreach my $clr (glob("/usr/lib/cli-common/install-gac.d/*"))
+foreach my $clr (glob("/usr/lib/cli-common/runtimes.d/*"))
 {
     # Ignore temporary files
     next if $clr =~ /~$/;
@@ -144,5 +144,5 @@ foreach my $clr (glob("/usr/lib/cli-common/install-gac.d/*"))
 
     #print "D: ", join(", ", @install), "\n";
     print STDERR "I: Installing $t from $pkg into $formal\n";
-    system($clr, $pkg, @install);
+    system($clr, "install", $pkg, @install);
 }

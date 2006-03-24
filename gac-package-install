@@ -110,9 +110,7 @@ foreach my $clr (glob("/usr/lib/cli-common/runtimes.d/*"))
     my $name = basename($clr);
 
     # Get the formal name
-    my $formalfile = "/usr/lib/cli-common/mapping.d/$name";
-    my $formal = $name;
-    $formal = `cat $formalfile` if ( -f $formalfile);
+    my $formal = `$clr name`;
     $formal = $name if !defined $formal || $formal =~ /^\s*$/;
     chomp($formal);
 

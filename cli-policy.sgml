@@ -342,6 +342,11 @@
           the SONAME and the resulting package name is libfooX.Y-cil, where X is the
           major and Y the minor number.
         </p>
+
+		<p>A notable exception for the naming are assemblies that end on a number (Mono.C5 for example).
+		  In that case the package should be named libfoo123-X.Y-cil (i.e. libmono-c5-0.5-cil) to improve
+		  the readability.
+		</p>
         
         <p>
           The -cil suffix is chosen to prevent confusion

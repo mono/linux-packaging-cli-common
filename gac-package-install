@@ -23,7 +23,7 @@ use File::Basename;
 # Get the package
 my $pkg = $ARGV[0];
 my $use_clr = $ARGV[1];
-my $full = "/usr/lib/cli-common/packages.d/$pkg";
+my $full = "/usr/share/cli-common/packages.d/$pkg";
 
 # Make sure it exists
 if ( ! -f "$full.installcligac" )
@@ -100,7 +100,7 @@ foreach my $dll (@dlls)
 }
 
 # Go through the installation targets
-foreach my $clr (glob("/usr/lib/cli-common/runtimes.d/*"))
+foreach my $clr (glob("/usr/share/cli-common/runtimes.d/*"))
 {
     # Ignore temporary files
     next if $clr =~ /~$/;

@@ -1,2 +1,2 @@
-usr/lib/cli-common/runtimes.d
-usr/lib/cli-common/packages.d
+usr/share/cli-common/runtimes.d
+usr/share/cli-common/packages.d

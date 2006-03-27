@@ -55,10 +55,10 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 	my $cligac=pkgfile($package,"installcligac");
 
 	if ($cligac ne '') {
-		if (! -d "$tmp/usr/lib/cli-common/packages.d") {
-			doit("install","-d","$tmp/usr/lib/cli-common/packages.d");
+		if (! -d "$tmp/usr/share/cli-common/packages.d") {
+			doit("install","-d","$tmp/usr/share/cli-common/packages.d");
 		}
-		doit("install","-m0644",$cligac,"$tmp/usr/lib/cli-common/packages.d/$package.installcligac");
+		doit("install","-m0644",$cligac,"$tmp/usr/share/cli-common/packages.d/$package.installcligac");
 
 		if (! $dh{NOSCRIPTS}) {
 			autoscript($package,"postinst","postinst-cligac",

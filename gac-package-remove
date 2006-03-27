@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in /usr/lib/cli-common/runtimes.d/*
+for file in /usr/share/cli-common/runtimes.d/*
   do	
   if [ -x $file ]; then
       # Figure out the formal name

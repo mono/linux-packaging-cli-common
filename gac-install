@@ -2,7 +2,7 @@
 
 # Make sure the GAC file exists
 if [ ! -x /usr/share/cli-common/runtimes.d/$1 ]; then
-    echo E: Cannot install GAC $1
+    echo ! Cannot install GAC $1
     exit 1
 fi
 

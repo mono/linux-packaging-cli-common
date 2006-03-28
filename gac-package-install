@@ -28,14 +28,14 @@ my $full = "/usr/share/cli-common/packages.d/$pkg";
 # Make sure it exists
 if ( ! -f "$full.installcligac" )
 {
-    print STDERR "E: $full.installcligac doesn't exist!\n";
+    print STDERR "! $full.installcligac doesn't exist!\n";
     exit 1;
 }
 
 # Parse the file
 unless (open INPUT, "<$full.installcligac")
 {
-    print STDERR "E: Cannot open $full.installcligac ($!)\n";
+    print STDERR "! Cannot open $full.installcligac ($!)\n";
     exit 2;
 }
 
@@ -60,7 +60,7 @@ while (<INPUT>)
 
     if (! -f $dll)
     {
-	print STDERR "E: Assembly $dll does not exist, ignoring\n";
+	print STDERR "! Assembly $dll does not exist, ignoring\n";
 	next;
     }
 
@@ -94,8 +94,8 @@ foreach my $dll (@dlls)
 {
     if (defined($whitelist{"dll:$dll"}) && defined($blacklist{"dll:$dll"}))
     {
-	print STDERR "E: $dll has both a white- and blacklist.\n";
-	print STDERR "E:   Ignoring blacklist.\n";
+	print STDERR "! $dll has both a white- and blacklist.\n";
+	print STDERR "!   Ignoring blacklist.\n";
     }
 }
 
@@ -141,6 +141,6 @@ foreach my $clr (glob("/usr/share/cli-common/runtimes.d/*"))
     $t = "one assembly" if (@install == 1);
 
     #print "D: ", join(", ", @install), "\n";
-    print STDERR "I: Installing $t from $pkg into $formal\n";
+    print STDERR "* Installing $t from $pkg into $formal\n";
     system($clr, "install", $pkg, @install);
 }

@@ -274,10 +274,10 @@ sub extraDeps {
    if (!%shlibdata) {
       open($fh, "cat /var/lib/dpkg/info/*.shlibs $pwd/debian/shlibs.local $pwd/debian/*/DEBIAN/shlibs 2>/dev/null |");
       while (<$fh>) {
-          #/(\S+)\s+(\S+)\s+(\w.*)\n?/;
-          #my ($soname, $soversion, $dependency);
-          chomp;
-          my($soname, $soversion, $dependency) = split(/\s+/, $_, 3);
+          /(\S+)\s+(\S+)\s+(\w.*)\n?/;
+          my ($soname, $soversion, $dependency);
+          #chomp;
+          #my($soname, $soversion, $dependency) = split(/\s+/, $_, 3);
           $soname = $1;    
           $soversion = $2; 
           $dependency = $3;

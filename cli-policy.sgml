@@ -319,8 +319,8 @@
         </p>
         
         <p>
-          Each of this library in the <qref id="GAC">GAC</qref> has
-          a assembly version number that consists of 4 parts (major, minor, build
+          Each of the libraries in the <qref id="GAC">GAC</qref> has
+          an assembly version number that consists of 4 parts (major, minor, build
           and revision number). When loading libraries from the
           <qref id="GAC">GAC</qref> it is required that all 4 parts and the public
           signing key fingerprint are exactly the same.
@@ -358,7 +358,7 @@
         </p>
 
         <p>
-          To avoid un-necessary renamings, existing package names will not be changed but when the ABI changes,
+          To avoid un-necessary renames, existing package names will not be changed but when the ABI changes,
           the new naming scheme must be used.
         </p>
         

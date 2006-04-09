@@ -47,7 +47,7 @@
     Place - Suite 330, Boston, MA 02111-1307, USA.</p>
   </copyright>
 
-  <toc>
+  <toc sect1>
 
   <chapt id="history">
     <heading>Policy History</heading>
@@ -352,14 +352,14 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           for <url 
           id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
           name="native library packages"> is chosen. The major and minor number mirror
-          the SONAME version and the resulting package name is libfooX.Y-cil, where X is the
+          the SONAME version and the resulting package name is <package>libfooX.Y-cil</package>, where X is the
           major and Y the minor number.
         </p>
 
         <p>
           A notable exception for the naming are assemblies that end on a number (Mono.C5 for example).
-          In that case the package should be named libfoo123-X.Y-cil (i.e. libmono-c5-0.5-cil) to improve
-          the readability.
+          In that case the package should be named <package>libfoo123-X.Y-cil</package> (i.e.
+          <package>libmono-c5-0.5-cil</package>) to improve the readability.
 	</p>
         
         <p>
@@ -379,14 +379,15 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <p>
           When upstream doesn't use the major and minor number to reflect ABI stability
           or breaks ABI with a change in build or revision the package must be renamed
-          to libfooA.B.C.D-cil (where A, B, C, D is the complete assembly version) and all
+          to <package>libfooA.B.C.D-cil</package> (where A, B, C, D is the complete assembly version) or
+          <package>libfooA.B.C-cil</package>, depending where the brekage was and all
           <qref id="gac-policy-files">Policy Files </qref> must be dropped until a new major or minor
           version is released.
         </p>
         
         <p>
-          Upstream could use wildcards in the assembly versions (1.2.* for example) which
-          are filled by the compiler with a random value. You must replace these wildcards
+          Upstream may use wildcards in the assembly versions (1.2.* for example) which
+          are filled by the compiler with a random value. You <em>must</em> replace these wildcards
           with 0 (1.2.0.0 in the example) to make it possible to use
           <qref id="gac-policy-files">Policy Files</qref> and make predictable version numbers.
         </p>
@@ -400,6 +401,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       
       <sect1 id="gac-policy-files">
         <heading>Policy Files</heading>
+
         <p>
           As explained above a exact match of the version number is required
           to load from the <qref id="GAC">GAC</qref>. To override this behaviour
@@ -424,6 +426,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
 
       <sect1 id="clilibs-control-file">
         <heading>clilibs Control File</heading>
+
         <p>
           The clilibs control file must be present in all <qref id="GAC">GAC</qref> library
           packages. It can be created with the <qref id="dh_makeclilibs">dh_makeclilibs</qref>
@@ -437,6 +440,23 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
       </sect1>
 
+      <sect1 id="pkg-config-file">
+        <heading>pkg-config File</heading>
+        
+        <p>
+          Many libraries deliver a pkg-config file, which is a helper for other libraries or applications to
+          link against that library.
+        </p>
+
+        <p>
+          All GAC library packages should have a pkg-config file located in <file>/usr/lib/pkgconfig</file>.
+          The filename must look like: <file>package-X.Y.pc</file>, notice the versioning in it.
+          The version must reflect the same X.Y version as the package name has.
+          Also there should be a symlink without the version to the latest version, like:
+          <file>package.pc</file> -> <file>package-X.Y.pc</file>
+        </p>
+      </sect1>
+
       <sect1 id="signing">
         <heading>Signing</heading>
         <p>
@@ -445,7 +465,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           have to create your own one using the <file>sn</file> utility. This
           must be put into your source package and used for all following versions of the library.
         </p>
-      </sect1>      
+      </sect1>
     </sect>
     
     <sect id="non-gac-library-packaging">

@@ -61,7 +61,7 @@
         <item><ref id="packaging">: Added a packaging chapter that includes some of the old chapter and some new.</item>
         <item><ref id="gac-library-packaging">: Added informations about signing and policy files.</item>
         <item><ref id="dh_installcligac">: Added stub for the new dh_installcligac script. Must be filled with content soon.</item>
-        <item><ref id="file-locations">: Require that files are installed into <file>/usr/lib/package</file> now.</item>
+        <item><ref id="file-locations">: Require that files are installed into <file>/usr/lib/package</file> or <file>/usr/lib/cli/package-X.Y</file> now.</item>
       </list>
     </p>    
     <p>
@@ -76,7 +76,7 @@
     <p>
       Changes from 0.2.0 to 0.2.1:
       <list>
-        <item><ref id="cli-common">: Added examples for debhelper and CDBS.</item>
+        <item><ref id="cli-common-dev">: Added examples for debhelper and CDBS.</item>
       </list>
     </p>
 
@@ -86,7 +86,7 @@
         <item><ref id="history">: Added chapter "Policy History"</item>
         <item><ref id="build-deps">: Compiler dependency is no longer strict on
         mono-mcs</item>
-        <item><ref id="cli-common">: Note that dh_makeclilibs must be called before
+        <item><ref id="cli-common-dev">: Note that dh_makeclilibs must be called before
         dh_clideps</item>
         <item><ref id="build-deps">: Moved dh_clideps and dh_makeclilibs into
         their own subsections</item>
@@ -178,6 +178,7 @@
 
   <chapt id="packaging">
     <heading>Packaging Policy</heading>
+
     <p>
       This section describes which additions to the
       <url id="http://www.debian.org/doc/debian-policy/" name="Debian Policy">
@@ -186,6 +187,7 @@
 
     <sect id="general-packaging">
       <heading>General Packaging</heading>
+
       <sect1 id="architecture">
         <heading>Architecture</heading>
         
@@ -197,34 +199,43 @@
          depending on the specific package also a restricted set of architectures is valid.
         </p>
       </sect1>
+
       <sect1 id="file-locations">
         <heading>File Locations</heading>
         
-        <p>The package's libraries and executables must be installed in
-          <file>/usr/lib/packagename</file>. The often seen 
-         <file>/usr/lib/mono/packagename</file> is wrong and should only be used for packages
-         by the Mono project.
+        <p>
+          The package's applications, libraries and meta-data must be installed in
+          <file>/usr/lib/packagename</file>.
+        <p>
+
+        <p>
+          Libraries that will be installed into the GAC should be in <file>/usr/lib/cli/packagename-X.Y</file> 
+          (for more details about the X.Y version see <qref id="gac-naming-versioning">GAC versioning</qref>).
+          The often seen <file>/usr/lib/mono/packagename</file> is wrong and should only be used for packages
+          by the Mono project.
         </p>
-       
+              
+        <p>
+          Never put "glue" libraries into <file>/usr/lib</file> but move them to 
+          <file>/usr/lib/cli/packagename-X.Y</file>, too. When moving the libraries, you also have
+          to update the references to the new location (see the
+          <qref id="dll-maps-intro">Mono DLL maps</qref> as an example).
+        </p>
+
         <p>
           The only exception here are obviously native libraries that are of any use for
           other packages. They should be packaged according to the <url
           id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html"
           name="Library Packaging Guide"> or any other policy conform way.
         </p>
-       
-        <p>
-          Never put "glue" libraries into <file>/usr/lib</file> but move them to 
-          <file>/usr/lib/packagename</file>, too. When moving them you in general have to specify
-          the new location (see the <qref id="dll-maps-intro"> Mono dllmaps</qref> for an example).
-        </p>
 
         <p>
           For <file>.exe</file> files a <qref id="wrapper-script-example">wrapper script</qref>
-          should be installed into <file>/usr/bin</file> to allow normal execution.
+          should be installed into <file>/usr/bin</file> to allow normal invocation.
           Never ever install <file>.exe</file> files directly into <file>/usr/bin</file>.
         </p>
       </sect1>
+
       <sect1 id="file-perms">
         <heading>File Permissions</heading>
      
@@ -250,17 +261,18 @@
           To insure that the file permissions are right, you should call the
           following at the end of your install target in debian/rules:
           <example>
-          find debian/ -type f -name "*.dll" -or -name "*.mdb" -or -name "*.cs" -or -name "*.config" | xargs chmod -x
-          find debian/ -type f -name "*.exe" | xargs chmod +x
+find debian/ -type f -name "*.dll" -or -name "*.mdb" -or -name "*.cs" -or -name "*.config" | xargs chmod -x
+find debian/ -type f -name "*.exe" | xargs chmod +x
           </example>
         </p>        
       </sect1>
+
       <sect1 id="build-deps">
         <heading>Build Dependencies</heading>
         
         <p>
           At a minimum, CLI packages must build-depend on
-          <package>cli-common</package> (&gt;= 0.2.0) and the compiler.
+          <package>cli-common-dev</package> (&gt;= 0.4.0) and the compiler.
         </p>
         
         <p>
@@ -300,10 +312,11 @@
           name="Debian Policy Manual"> for more informations on this).
         </p>
       </sect1>  
-      
     </sect>
+
     <sect id="gac-library-packaging">
       <heading>GAC Library Packaging</heading>
+
       <p>
         These are libraries that are installed into the <qref id="GAC">GAC</qref>.
         They should provide at least provide decent ABI stability and should be
@@ -339,14 +352,15 @@
           for <url 
           id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
           name="native library packages"> is chosen. The major and minor number mirror
-          the SONAME and the resulting package name is libfooX.Y-cil, where X is the
+          the SONAME version and the resulting package name is libfooX.Y-cil, where X is the
           major and Y the minor number.
         </p>
 
-		<p>A notable exception for the naming are assemblies that end on a number (Mono.C5 for example).
-		  In that case the package should be named libfoo123-X.Y-cil (i.e. libmono-c5-0.5-cil) to improve
-		  the readability.
-		</p>
+        <p>
+          A notable exception for the naming are assemblies that end on a number (Mono.C5 for example).
+          In that case the package should be named libfoo123-X.Y-cil (i.e. libmono-c5-0.5-cil) to improve
+          the readability.
+	</p>
         
         <p>
           The -cil suffix is chosen to prevent confusion
@@ -366,7 +380,7 @@
           When upstream doesn't use the major and minor number to reflect ABI stability
           or breaks ABI with a change in build or revision the package must be renamed
           to libfooA.B.C.D-cil (where A, B, C, D is the complete assembly version) and all
-          <qref id="policy-files">Policy Files </qref> must be dropped until a new major or minor
+          <qref id="gac-policy-files">Policy Files </qref> must be dropped until a new major or minor
           version is released.
         </p>
         
@@ -374,7 +388,7 @@
           Upstream could use wildcards in the assembly versions (1.2.* for example) which
           are filled by the compiler with a random value. You must replace these wildcards
           with 0 (1.2.0.0 in the example) to make it possible to use
-          <qref id="policy-files">Policy Files</qref> and make predictable version numbers.
+          <qref id="gac-policy-files">Policy Files</qref> and make predictable version numbers.
         </p>
         
         <p>
@@ -383,20 +397,8 @@
         </p>
       </sect1>
 
-      <sect1 id="gac-installation">
-        <heading>Installation into the GAC</heading>
-        <p>For the actual installing into the <qref id="GAC">GAC</qref> see
-          <qref id="dh_installcligac">dh_installcligac</qref> and <manref name="gacutil" section="1">.
-        </p>
-        
-        <p>
-          You should never (except in rare corner cases) install files directly into the <qref id="GAC">GAC</qref>
-          but leave it to the postinst and prerm scripts to install the libraries into all available
-          <qref id="GAC">GAC</qref>.
-        </p>
-      </sect1>
       
-      <sect1 id="policy-files">
+      <sect1 id="gac-policy-files">
         <heading>Policy Files</heading>
         <p>
           As explained above a exact match of the version number is required
@@ -408,7 +410,7 @@
           are the major and minor number of the assembly it should be compatible with),
           must be signed with the same signing key as the original assembly and installed
           into the <qref id="GAC">GAC</qref>. For informations how to create them
-          look at the site linked above or look at the <qref id="policy-file-example">example</qref>
+          look at the site linked above or look at the <qref id="gac-policy-file-example">example</qref>
           below.
         </p>
         
@@ -418,8 +420,8 @@
           in the <qref id="clilibs-control-file">clilibs control file</qref> when there were
           new interfaces/classes/methods added.
         </p>
-    
       </sect1>
+
       <sect1 id="clilibs-control-file">
         <heading>clilibs Control File</heading>
         <p>
@@ -434,78 +436,44 @@
           You should always set the least required version of the library here.
         </p>
       </sect1>
+
       <sect1 id="signing">
         <heading>Signing</heading>
         <p>
           When installing libraries into the <qref id="GAC">GAC</qref> signing
           is required. The signing key can either be supplied by upstream or you
-          have to create your own one using the sn utility. This must be put into
-          your package and used for all following versions of the library.
+          have to create your own one using the <file>sn</file> utility. This
+          must be put into your source package and used for all following versions of the library.
         </p>
       </sect1>      
     </sect>
     
     <sect id="non-gac-library-packaging">
       <heading>non-GAC Library Packaging</heading>
+
       <p>
         This includes libraries that are in no way ABI stable, may be not strong-named
         and are usually in an early stage of development. They must not include a clilibs
         control file!
       </p>
+
       <sect1 id="non-gac-naming">
         <heading>Naming</heading>
+
         <p>
           The package should be named libfoo-cil (without a version in the package name)
           and should not be installed into the <qref id="GAC">GAC</qref> but only
           into <file>/usr/lib/packagename</file>.
+        </p>
+
         <p>
-          Applications using them must copy the libraries they need into their own package
-          library directory. You can compare this with static linking of native libraries
+          Applications using them must copy the libraries they need into their own
+          application directory. You can compare this with static linking of native libraries.
         </p>
       </sect1>      
     </sect>
   </chapt>
   
-  <chapt id="migrating">
-    <heading>Migrating Existing Packages</heading>
-    
-    <p>
-      Many CLI packages already exist in Debian, or are in ITP, and conform to
-      the deprecated <url id="http://wiki.debian.net/?MonoConventions"
-      name="Mono Conventions">.
-    </p>
-
-    <p>
-      Any <file>debian/rules</file> hacks or patches that exist to redirect
-      files to <file>/usr/share/dotnet</file> should be removed, and adjusted
-      according to upstream file locations (<file>/usr/lib</file>). See
-      <url id="http://wiki.debian.net/?MonoDebianPlan" name="Mono Debian Plan">
-      for the rationale behind this change.
-    </p>
-
-    <p>
-      Also, be sure to replace references to dh_netdepends, dh_makenetlibs, and
-      ${net:Depends} with the CLI functions detailed above.
-    </p>
-
-    <p>
-      Please remove any build-deps on <package>mono-jit</package>,
-      <package>mono-mint</package>, <package>mono-utils</package> (this one had
-      the dh_* helper scripts which are now in <package>cli-common</package>)
-      and <package>libmono-dev</package> (use this one only if the package
-      really links against <package>mono</package> or requires the mono.pc
-      file).
-    </p>
-    
-    <p>
-      Do not use the cli-wrapper (<file>/usr/bin/cli-wrapper</file>) anymore.
-      It is deprecated and will be removed soon! Either use the upstream shell
-      script to invoke the application or write one, which calls
-      <file>/usr/bin/mono</file> or <file>/usr/bin/cli</file> (if it runs also
-      on other CLRs like <url id="http://www.southern-storm.com.au/portable_net.html"
-      name="Portable.NET">).
-    </p>
-  </chapt>
 
   <chapt id="mono">
     <heading>Mono Specifics</heading>
@@ -661,12 +629,12 @@
 
   <chapt id="appendix">
     <heading>Appendix</heading>
-    <sect id="cli-common">
-      <heading>Helper Scripts: cli-common</heading>
+    <sect id="cli-common-dev">
+      <heading>Helper Scripts: cli-common-dev</heading>
       <p>
-        When using cli-common and the included dh_* scripts packages must
-        build-depend on <package>cli-common</package> (&gt;= 0.4.0)
-        (this version may change later, when cli-common has changes which
+        When using cli-common-dev and the included dh_* scripts packages must
+        build-depend on <package>cli-common-dev</package> (&gt;= 0.4.0)
+        (this version may change later, when cli-common-dev has changes which
         are required to be used by all CLI packages, the CLI Policy version will
         represent such change).
       </p>
@@ -684,7 +652,7 @@
           minimal version as necessary.
         </p>
         <p>
-          It must be called before dh_clideps.
+          <em>It must be called before dh_clideps.</em>
         </p>
         
         <p>
@@ -729,52 +697,122 @@
         <p>
           For binary-arch packages:
           <example>
-          binary-arch: build install
-            ...
-            dh_shlibdeps -a
-            dh_makeclilibs -V
-            dh_clideps -a -d
-            dh_installgac -a
-            ...
+binary-arch: build install
+	...
+	dh_shlibdeps -a
+	dh_makeclilibs -a -V
+	dh_clideps -a -d
+	dh_installgac -a
+	...
           </example>
           For binary-indep packages:
           <example>
-          binary-indep: build install
-            dh_makeclilibs -V
-            dh_clideps -i
-            dh_installcligac -i
+binary-indep: build install
+	...
+	dh_makeclilibs -i -V
+	dh_clideps -i
+	dh_installcligac -i
+	...
           </example>
         </p>
       </sect1>
+
       <sect1 id="cdbs-example">
         <heading>cdbs Example</heading>
+
         <p>
           <example>
-          common-binary-predeb-arch common-binary-predeb-indep::
-            dh_shlibdeps
-            dh_makeclilibs -V
-            dh_clideps -d
-            dh_installcligac
+common-binary-predeb-arch common-binary-predeb-indep::
+	dh_shlibdeps
+	dh_makeclilibs -V
+	dh_clideps -d
+	dh_installcligac
           </example>
         </p>
       </sect1>
+
       <sect1 id="wrapper-script-example">
         <heading>Executable Wrapper Script Example</heading>
+
         <p>
           <example>
-          #!/bin/sh
-          exec /usr/bin/cli /usr/lib/package/package.exe "$@"
+#!/bin/sh
+exec /usr/bin/cli /usr/lib/package/package.exe "$@"
           </example>
         </p>
       </sect1>
+
       <sect1 id="api-compat-example">
         <heading>API Compatibility Check Example</heading>
+
         <p>TODO</p>
       </sect1>
-      <sect1 id="policy-file-example">
-        <heading>Policy File Example</heading>
+
+      <sect1 id="gac-policy-file-example">
+        <heading>GAC Policy File Example</heading>
+
         <p>TODO</p>
       </sect1>
+    </sect>
+
+    <sect id="gac-late-installation">
+      <heading>Late installation into the GAC</heading>
+
+      <p>
+        This is on purpose in the Appendix and with that not part of the policy (yet)!
+      </p>
+
+      <p>
+        For the actual installing into the <qref id="GAC">GAC</qref> see
+        <qref id="dh_installcligac">dh_installcligac</qref> and <manref name="gacutil" section="1">.
+      </p>
+        
+      <p>
+        You should never (except in special cases, like CLRs) install files directly into the <qref id="GAC">GAC</qref>
+        but leave it to the postinst and prerm scripts to install the libraries into all available
+        <qref id="GAC">GACs</qref>.
+      </p>
+    </sect>
+
+    <sect id="migrating">
+      <heading>Migrating Existing Packages</heading>
+      
+      <p>
+        Many CLI packages already exist in Debian, or are in ITP, and conform to
+        the deprecated <url id="http://wiki.debian.net/?MonoConventions"
+        name="Mono Conventions">.
+      </p>
+
+      <p>
+        Any <file>debian/rules</file> hacks or patches that exist to redirect
+        files to <file>/usr/share/dotnet</file> should be removed, and adjusted
+        according to upstream file locations (<file>/usr/lib</file>). See
+        <url id="http://wiki.debian.net/?MonoDebianPlan" name="Mono Debian Plan">
+        for the rationale behind this change.
+      </p>
+
+      <p>
+        Also, be sure to replace references to dh_netdepends, dh_makenetlibs, and
+        ${net:Depends} with the CLI functions detailed above.
+      </p>
+
+      <p>
+        Please remove any build-deps on <package>mono-jit</package>,
+        <package>mono-mint</package>, <package>mono-utils</package> (this one had
+        the dh_* helper scripts which are now in <package>cli-common</package>)
+        and <package>libmono-dev</package> (use this one only if the package
+        really links against <package>mono</package> or requires the mono.pc
+        file).
+      </p>
+    
+      <p>
+        Do not use the cli-wrapper (<file>/usr/bin/cli-wrapper</file>) anymore.
+        It is deprecated and will be removed soon! Either use the upstream shell
+        script to invoke the application or write one, which calls
+        <file>/usr/bin/mono</file> or <file>/usr/bin/cli</file> (if it runs also
+        on other CLRs like <url id="http://www.southern-storm.com.au/portable_net.html"
+        name="Portable.NET">).
+      </p>
     </sect>
   </chapt>
 </book>

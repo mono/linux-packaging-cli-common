@@ -2,11 +2,18 @@ cli-common (0.4.0) unstable; urgency=low
 
   * NOT RELEASED YET
   * Mirco 'meebey' Bauer
-    + Includes CLI policy version 0.3.0.
+    + Includes CLI policy version 0.4.0.
     + Added LD_LIBRARY_PATH to "mono" call for internal-mono mode.
     + Fixed dllmap parser regex in dh_clideps and dh_makeclideps, to not use
       the full filename but the SONAME.
     + Fixed shlibs parser regex and cat call to use fullpath.
+    + New package cli-common-dev, which is for building CLI
+      libraries/application packages.
+      cli-common is now used for base package for runtime, it includes a
+      framework for GAC integration across CRLs.
+      For transition cli-common depends on cli-common-dev till all source
+      packages have updated their build-deps.
+    + Bumped debhelper compat to 5 and updated the build-dep to >= 5.0.0
   * Dylan R. E. Moonfire <debian@mfgames.com>
     + Added a late GAC installer framework.
 

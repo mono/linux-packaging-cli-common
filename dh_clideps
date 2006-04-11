@@ -250,10 +250,8 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     }
     
     if (-f "$tmp/usr/share/cli-common/packages.d/$package.installcligac") {
-        if ($deps ne '') {
-            $deps .= ", ";
-        }
-        $deps .= "cli-common (>= 0.4.0)");
+    	$deps .= ", " if defined $deps && $deps ne '';
+        $deps .= "cli-common (>= 0.4.0)";
     }
     
     $deps .= join(", ", "",

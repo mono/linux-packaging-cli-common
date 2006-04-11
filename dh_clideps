@@ -218,9 +218,10 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
           }
        }
     }
+    
     # now filter the dupes coming from shlibs
     if (defined($dh{D_FLAG})) {
-       if (open($fh, "< debian/$package.substvars" )) {
+       if (open($fh, "< $pwd/debian/$package.substvars" )) {
           while (<$fh>) {
              if (/^shlibs:Depends=(.*)\n?/) {
                 for (split(/\s*,\s*/, $1)) {
@@ -229,7 +230,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
              }
           }
        } else {
-          verbose_print("Could not read debian/$package.substvars");
+          verbose_print("Could not read $pwd/debian/$package.substvars");
        }
     }
 
@@ -246,6 +247,13 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
         } elsif ($clr eq "pnet") {
           $deps = "pnet-interpreter (>= $cli_version)";
         }
+    }
+    
+    if (-f "$tmp/usr/share/cli-common/packages.d/$package.installcligac") {
+        if ($deps ne '') {
+            $deps .= ", ";
+        }
+        $deps .= "cli-common (>= 0.4.0)");
     }
     
     $deps .= join(", ", "",

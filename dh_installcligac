@@ -45,14 +45,10 @@ instances of the same text to be added to maintainer scripts.
 
 init();
 
-if (! defined $dh{PRIORITY}) {
-	$dh{PRIORITY}=50;
-}
-
 foreach my $package (@{$dh{DOPACKAGES}}) {
-	my $tmp=tmpdir($package);
+	my $tmp = tmpdir($package);
 
-	my $cligac=pkgfile($package,"installcligac");
+	my $cligac = pkgfile($package, "installcligac");
 
 	if ($cligac ne '') {
 		if (! -d "$tmp/usr/share/cli-common/packages.d") {
@@ -73,7 +69,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 
 L<debhelper(7)>
 
-This program is a part of debhelper.
+This program is a part of cli-common-dev.
 
 =head1 AUTHOR
 

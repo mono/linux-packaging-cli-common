@@ -102,9 +102,9 @@
     <heading>Used Terms</heading>
     
     <p>
-      The ".NET" area uses an own set of abbreviations, which can
+      The ".NET" area uses its own set of abbreviations, which can
       look confusing to other people.
-      Here a short list with their explanations:
+      This chapter lists some of the terms along with their explanations:
     </p>
     
     <sect id="CLI">
@@ -112,9 +112,9 @@
       
       <p>
         This is what most people mean when they say ".NET".
-        The CLI defines mainly  the virtual machine, bytecode and how everything
-        works together and is an <url
-        id="http://www.iso.org/iso/en/CatalogueDetailPage.CatalogueDetail?CSNUMBER=36769" name="ISO">
+        The CLI defines mainly the virtual machine, the bytecode and how everything
+        works together.  It is both an
+	<url id="http://www.iso.org/iso/en/CatalogueDetailPage.CatalogueDetail?CSNUMBER=36769" name="ISO">
         and <url id="http://www.ecma-international.org/publications/standards/Ecma-335.htm" name="ECMA">
         standard.
       </p>
@@ -124,8 +124,8 @@
       <heading>CLR - Common Language Runtime</heading>
      
       <p>
-        The CLR is an implementation of the <qref id="CLI">CLI</qref> (often with a lot of addons/tools
-        for developers), like Mono or Microsoft .NET Framework is.
+        The CLR is an implementation of the <qref id="CLI">CLI</qref> (often with a lot of add-ons or tools
+        for developers). Mono and Microsoft .NET Framework are CLRs.
       </p>
     </sect>
     
@@ -133,8 +133,8 @@
       <heading>CIL - Common Intermediate Language</heading>
       
       <p>
-        CIL is the format of the bytecode (for binaries and libraries)
-        used by <qref id="CLI">CLI</qref>.
+        The CIL is the format of the bytecode for binaries and libraries
+        used by the <qref id="CLI">CLI</qref>.
       </p>
     </sect>
     
@@ -142,9 +142,9 @@
       <heading>".NET" or long "Microsoft .NET Framework"</heading>
       
       <p>
-        The word .NET is a marketing word by Microsoft, which is basically a
+        The ".NET" word is a Microsoft marketing phrase and mostly is a
         CLR with added Microsoft technologies like: ASP.NET, VB.NET,
-        System.Windows.Forms, Passport and a lot of other things.
+        System.Windows.Forms, Passport plus a lot of other things.
       <p>
 
       <p>
@@ -164,7 +164,7 @@
 
       <p>
         The GAC contains and manages the libraries for the <qref id="CLR">CLR</qref>.
-        It allows users to install multiple versions of the same library and load
+        It allows users to install multiple versions of the same library and enables loading of
         the right version when an application is executed.
       </p>
       <p>
@@ -180,9 +180,9 @@
     <heading>Packaging Policy</heading>
 
     <p>
-      This section describes which additions to the
+      This section describes the additions to the
       <url id="http://www.debian.org/doc/debian-policy/" name="Debian Policy">
-      are required for <qref id="CLI">CLI</qref> packages.
+      that are required for <qref id="CLI">CLI</qref> packages.
     </p>
 
     <sect id="general-packaging">
@@ -192,11 +192,11 @@
         <heading>Architecture</heading>
         
         <p>
-          For packages that consist of 100% managed code "Architecure: all" must be chosen.
+          For packages that consist of 100% managed code, "Architecture: all" <em>must</em> be chosen in debian/control.
         </p>
         <p>
-          Packages containing a mix of managed and native code must be "Architecure: any" or
-         depending on the specific package also a restricted set of architectures is valid.
+          Packages containing a mix of managed and native code <em>must</em> be "Architecure: any" or
+         depending on the specific package a more restricted set of architectures is valid.
         </p>
       </sect1>
 
@@ -204,35 +204,34 @@
         <heading>File Locations</heading>
         
         <p>
-          The package's applications, libraries and meta-data must be installed in
+          The package's applications, libraries and meta-data <em>must</em> be installed into
           <file>/usr/lib/packagename</file>.
         <p>
 
         <p>
-          Libraries that will be installed into the GAC should be in <file>/usr/lib/cli/packagename-X.Y</file> 
+          Libraries that will be installed into the GAC <em>should</em> be installed into <file>/usr/lib/cli/packagename-X.Y</file> 
           (for more details about the X.Y version see <qref id="gac-naming-versioning">GAC versioning</qref>).
-          The often seen <file>/usr/lib/mono/packagename</file> is wrong and should only be used for packages
-          by the Mono project.
+          The commonly seen <file>/usr/lib/mono/packagename</file> path should <em>only</em> be used for Mono project packages.
         </p>
               
         <p>
-          Never put "glue" libraries into <file>/usr/lib</file> but move them to 
-          <file>/usr/lib/cli/packagename-X.Y</file>, too. When moving the libraries, you also have
-          to update the references to the new location (see the
-          <qref id="dll-maps-intro">Mono DLL maps</qref> as an example).
+          Never install native "glue" libraries into <file>/usr/lib</file>, instead install them at
+          <file>/usr/lib/cli/packagename-X.Y</file>. When moving libraries
+          update the references to the new location using a DLL Map.  See the
+          <qref id="dll-maps-intro">Mono DLL maps</qref> secion for an example.
         </p>
 
         <p>
-          The only exception here are obviously native libraries that are of any use for
-          other packages. They should be packaged according to the <url
-          id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html"
-          name="Library Packaging Guide"> or any other policy conform way.
+          The only exception here is for native libraries that are of wider use;
+	  can be used other packages. Native libraries should be packaged according to the
+	  <url id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html"
+          name="Library Packaging Guide"> in a Debain Policy conformant way.
         </p>
 
         <p>
-          For <file>.exe</file> files a <qref id="wrapper-script-example">wrapper script</qref>
-          should be installed into <file>/usr/bin</file> to allow normal invocation.
-          Never ever install <file>.exe</file> files directly into <file>/usr/bin</file>.
+          Never ever install application files (<file>.exe</file>) directly into <file>/usr/bin</file>.
+          Instead create a <qref id="wrapper-script-example">wrapper script</qref>
+	  into <file>/usr/bin</file> to allow them to be run without the <file>.exe</file> suffix.
         </p>
       </sect1>
 
@@ -240,26 +239,26 @@
         <heading>File Permissions</heading>
      
         <p>
-          Source code files (*.cs, *.vb, *.boo, etc) should be non-executable.
+          Source code files (<file>*.cs</file>, <file>*.vb</file>, <file>*.boo</file>, etc.) should be non-executable.
         </p>
         <p>
-          Library files (*.dll) should be non-executable.
+          Library files (<file>*.dll</file>) should be non-executable.
         </p>
         <p>
-          Debug symbol files (*.mdb) should be non-executable.
+          Debug symbol files (<file>*.mdb</file>) should be non-executable.
         </p>
         <p>
-          Assembly config files (*.config) should be non-executable.
-        </p>
-        
-        <p>
-          Application files (*.exe) must have the executable flag (+x) set to be
-          compatibile with binfmt (direct invokation like ./foo.exe).
+          Assembly config files (<file>*.config</file>) should be non-executable.
         </p>
         
         <p>
-          To insure that the file permissions are right, you should call the
-          following at the end of your install target in debian/rules:
+          Application files (<file>*.exe</file>) <em>must</em> have the executable flag (+x) set to enable
+          compatiblity with direct invokation as <file>./foo.exe</file> using Linux binfmt.
+        </p>
+        
+        <p>
+          To ensure that the file permissions are correct, use the
+          following at the end of the install target in <file>debian/rules</file>:
           <example>
 find debian/ -type f -name "*.dll" -or -name "*.mdb" -or -name "*.cs" -or -name "*.config" | xargs chmod -x
 find debian/ -type f -name "*.exe" | xargs chmod +x
@@ -271,8 +270,9 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <heading>Build Dependencies</heading>
         
         <p>
-          At a minimum, CLI packages must build-depend on
-          <package>cli-common-dev</package> (&gt;= 0.4.0) and the compiler.
+          At a minimum, CLI packages <em>must</em> Build-Depends on
+          <package>cli-common-dev</package> (&gt;= 0.4.0) and the
+	  appropriate CLI compiler(s).
         </p>
         
         <p>
@@ -294,22 +294,24 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
         
         <p>
-          Software that access Mono via the C interface (libmono.so) or requires
-          the mono.pc file must build-depend also on: libmono-dev (&gt;= 1.0)
+          Software that uses Mono via the C interface library
+          (<file>libmono.so</file>) or requires the
+          <file>/usr/lib/pkgconfig/mono.pc</file> file <em>must</em>
+	  Build-Depends on libmono-dev (&gt;= 1.0)
         </p>
         
         <p>
-          Keep in mind that there are architectures for which no <qref id="CLR">CLR</qref> is
-          available. You may have to restrict the Build-Depends to some architectures when your
-          package is required on that architectures, too.
+          Note that there are architectures for which no <qref id="CLR">CLR</qref> is
+          available and thus you may have to restrict the Build-Depends for your
+	  package to the architectures available.
         </p>
 
         <p>
-          If your package is Arch: all, you should specify this as Build-Depends-Indep.
+          If your package is <file>Architecture: all</file>, you should specify this as Build-Depends-Indep.
           Never put <package>debhelper</package>, <package>cdbs</package> or <package>dpatch</package>
-          into Build-Depends-Indep (See the <url
+          into Build-Depends-Indep. See the <url
           id="http://www.debian.org/doc/debian-policy/ch-relationships.html#s-sourcebinarydeps"
-          name="Debian Policy Manual"> for more informations on this).
+          name="Debian Policy Manual"> for more information on this.
         </p>
       </sect1>  
     </sect>
@@ -318,16 +320,16 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       <heading>GAC Library Packaging</heading>
 
       <p>
-        These are libraries that are installed into the <qref id="GAC">GAC</qref>.
-        They should provide at least provide decent ABI stability and should be
-        useful for other packages too.
+        Libraries that are installed into the <qref id="GAC">GAC</qref>
+        should provide decent ABI stability and be useful for other
+        packages.  Otherwise, they should remain private to the package.
       </p>
 
       <sect1 id="gac-naming-versioning">
         <heading>Naming &amp; Versioning</heading>
         
         <p>
-          Libraries that are installed into the <qref id="GAC">GAC</qref> must be
+          Libraries that are installed into the <qref id="GAC">GAC</qref> <em>must</em> be
           strong-named, i.e. <qref id="signing">signed</qref>.
         </p>
         
@@ -335,66 +337,78 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           Each of the libraries in the <qref id="GAC">GAC</qref> has
           an assembly version number that consists of 4 parts (major, minor, build
           and revision number). When loading libraries from the
-          <qref id="GAC">GAC</qref> it is required that all 4 parts and the public
-          signing key fingerprint are exactly the same.
+          <qref id="GAC">GAC</qref> all 4 parts and the public
+          signing key fingerprint must match.
         </p>
         
         <p>
-          It's general practice and <url
+          It is general practice and <url
           id="http://msdn.microsoft.com/netframework/programming/deployment/default.aspx?pull=/library/en-us/dndotnet/html/dplywithnet.asp#dplywithnet_version"
-          name="recommended"> by Microsoft that a library has to stay ABI compatible when only the
-          build and revision number change and the major and minor number stay the same.
+          name="recommended by Microsoft">
+	  that a library is ABI compatible when only the build and
+          revision number change and the major and minor number stay
+          the same.
         </p>
         
         <p>
-          To reflect the ABI stability and prevent
-          breakages when a ABI incompatible version is release a similar solution as
-          for <url 
-          id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
-          name="native library packages"> is chosen. The major and minor number mirror
-          the SONAME version and the resulting package name is <package>libfooX.Y-cil</package>, where X is the
-          major and Y the minor number.
+          To reflect the ABI stability and prevent breakages when a
+          ABI-incompatible version is released, a similar solution for
+	  <url id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
+          name="native library packages">
+	  is used. The major and minor number <em>must</em> mirror
+          the SONAME version and the resulting package name should be
+          <package>libfooX.Y-cil</package>, where X is the major and
+          Y the minor number.
         </p>
 
         <p>
-          A notable exception for the naming are assemblies that end on a number (Mono.C5 for example).
-          In that case the package should be named <package>libfoo123-X.Y-cil</package> (i.e.
-          <package>libmono-c5-0.5-cil</package>) to improve the readability.
+          One notable exception for this naming are assemblies that
+          end on a number (Mono.C5 for example).  In this case the
+          package should be named <package>libfoo123-X.Y-cil</package>
+	  (i.e. <package>libmono-c5-0.5-cil</package>) to improve the
+          readability.
 	</p>
         
         <p>
-          The -cil suffix is chosen to prevent confusion
-          with native library packages. You should never use "sharp" in the package
-          name as it doesn't represent the language and a <qref id="CLI">CLI</qref>
-          library can be used with all <qref id="CLI">CLI</qref> implemented/enabled
-          languages like C#, Boo, Nemerle, J#, ASP.NET, VB.NET (<url
-          id="http://www.mono-project.com/Languages" name="full list">).
+          The <file>-cil</file> suffix is chosen to prevent confusion
+          with native library package names. Never use "sharp" in the package
+          name as it does not represent the language, and a <qref id="CLI">CLI</qref>
+          library can be used with all <qref id="CLI">CLI</qref> implemented / enabled
+          languages such as C#, Boo, Nemerle, J#, ASP.NET, VB.NET
+	  (<url id="http://www.mono-project.com/Languages" name="full list">).
         </p>
 
         <p>
-          To avoid un-necessary renames, existing package names will not be changed but when the ABI changes,
-          the new naming scheme must be used.
+          Unnecessary package renames should be avoided.  Existing
+          package names that do not follow this policy should not be
+          renamed until the next incompatible ABI change when the new
+          naming scheme should be used.
         </p>
         
         <p>
-          When upstream doesn't use the major and minor number to reflect ABI stability
-          or breaks ABI with a change in build or revision the package must be renamed
-          to <package>libfooA.B.C.D-cil</package> (where A, B, C, D is the complete assembly version) or
-          <package>libfooA.B.C-cil</package>, depending where the brekage was and all
-          <qref id="gac-policy-files">Policy Files </qref> must be dropped until a new major or minor
+          If the upstream package does not use major and minor
+          number to reflect ABI stability or breaks ABI with a change
+          in build or revision, the package <em>must</em> be renamed to either
+          <package>libfooA.B.C-cil</package> or
+          <package>libfooA.B.C.D-cil</package>
+	  (where A, B, C, D are the complete assembly version numbers),
+	  depending at which point (major or minor) where the breakage occurred.
+	  All <qref id="gac-policy-files">Policy Files </qref>
+	  must be dropped at this stage until a new major or minor
           version is released.
         </p>
         
         <p>
-          Upstream may use wildcards in the assembly versions (1.2.* for example) which
-          are filled by the compiler with a random value. You <em>must</em> replace these wildcards
+          The upstream package may use wildcards in the assembly versions (1.2.* for example) which
+          are filled by the compiler with a random value. You <em>MUST</em> replace these wildcards
           with 0 (1.2.0.0 in the example) to make it possible to use
           <qref id="gac-policy-files">Policy Files</qref> and make predictable version numbers.
         </p>
         
         <p>
-          It is allowed to put more than one library into one package. But in that case it is required
-          that they all have the same version and belong together.
+          More than one library can be installed in one package but
+          it is required that they <em>MUST</em> all have the same
+          version and belong together.
         </p>
       </sect1>
 
@@ -404,23 +418,24 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
 
         <p>
           As explained above a exact match of the version number is required
-          to load from the <qref id="GAC">GAC</qref>. To override this behaviour
-          and make different versions of ABI compatible library packages really
-          ABI compatible you have to use <url
+          to load a library from the <qref id="GAC">GAC</qref>. To override this behaviour
+          and make different versions of ABI-compatible library packages really
+          ABI-compatible you have to use <url
           id="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconcreatingpublisherpolicyfile.asp"
-          name="Policy Files">. They have to be called policy.X.Y.foo.dll (where X and Y
+          name="Policy Files">. These files have to be named <file>policy.X.Y.foo.dll</file> (where X and Y
           are the major and minor number of the assembly it should be compatible with),
-          must be signed with the same signing key as the original assembly and installed
-          into the <qref id="GAC">GAC</qref>. For informations how to create them
-          look at the site linked above or look at the <qref id="gac-policy-file-example">example</qref>
+          it must be signed with the same signing key as the original assembly and it must be installed
+          into the <qref id="GAC">GAC</qref>. For information on how to create policy files
+          look at the previous Policy Files link or at the <qref id="gac-policy-file-example">example</qref>
           below.
         </p>
         
         <p>
-          You should only override the <qref id="GAC">GAC</qref> policy when the
-          different versions are really ABI compatible. Also you should raise the minimal version
-          in the <qref id="clilibs-control-file">clilibs control file</qref> when there were
-          new interfaces/classes/methods added.
+          Overriding the <qref id="GAC">GAC</qref> policy should only
+          be done when the different library versions are really
+          ABI-compatible.  You should also raise the version
+          in the <qref id="clilibs-control-file">clilibs control file</qref>
+	  to the minimum version when new interfaces/classes/methods were added.
         </p>
       </sect1>
 
@@ -428,15 +443,16 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <heading>clilibs Control File</heading>
 
         <p>
-          The clilibs control file must be present in all <qref id="GAC">GAC</qref> library
+          The <file>clilibs</file> control file <em>MUST</em> be present in all <qref id="GAC">GAC</qref> library
           packages. It can be created with the <qref id="dh_makeclilibs">dh_makeclilibs</qref>
-          helper script and has a format similar to the shlibs file created by <manref name="dh_makeshlibs"
-          section="1"> and also a similar use: it is used by <qref id="dh_clideps">dh_clideps</qref>
-          to find the correct dependencies.
+          helper script and has a format similar to the <file>shlibs</file> file created by <manref name="dh_makeshlibs" section="1">
+	  and also has a similar use: it is used by
+	  <qref id="dh_clideps">dh_clideps</qref>
+	  helper script to find the correct dependencies.
         </p>
         
         <p>
-          You should always set the least required version of the library here.
+          You should always set the minimum required version of the library in the <file>clilibs</file> file.
         </p>
       </sect1>
 
@@ -444,16 +460,17 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <heading>pkg-config File</heading>
         
         <p>
-          Many libraries deliver a pkg-config file, which is a helper for other libraries or applications to
-          link against that library.
+          Many libraries deliver a <file>.pc</file> file for use by
+          the <file>pkg-config</file> helper utility, which aids
+          other libraries and applications to link against libraries.
         </p>
 
         <p>
-          All GAC library packages should have a pkg-config file located in <file>/usr/lib/pkgconfig</file>.
-          The filename must look like: <file>package-X.Y.pc</file>, notice the versioning in it.
-          The version must reflect the same X.Y version as the package name has.
-          Also there should be a symlink without the version to the latest version, like:
-          <file>package.pc</file> -> <file>package-X.Y.pc</file>
+          All GAC library packages should have a pkg-config <file>.pc</file> file located in <file>/usr/lib/pkgconfig</file>.
+          The filename must be named: <file>package-X.Y.pc</file> including the versioning.
+          The version must reflect the same X.Y version as the package name.
+          There should also be a symlink without the version to the latest version, as follows:
+          from <file>package.pc</file> to <file>package-X.Y.pc</file>
         </p>
       </sect1>
 
@@ -472,22 +489,22 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       <heading>non-GAC Library Packaging</heading>
 
       <p>
-        This includes libraries that are in no way ABI stable, may be not strong-named
-        and are usually in an early stage of development. They must not include a clilibs
-        control file!
+        This includes libraries that are not ABI-stable, may be not
+        strong-named and are usually in an early stage of
+        development. They must not include a clilibs control file.
       </p>
 
       <sect1 id="non-gac-naming">
         <heading>Naming</heading>
 
         <p>
-          The package should be named libfoo-cil (without a version in the package name)
-          and should not be installed into the <qref id="GAC">GAC</qref> but only
+          The package should be named <file>libfoo-cil</file> (without a version in the package name)
+	  and libraries should not be installed into the <qref id="GAC">GAC</qref> but only
           into <file>/usr/lib/packagename</file>.
         </p>
 
         <p>
-          Applications using them must copy the libraries they need into their own
+          Applications using non-GAC libraries must copy the libraries they need into their own
           application directory. You can compare this with static linking of native libraries.
         </p>
       </sect1>      
@@ -496,10 +513,10 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
   
 
   <chapt id="mono">
-    <heading>Mono Specifics</heading>
+    <heading>Mono Specific Packaging help</heading>
     
     <p>
-      This section will offer workarounds to common problems encountered when
+      This section offers help with common problems encountered when
       packaging Mono-specific applications for Debian.
     </p>
     <sect>
@@ -507,10 +524,10 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       
       <p>
         The official name of the Mono Project is: Mono, mono:: or mono.
-        To keep it unified (more transparent to the user) it should be <em>always
-        </em> called "Mono", not MONO, not mono, not mono:: even no
-        mixing with .NET in it. The explanation of Mono goes into the package
-        <em>long</em> description.
+        To keep this consistent for users, it should
+	<em>always</em> be called "Mono" (not MONO, mono, mono:: or mixed
+        with the .NET name). The explanation of what Mono is, should be in
+	the package <em>long</em> description.
       </p>
     </sect>
 
@@ -521,7 +538,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         Often times, upstream software developers are not
         packagers, and vice versa. Developers do not necessarily test their
         software with packaging issues in mind. The most common problem we
-        see from this are missing dll exceptions.
+        see from this are missing DLL exceptions.
       </p>
 
       <sect1 id="dll-maps-intro">
@@ -529,40 +546,44 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         
         <p>
           When Mono code invokes an external library, it usually calls
-          something like [DllImport("foo")]. "foo" is expanded to libfoo.so, and
-          searched for in your library path.
+          something like [DllImport("foo")] which expands "foo" to
+	  a shared library name such as "libfoo.so" which is then
+          searched for in the library search path.
         </p>
 
         <p>
-          In Debian and some other binary Linux distributions, packages are
-          split into runtime and -dev packages. Since the versioned library
-          libfoo.so.X is usually used at runtime, and .so is a symlink only used
-          at build time, .so is moved to the -dev package.
+          In Debian and some other binary Linux distributions,
+          packages are split into runtime and developer (-dev)
+          packages. Since the versioned library libfoo.so.X is
+          usually used at runtime, and libfoo.so is a symlink only
+          used when building against the library, the libfoo.so
+          symlink is in the libfoo-dev package.
         </p>
 
         <p>
-          When packaging an application which uses libfoo, we don't want
-          normal users to need to need the -dev packages just to run the
-          application. As you saw above, however, Mono defaults to looking for
-          the unversioned .so, which is unavailable in the runtime packages.
+          When packaging an application which uses libfoo.so normal
+          users should not need the -dev packages installed just to
+          run the application.  However, Mono defaults to looking for
+          the unversioned libfoo.so, which is unavailable in the
+          runtime package.
         </p>
 
         <p>
-          When the dll map is missing or upstream forgot the dllmap, it will
-          result in a <url id="http://www.mono-project.com/DllNotFoundException"
-          name="DllNotFoundException">. This will stop the execution of the
-          program.
+          When the DLL map is missing or upstream forgets to install
+          the DLL map, it will result in a
+	  <url id="http://www.mono-project.com/DllNotFoundException" name="DllNotFoundException">
+	  which will stop the execution of the program.
         </p>
       </sect1>
       
       <sect1>
-        <heading>Solution</heading>
+        <heading>Solution: DLL map config file</heading>
           
         <p>
-          We can fix this by creating a dll map to the exe or dll that is
-          trying to invoke libfoo.
-          If libfoo is invoked by the dll bar.dll, we will create an xml file,
-          bar.dll.config to tell Mono which .so we really want to load at runtime.
+          This can be fixed by creating a DLL map for the application exe or
+	  for the library DLL that is trying to invoke libfoo.so.
+          If libfoo.so is invoked by the DLL bar.dll, create an xml file,
+          bar.dll.config to tell Mono which .so should be loaded at runtime.
           bar.dll.config should be installed to the same directory as bar.dll.
         </p>
 
@@ -598,10 +619,9 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       </p>
       
       <p>
-        Here comes 2 problems with it:
+        There are 2 problems with this:
         <list>
-          <item>In an autobuilder environment often does no home directory
-          exist.</item>
+          <item>In an autobuilder environment often the running user has no home directory.</item>
           <item>Mono uses the wrong home directory when running within fakeroot
           (it tries <file>/root/.wapi</file> instead of <file>$HOME/.wapi
           </file>).</item>
@@ -609,29 +629,33 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       </p>
       
       <p>
-        Means when you don't set MONO_SHARED_DIR explicitly, the package
-        building will fail! Applications will either hang, die with strange Mono
-        runtime errors or segfault (for instance dh_clideps or dh_makeclideps,
-        they use monodis).
-        So change the MONO_SHARED_DIR by calling
+        In these cases, the package building will fail, applications
+        will hang, die with strange Mono runtime errors or segfault.
+        This includes dh_clideps or dh_makeclideps, since they run
+        monodis.
+     </p>
+
+     <p>
+        The solution is to set the MONO_SHARED_DIR environment variable
+	to a custom directory in the debian/rules file:
         <example>
         export MONO_SHARED_DIR=$(CURDIR)
         </example>
-        in the debian/rules file.
       </p>
       <p>
-        The clean target should later remove $(MONO_SHARED_DIR)/.wapi.
-        For more information what this .wapi directory is used for, please take
-        a look at <manref name="mono" section="1">.
+        The clean target should later remove the $(MONO_SHARED_DIR)/.wapi
+	directory.
+        For more information on what this .wapi directory is used for, please
+        see <manref name="mono" section="1">.
       </p>
     </sect>
   </chapt>
 
   <chapt id="pnet">
-    <heading>DotGNU Portable.NET Specifics</heading>
+    <heading>DotGNU Portable.NET Packaging help</heading>
     
     <p>
-      This section will offer workarounds to common problems encountered when
+      This section offers help to common problems encountered when
       packaging DotGNU Portable.NET-specific applications for Debian.
     </p>
     <sect>
@@ -639,10 +663,10 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       
       <p>
         The official name of the DotGNU Portable.NET project is exactly that.
-        To keep it unified (more transparent to the user) it should be <em>always
-        </em> called "DotGNU Portable.NET", not pnet, not Portable.NET.
-        The explanation of DotGNU Portable.NET goes into the package
-        <em>long</em> description.
+        To keep this consistent for users, it should be <em>always
+        </em> called "DotGNU Portable.NET" (not pnet or Portable.NET).
+        The explanation of what DotGNU Portable.NET is, should be in
+	the package <em>long</em> description.
       </p>
     </sect>
   </chapt>
@@ -653,26 +677,26 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       <heading>Helper Scripts: cli-common-dev</heading>
       <p>
         When using cli-common-dev and the included dh_* scripts packages must
-        build-depend on <package>cli-common-dev</package> (&gt;= 0.4.0)
+        Build-Depends on <package>cli-common-dev</package> (&gt;= 0.4.0)
         (this version may change later, when cli-common-dev has changes which
         are required to be used by all CLI packages, the CLI Policy version will
-        represent such change).
+        represent such changes).
       </p>
       <sect1 id="dh_makeclilibs">
         <heading>dh_makeclilibs</heading>
         <p>
           dh_makeclilibs is used to create the <qref id="clilibs-control-file">clilibs
-          control files</qref> which are used later by dh_clideps for this or other
+          control files</qref> which are used later by <file>dh_clideps</file> for this or other
           packages. It must only be used when your package contains libraries
           that other packages may link against.
         </p>
         <p>
-          It has the same use (and very similar) parameters as dh_makeshlibs. You
-          should always use a as loose minimal version as possible and a as strict
-          minimal version as necessary.
+          It has the same use (and very similar parameters) to
+          <file>dh_makeshlibs</file>. You should always use the
+          most minimal version necessary.
         </p>
         <p>
-          <em>It must be called before dh_clideps.</em>
+          <em>This program must be called before <file>dh_clideps</file>.</em>
         </p>
         
         <p>
@@ -682,22 +706,26 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       <sect1 id="dh_clideps">
         <heading>dh_clideps</heading>
         <p>
-          dh_clideps is used to get the native and managed dependencies
+          <file>dh_clideps</file> is used to discover the native and managed dependencies
           of the packages. It uses the <qref id="clilibs-control-file">clilibs
-          control files</qref>, the .config of the assemblies and the shlibs
-          files created by dh_makeshlibs. The dependencies are put into ${cli:Depends}.
+          control files</qref>, the <file>.config</file> of assemblies and the <file>shlibs</file>
+          files created by <file>dh_makeshlibs</file>. The discovered dependencies are written into the ${cli:Depends} variable.
         </p>
 
         <p>
-          <em>Be sure to run dh_shlibdeps before dh_clideps is called. Also run dh_makeshlibs
-          and dh_makeclilibs before dh_clideps!</em> Otherwise, if two binary packages from
-          the same source package depend on one another, dh_clideps will not be able to
-          determine depedencies.
+          <em><file>dh_shlibdeps</file> must be run before
+          <file>dh_clideps</file>.  <file>dh_makeshlibs</file> and
+          <file>dh_makeclilibs</file> must be run before
+          <file>dh_clideps</file></em>. If not, when two binary
+          packages from the same source package depend on one
+          another, <file>dh_clideps</file> will not be able to
+          determine the dependencies.
         </p>
         
         <p>
-          dh_clideps can remove duplicates created by running dh_clideps and dh_shlibsdeps
-          by using the -d parameter.
+          <file>dh_clideps</file> can remove duplicate dependencies
+          created by running <file>dh_clideps</file> and
+          <file>dh_shlibsdeps</fiel> when run given the -d parameter.
         </p>
         
         <p>
@@ -779,7 +807,7 @@ exec /usr/bin/cli /usr/lib/package/package.exe "$@"
       <heading>Late installation into the GAC</heading>
 
       <p>
-        This is on purpose in the Appendix and with that not part of the policy (yet)!
+        This section is on purpose in the Appendix and not part of the policy (yet)!
       </p>
 
       <p>
@@ -813,7 +841,7 @@ exec /usr/bin/cli /usr/lib/package/package.exe "$@"
 
       <p>
         Also, be sure to replace references to dh_netdepends, dh_makenetlibs, and
-        ${net:Depends} with the CLI functions detailed above.
+        ${net:Depends} with the newer names described in the policy above.
       </p>
 
       <p>
@@ -826,12 +854,11 @@ exec /usr/bin/cli /usr/lib/package/package.exe "$@"
       </p>
     
       <p>
-        Do not use the cli-wrapper (<file>/usr/bin/cli-wrapper</file>) anymore.
-        It is deprecated and will be removed soon! Either use the upstream shell
+        Do not use cli-wrapper (<file>/usr/bin/cli-wrapper</file>).
+        It is deprecated and will be removed soon!
+	Either use the upstream shell
         script to invoke the application or write one, which calls
-        <file>/usr/bin/mono</file> or <file>/usr/bin/cli</file> (if it runs also
-        on other CLRs like <url id="http://www.southern-storm.com.au/portable_net.html"
-        name="Portable.NET">).
+        <file>/usr/bin/cli</file>
       </p>
     </sect>
   </chapt>

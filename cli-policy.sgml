@@ -725,7 +725,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <p>
           <file>dh_clideps</file> can remove duplicate dependencies
           created by running <file>dh_clideps</file> and
-          <file>dh_shlibsdeps</fiel> when run given the -d parameter.
+          <file>dh_shlibsdeps</file> when run given the -d parameter.
         </p>
         
         <p>

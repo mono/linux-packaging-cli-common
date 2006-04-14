@@ -12,8 +12,12 @@
     <email>brandon@smarterits.com</email>
   </author>
   <author>
-    <name>Sebastian Dröge</name>
+    <name>Sebastian DrÃ¶ge</name>
     <email>slomo@ubuntu.com</email>
+  </author>
+  <author>
+    <name>Dylan R. E. Moonfire</name>
+    <email>debian@mfgames.com</email>
   </author>
   
   <version>
@@ -27,7 +31,8 @@
 
   <copyright>
     <copyrightsummary>
-      Copyright &copy; 2005-2006 Mirco Bauer, Brandon Hale and Sebastian Dröge.
+      Copyright &copy; 2005-2006 Mirco Bauer, Brandon Hale, Sebastian
+      DrÃ¶ge and Dylan R. E. Moonfire.
     </copyrightsummary>
     
     <p>This manual is free software; you may redistribute it and/or modify it
@@ -60,7 +65,8 @@
         <item><ref id="build-deps">: Added nemerle to the compilers.</item>
         <item><ref id="packaging">: Added a packaging chapter that includes some of the old chapter and some new.</item>
         <item><ref id="gac-library-packaging">: Added informations about signing and policy files.</item>
-        <item><ref id="dh_installcligac">: Added stub for the new dh_installcligac script. Must be filled with content soon.</item>
+        <item><ref id="dh_installcligac">: Added and consolidated the
+	information on <file>dh_installcligac</file>.</item>
         <item><ref id="file-locations">: Require that files are installed into <file>/usr/lib/package</file> or <file>/usr/lib/cli/package-X.Y</file> now.</item>
       </list>
     </p>    
@@ -700,7 +706,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
         
         <p>
-          See <manref name="dh_makeclilibs" section="1"> for details
+          See <manref name="dh_makeclilibs" section="1"> for details.
         </p>
       </sect1>
       <sect1 id="dh_clideps">
@@ -729,12 +735,45 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
         
         <p>
-          See <manref name="dh_clideps" section="1"> for details
+          See <manref name="dh_clideps" section="1"> for details.
         </p>
       </sect1>
       <sect1 id="dh_installcligac">
         <heading>dh_installcligac</heading>
-        <p>TODO</p>
+
+	<p><file>dh_installcligac</file> is used to facilitate the
+	installation of strong-named assemblies into the various
+	caches installed on the user's machine. Its primary purpose is
+	to install the assemblies at the point of installation instead
+	of pre-packing them inside the Debian package; this is also
+	known as late-GAC install.</p>
+
+	<p>To identify which assemblies need to be installed into the
+	GAC, <file>dh_installcligac</file> uses the
+	<file>debian/installcligac</file> or the
+	<file>debian/packagename.installcligac</file> to list the
+	assemblies to install or uninstall at installation or removal
+	respectivly.</p>
+
+	<p>The file format of the <file>installcligac</file> is
+	simple: the full installed path of every assembly to install
+	into the <qref id="GAC">GAC</qref>. For example, the
+	liblog4net1.2-cil package would have this in the
+	<file>debian/installcligac</file> file:
+	
+	<example>/usr/lib/cli/log4net-1.2/log4net.dll</example>
+	</p>
+
+	<p>As a note, the use of <file>dh_installcligac</file> is not
+	required by the current policy, but may become so in later
+	versions. It is primarily intended to make it easier to
+	install assemblies and to allow more than one CLR co-exist at
+	the same time.</p>
+
+	<p><file>dh_installcligac</file> needs to be called after
+	<file>dh_install</file> and before <file>dh_makeclilibs</file>
+	and <file>dh_clideps</file>. See <manref
+	name="dh_installcligac" section="1"> for details.</p>
       </sect1>
     </sect>
 
@@ -845,25 +884,6 @@ gacutil /i policy.1.2.foo.dll
           with.
         </p>
       </sect1>
-    </sect>
-
-    <sect id="gac-late-installation">
-      <heading>Late installation into the GAC</heading>
-
-      <p>
-        This section is on purpose in the Appendix and not part of the policy (yet)!
-      </p>
-
-      <p>
-        For the actual installing into the <qref id="GAC">GAC</qref> see
-        <qref id="dh_installcligac">dh_installcligac</qref> and <manref name="gacutil" section="1">.
-      </p>
-        
-      <p>
-        You should never (except in special cases, like CLRs) install files directly into the <qref id="GAC">GAC</qref>
-        but leave it to the postinst and prerm scripts to install the libraries into all available
-        <qref id="GAC">GACs</qref>.
-      </p>
     </sect>
 
     <sect id="migrating">

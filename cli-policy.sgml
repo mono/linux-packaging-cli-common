@@ -802,10 +802,10 @@ Assembly Name:          ICSharpCode.SharpZipLib
 Missing Interfaces:     44
 Additional Interfaces:  79
 
-The two assemblies you compared are <strong>not</strong> API compatible!
-You <em>must</em> use a new package name!
+The two assemblies you compared are not API compatible!
+You must use a new package name!
 
-The new assembly has additional interfaces. You <em>must</em> raise
+The new assembly has additional interfaces. You must raise
 the minimal version in clilibs!
           </example>
           The mono-api-check wrapper script checks whether there are new public/protected interfaces (where interface

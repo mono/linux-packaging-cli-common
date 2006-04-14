@@ -50,9 +50,9 @@ variable shlib:Depends from debian/package.substvars.
 
 =item B<-r>
 
-Don't set a strong versioned dependency on mono-jit or other CLR packages.
-This option can be used to specify a relaxed dependency on the VM
-by-hand in the control file, eg. "mono-jit | cli-virtual-machine".
+Don't set a strong versioned dependency on mono-runtime or other CLR packages.
+This option can be used to specify a relaxed dependency on the VM/CLR
+by-hand in the control file, eg. "mono-runtime | cli-runtime".
 
 =item B<internal-mono>                             
 
@@ -238,11 +238,11 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     if (!defined($dh{R_FLAG}) && $found_exe) {
         if ($clr eq "mono") {
           if ($needs_net_2_0) {
-            $deps = "mono-jit (>= 1.1.8.1-1)";
+            $deps = "mono-runtime (>= 1.1.8.1)";
           } elsif ($needs_net_1_0) {
-            $deps = "mono-jit (>= 1.0)";
+            $deps = "mono-runtime (>= 1.0)";
           } else {
-            $deps = "mono-jit (>= $cli_version)";
+            $deps = "mono-runtime (>= $cli_version)";
           }
         } elsif ($clr eq "pnet") {
           $deps = "pnet-interpreter (>= $cli_version)";

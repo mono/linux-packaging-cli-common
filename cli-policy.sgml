@@ -792,14 +792,58 @@ exec /usr/bin/cli /usr/lib/package/package.exe "$@"
 
       <sect1 id="api-compat-example">
         <heading>API Compatibility Check Example</heading>
+        <p>
+          You must have the mono-mcs, libmono-sharpzip0.6-cil and libmono-sharpzip0.84-cil packages installed for this.
+          <example>
+mono-api-check /usr/lib/mono/gac/ICSharpCode.SharpZipLib/0.6.0.0__1b03e6acf1164f73/ICSharpCode.SharpZipLib.dll \
+   /usr/lib/mono/gac/ICSharpCode.SharpZipLib/0.84.0.0__1b03e6acf1164f73/ICSharpCode.SharpZipLib.dll
+CLI API Check
+Assembly Name:          ICSharpCode.SharpZipLib
+Missing Interfaces:     44
+Additional Interfaces:  79
 
-        <p>TODO</p>
+The two assemblies you compared are NOT API compatible!
+You must use a new package name!
+
+The new assembly has additional interfaces. You must raise
+the minimal version in clilibs!
+          </example>
+          The mono-api-check wrapper script checks whether there are new public/protected interfaces (where interface
+          in this context means namespace, class, method, interface, delegate, etc) or any missing ones. When an interface
+          is changed it will show up as missing and additional. You should follow the instructions, in this case you must
+          create a new versioned package for the library and raise the minimal version number for the
+          <qref id="dh_makeclilibs">dh_makeclilibs</qref> call.
+        </p>
       </sect1>
 
       <sect1 id="gac-policy-file-example">
         <heading>GAC Policy File Example</heading>
-
-        <p>TODO</p>
+        <p>
+		  <example>
+&lt;configuration&gt;
+   &lt;runtime&gt;
+      &lt;assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1"&gt;
+       &lt;dependentAssembly&gt;
+         &lt;assemblyIdentity name="foo" publicKeyToken="35e10195dab3c99f" /&gt;
+         &lt;bindingRedirect oldVersion="1.2.0.0-1.2.10.0" newVersion="1.3.0.0"/&gt;
+	   &lt;/dependentAssembly&gt;
+      &lt;/assemblyBinding&gt;
+   &lt;/runtime&gt;
+&lt;/configuration&gt;
+		  </example>
+          The above example would be used for a policy file for the "foo" assembly and would tell
+          the <qref id="GAC">GAC</qref> that version 1.3.0.0 is compatible with versions 1.2.0.0 to 1.2.10.0.
+          You have to compile and install it with
+          <example>
+al -link:policy.foo.1.2.config -out:policy.1.2.foo.dll -keyfile:path/to/keyfile
+gacutil /i policy.1.2.foo.dll
+          </example>
+		</p>
+        <p>
+          Keep in mind that the filenames MUST be policy.foo.X.Y.config and policy.foo.X.Y.dll where
+          foo is the assembly name and X.Y is the major and minor version number you want to be compatible
+          with.
+        </p>
       </sect1>
     </sect>
 

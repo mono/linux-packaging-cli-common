@@ -98,7 +98,7 @@
     </p>
   </chapt>
   
-  <chapt>
+  <chapt id="terms">
     <heading>Used Terms</heading>
     
     <p>
@@ -386,7 +386,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
         
         <p>
-          If the upstream package does not use major and minor
+          If the upstream software does not use major and minor
           number to reflect ABI stability or breaks ABI with a change
           in build or revision, the package <em>must</em> be renamed to either
           <package>libfooA.B.C-cil</package> or
@@ -394,20 +394,20 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
 	  (where A, B, C, D are the complete assembly version numbers),
 	  depending at which point (major or minor) where the breakage occurred.
 	  All <qref id="gac-policy-files">Policy Files </qref>
-	  must be dropped at this stage until a new major or minor
+	  <em>must</em> be dropped at this stage until a new major or minor
           version is released.
         </p>
         
         <p>
-          The upstream package may use wildcards in the assembly versions (1.2.* for example) which
-          are filled by the compiler with a random value. You <em>MUST</em> replace these wildcards
+          The upstream software may use wildcards in the assembly versions (1.2.* for example) which
+          are filled by the compiler with a random value. You <em>must</em> replace these wildcards
           with 0 (1.2.0.0 in the example) to make it possible to use
           <qref id="gac-policy-files">Policy Files</qref> and make predictable version numbers.
         </p>
         
         <p>
           More than one library can be installed in one package but
-          it is required that they <em>MUST</em> all have the same
+          it is required that they <em>must</em> all have the same
           version and belong together.
         </p>
       </sect1>
@@ -424,7 +424,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           id="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconcreatingpublisherpolicyfile.asp"
           name="Policy Files">. These files have to be named <file>policy.X.Y.foo.dll</file> (where X and Y
           are the major and minor number of the assembly it should be compatible with),
-          it must be signed with the same signing key as the original assembly and it must be installed
+          it <em>must</em> be signed with the same signing key as the original assembly and it must be installed
           into the <qref id="GAC">GAC</qref>. For information on how to create policy files
           look at the previous Policy Files link or at the <qref id="gac-policy-file-example">example</qref>
           below.
@@ -467,9 +467,9 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
 
         <p>
           All GAC library packages should have a pkg-config <file>.pc</file> file located in <file>/usr/lib/pkgconfig</file>.
-          The filename must be named: <file>package-X.Y.pc</file> including the versioning.
-          The version must reflect the same X.Y version as the package name.
-          There should also be a symlink without the version to the latest version, as follows:
+          The filename <em>must</em> be named: <file>package-X.Y.pc</file> including the versioning.
+          The version <em>must</em> reflect the same X.Y version as the package name.
+          There <em>should</em> also be a symlink without the version to the latest version, as follows:
           from <file>package.pc</file> to <file>package-X.Y.pc</file>
         </p>
       </sect1>
@@ -480,7 +480,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           When installing libraries into the <qref id="GAC">GAC</qref> signing
           is required. The signing key can either be supplied by upstream or you
           have to create your own one using the <file>sn</file> utility. This
-          must be put into your source package and used for all following versions of the library.
+          <em>must</em> be put into your source package and used for all following versions of the library.
         </p>
       </sect1>
     </sect>
@@ -491,7 +491,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
       <p>
         This includes libraries that are not ABI-stable, may be not
         strong-named and are usually in an early stage of
-        development. They must not include a clilibs control file.
+        development. They <em>must</em> not include a clilibs control file.
       </p>
 
       <sect1 id="non-gac-naming">
@@ -504,7 +504,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
 
         <p>
-          Applications using non-GAC libraries must copy the libraries they need into their own
+          Applications using non-GAC libraries <em>must</em> copy the libraries they need into their own
           application directory. You can compare this with static linking of native libraries.
         </p>
       </sect1>      
@@ -676,7 +676,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
     <sect id="cli-common-dev">
       <heading>Helper Scripts: cli-common-dev</heading>
       <p>
-        When using cli-common-dev and the included dh_* scripts packages must
+        When using cli-common-dev and the included dh_* scripts packages <em>must</em>
         Build-Depends on <package>cli-common-dev</package> (&gt;= 0.4.0)
         (this version may change later, when cli-common-dev has changes which
         are required to be used by all CLI packages, the CLI Policy version will
@@ -687,7 +687,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <p>
           dh_makeclilibs is used to create the <qref id="clilibs-control-file">clilibs
           control files</qref> which are used later by <file>dh_clideps</file> for this or other
-          packages. It must only be used when your package contains libraries
+          packages. It <em>must</em> only be used when your package contains libraries
           that other packages may link against.
         </p>
         <p>
@@ -696,7 +696,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           most minimal version necessary.
         </p>
         <p>
-          <em>This program must be called before <file>dh_clideps</file>.</em>
+          <em>This program <em>must</em> be called before <file>dh_clideps</file>.</em>
         </p>
         
         <p>
@@ -793,7 +793,7 @@ exec /usr/bin/cli /usr/lib/package/package.exe "$@"
       <sect1 id="api-compat-example">
         <heading>API Compatibility Check Example</heading>
         <p>
-          You must have the mono-mcs, libmono-sharpzip0.6-cil and libmono-sharpzip0.84-cil packages installed for this.
+          You need to install following packages for this example: mono-mcs libmono-sharpzip0.6-cil libmono-sharpzip0.84-cil
           <example>
 mono-api-check /usr/lib/mono/gac/ICSharpCode.SharpZipLib/0.6.0.0__1b03e6acf1164f73/ICSharpCode.SharpZipLib.dll \
    /usr/lib/mono/gac/ICSharpCode.SharpZipLib/0.84.0.0__1b03e6acf1164f73/ICSharpCode.SharpZipLib.dll
@@ -802,10 +802,10 @@ Assembly Name:          ICSharpCode.SharpZipLib
 Missing Interfaces:     44
 Additional Interfaces:  79
 
-The two assemblies you compared are NOT API compatible!
-You must use a new package name!
+The two assemblies you compared are <strong>not</strong> API compatible!
+You <em>must</em> use a new package name!
 
-The new assembly has additional interfaces. You must raise
+The new assembly has additional interfaces. You <em>must</em> raise
 the minimal version in clilibs!
           </example>
           The mono-api-check wrapper script checks whether there are new public/protected interfaces (where interface
@@ -840,7 +840,7 @@ gacutil /i policy.1.2.foo.dll
           </example>
 		</p>
         <p>
-          Keep in mind that the filenames <strong>must</strong> be policy.foo.X.Y.config and policy.foo.X.Y.dll where
+          Keep in mind that the filenames <em>must</em> be policy.foo.X.Y.config and policy.foo.X.Y.dll where
           foo is the assembly name and X.Y is the major and minor version number you want to be compatible
           with.
         </p>

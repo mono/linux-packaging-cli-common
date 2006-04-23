@@ -21,7 +21,7 @@
   </author>
   
   <version>
-    Version 0.4.0
+    Version 0.4.1
   </version>
 
   <abstract>
@@ -59,6 +59,13 @@
     
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
+    <p>
+      Changes from 0.4.0 to 0.4.1:
+      <list>
+        <item><ref id="debhelper-example">: Fixed typo.</item>
+      </list>
+    </p>    
+
     <p>
       Changes from 0.3.0 to 0.4.0:
       <list>
@@ -789,9 +796,10 @@ binary-arch: build install
 	dh_shlibdeps -a
 	dh_makeclilibs -a -V
 	dh_clideps -a -d
-	dh_installgac -a
+	dh_installcligac -a
 	...
           </example>
+
           For binary-indep packages:
           <example>
 binary-indep: build install

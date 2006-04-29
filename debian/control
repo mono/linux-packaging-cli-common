@@ -26,7 +26,7 @@ Description: common files between all CLI (.NET) packages
 
 Package: cli-common-dev
 Architecture: all
-Replaces: cli-commmon (<< 0.4.0)
+Replaces: cli-common (<< 0.4.0)
 Depends: debhelper (>= 5.0.0), mono-utils | cil-disassembler, mono-mcs | strong-name-tool
 Description: common files for building CLI (.NET) packages
  This package must be installed if a CLI (Common Language Infrastructure)/.NET

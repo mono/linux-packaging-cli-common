@@ -1,3 +1,11 @@
+cli-common (0.4.1) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + debian/control:
+      - Fixed replaces of cli-common-dev.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sat, 29 Apr 2006 22:29:38 +0200
+
 cli-common (0.4.0) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

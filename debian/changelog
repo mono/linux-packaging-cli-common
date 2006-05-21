@@ -1,3 +1,11 @@
+cli-common (0.4.2) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + Renamed debian/cli-common-dev.manapges to debian/cli-common-dev.manpages
+      (caused missing manpages, Closes: #368212)
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 21 May 2006 13:29:13 +0200
+
 cli-common (0.4.1) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

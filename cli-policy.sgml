@@ -895,7 +895,7 @@ gacutil /i policy.1.2.foo.dll
 		</p>
         <p>
           Keep in mind that the filenames <em>must</em> be
-          policy.foo.X.Y.config and policy.X.Y.foo.dll where
+          policy.X.Y.foo.config and policy.X.Y.foo.dll where
           foo is the assembly name and X.Y is the major and minor version
           number you want to be compatible with.
         </p>

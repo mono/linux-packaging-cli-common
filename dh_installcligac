@@ -51,6 +51,18 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 	my $cligac = pkgfile($package, "installcligac");
 
 	if ($cligac ne '') {
+		# sanity check: do all files listed in the installcligac file exist?
+		open CLIGAC, "<$cligac" or
+			die "E: Can't open $cligac\n";
+		while (<CLIGAC>)
+		{
+			chomp;
+			if (! -f "$tmp$_") {
+				die "E: Can't find file $tmp$_!\n";
+			}
+		}
+		close CLIGAC;
+
 		if (! -d "$tmp/usr/share/cli-common/packages.d") {
 			doit("install","-d","$tmp/usr/share/cli-common/packages.d");
 		}

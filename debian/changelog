@@ -2,6 +2,12 @@ cli-common (0.4.3) unstable; urgency=low
 
   * Sebastian 'slomo' Dröge:
     + Fix file naming of the policy files in the CLI policy
+    + dh_installcligac:
+      - Do some sanity checking whether the files listed in the installcligac
+        files really exist. Otherwise fail.
+    + gac-package-install:
+      - Fail at install time if a file listed in the installcligac file does
+        not exist. (Closes: #366451)
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Wed, 28 Jun 2006 12:33:24 +0200
 

@@ -61,7 +61,7 @@ while (<INPUT>)
     if (! -f $dll)
     {
 	print STDERR "! Assembly $dll does not exist, ignoring\n";
-	next;
+	exit 3;
     }
 
     push @dlls, $dll;

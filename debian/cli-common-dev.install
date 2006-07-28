@@ -5,3 +5,8 @@ dh_installcligac	/usr/bin/
 dh_clifixperms		/usr/bin/
 postinst-cligac		/usr/share/debhelper/autoscripts/
 prerm-cligac		/usr/share/debhelper/autoscripts/
+
+dh_createclipolicy	/usr/bin/
+policy-install		/usr/share/cli-common/
+postinst-clipolicy	/usr/share/debhelper/autoscripts/
+postrm-clipolicy        /usr/share/debhelper/autoscripts/

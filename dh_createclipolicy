@@ -1,0 +1,288 @@
+#!/usr/bin/perl -w
+
+=head1 NAME
+
+dh_createclipolicy - created the CLI policy files for a package
+
+=cut
+
+use strict;
+use Debian::Debhelper::Dh_Lib;
+
+=head1 SYNOPSIS
+
+B<dh_createclipolicy> [S<I<debhelper options>>] [B<-n>]
+
+=head1 DESCRIPTION
+
+dh_createclipolicy is a debhelper program that is responsible for
+creating, compiling, and installing policy files for a Debian package.
+This automatically includes postinst and prerum commands needed to
+install these policies into the system.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-n>, B<--noscripts>
+
+Do not modify postinst/prerm scripts.
+
+=head1 FILE FORMAT
+
+This file uses the I<policyassemblies> files (either
+I<policyassemblies> or I<packagename.policyassemblies>) to generate
+the policy file. It supports multiple versions of the policy,
+including mapping multiple versions to a single file.
+
+The file format of the I<policyassemblies> file is:
+
+path/to/Assembly.dll  <Version Range>  <Key File>
+
+The fields can be separated with spaces or tabs. Comments start the
+line with I<#> characters.
+
+=over 4
+
+=item B<Version Range> can be a single four-part version, such as
+=1.2.3.4, or a full range, such as 1.2.3.4-1.2.6.7. For a single line,
+=the first two numbers must be identical. To have an assembly apply to
+=multiple versions, such as 1.2.0.0 to 2.4.0.0, there needs to be one
+=line for each version range.
+
+=item B<Key File>: The path to the .snk or key file used to sign the
+=assembly. Policy files have to be compiled with the same key, so this
+=is required.
+
+=back
+
+=head1 NOTES
+
+Note that this command is not idempotent. "dh_clean -k" should be called
+between invocations of this command. Otherwise, it may cause multiple
+instances of the same text to be added to maintainer scripts.
+
+=cut
+
+# Set up debhelper
+init();
+
+# Go through each of the packages being built
+my $errors = 0;
+
+foreach my $package (@{$dh{DOPACKAGES}})
+{
+    # Set up our internal variables
+    my $tmp = tmpdir($package);
+    my $policy = pkgfile($package, "policyassemblies");
+    my %policies = ();
+    
+    # If $policy is blank, then there is no file
+    next if $policy eq "";
+
+    # Load the policy file into memory.
+    my ($keyfile, $pkg_tmp, $cli_dir, $token, $priority);
+    open POLICY, "<$policy" or die "E: Can't open $policy ($!)";
+
+    while (<POLICY>)
+    {
+	# Clean up the line and ignore blanks and comments
+	chomp;
+	s/^\s+//;
+	s/\s+$//;
+	next if /^\#/;
+	next if /^$/;
+
+	# Check for variables
+	if (/^([\w_]+)\s*=\s*(.*)\s*$/)
+	{
+	    # Do additional checking
+	    if ($1 eq "KEYFILE")
+	    {
+		# Make sure the key file exists
+		if (! -f $2)
+		{
+		    $errors = 1;
+		    print STDERR "E: $package $.: Cannot find key $2\n";
+		    next;
+		}
+
+		# Save it
+		$keyfile = $2;
+
+		# Parse the keyfile for some additional information
+		my $cmd = "/usr/bin/cli-sn -t $keyfile | grep 'Public Key' "
+		    . "| cut -f 2- -d :";
+		$token = `$cmd`;
+		$token =~ s/^\s*(.*?)\s*$/$1/sg;
+	    }
+	    elsif ($1 eq "CLI_DIR")
+	    {
+		# Make sure the directory exists
+		if (! -d "$tmp/usr/lib/cli/$2")
+		{
+		    $errors = 1;
+		    print STDERR "E: $package $.: Cannot find CLI directory: "
+			. "$2\n";
+		    next;
+		}
+
+		# Set the directory
+		$cli_dir = $2;
+		$pkg_tmp = "$tmp/usr/lib/cli/$cli_dir";
+	    }
+	    elsif ($1 eq "PRIORITY")
+	    {
+		$priority = $2;
+	    }
+
+	    # Finish up
+	    next;
+	}
+
+	# Otherwise, the line is in three parts: assembly, versions to
+	# map, the version to use. This allows a file to contain
+	# mappings for files outside of this specific package (like
+	# breaking A.B.C compatibility.
+	my ($assembly, $map, $version) = split(/\s+/);
+
+	# Verify the fields
+	my $version_map;
+
+	if (! -f "$pkg_tmp/$assembly.dll")
+	{
+	    $errors = 1;
+	    print STDERR "E: $package $.: Cannot find assembly: "
+		. "$assembly.dll in $pkg_tmp\n";
+	    next;
+	}
+
+	if ($map =~ /^(\d+\.\d+)\.\d+\.\d+$/)
+	{
+	    $version_map = $1;
+	}
+	else
+	{
+	    if ($map =~ /^(\d+\.\d+)\.\d+\.\d+-(\d+\.\d+)\.\d+\.\d+$/)
+	    {
+		if ($1 ne $2)
+		{
+		    $errors = 1;
+		    print STDERR "E: $package $.: Version ranges ($map) must "
+			. "have the first two digits of the version the same. "
+			. "Use two different lines for this line.\n";
+		    next;
+		}
+
+		$version_map = $1;
+	    }
+	    else
+	    {
+		$errors = 1;
+		print STDERR "E: $package $.: The version field ($map) "
+		    . "must be in the following format: "
+		    . "'A.B.C.D' or 'A.B.C.D-E.F.G.H'\n";
+		next;
+	    }
+	}
+
+	# We have now gathered up everything we need. We use a hash to
+	# consolidate all the various bindings into the unique
+	# combinations of policy files we need.
+	my $pk = "$assembly--$version_map--$keyfile--$cli_dir";
+
+ 	$policies{$pk} .=
+ 	    join("\n",
+ 		 '<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">',
+ 		 '  <dependentAssembly>',
+ 		 "    <assemblyIdentity name=\"$assembly\" "
+		 . "publicKeyToken=\"$token\"/>",
+ 		 "      <bindingRedirect oldVersion="
+ 		 . "\"$map\" newVersion=\"$version\"/>",
+ 		 "  </dependentAssembly>",
+ 		 "</assemblyBinding>");
+    }
+
+    close POLICY;
+
+    # Make sure the policies.d directory exists
+    if (! -d "$tmp/usr/share/cli-common/policies.d") {
+	doit("install","-d","$tmp/usr/share/cli-common/policies.d");
+    }
+
+    # Once all the various <assemblyBinding> tags are consolidated, we
+    # then generate the policy files. This will result in one policy file for
+    # a given assembly, key file, and A.B version.
+    foreach my $pk (keys %policies)
+    {
+	# Get the pkg_dir
+	my ($assembly, $version_map, $keyfile, $cli_dir) = split(/--/, $pk);
+	my $pkg_dir = "$tmp/usr/lib/cli/$cli_dir";
+	my $policy_file = "$version_map.$assembly";
+
+	# Open the policy file chooser
+	open CHOOSER, ">$tmp/usr/share/cli-common/policies.d/"
+	    . sprintf("%03d-%s.%s", $priority, $version_map, $assembly);
+	print CHOOSER "/usr/lib/cli/$cli_dir/policy.$policy_file.dll\n";
+	close CHOOSER;
+
+	# Open up the file
+	unless (open PF, ">$pkg_dir/policy.$policy_file.config")
+	{
+	    $errors = 1;
+	    print STDERR "E: $package: Cannot write $policy_file.config";
+	    next;
+	}
+
+	# Write out the policy file
+	print PF "<configuration>\n<runtime>\n";
+	print PF $policies{$pk};
+	print PF "</runtime>\n</configuration>\n";
+	close PF;
+
+ 	# Compile the assembly file. We have to change directory first
+ 	# because of AL limitation.
+ 	system("cd $pkg_dir/ && /usr/bin/cli-al "
+ 	       . "/link:policy.$policy_file.config "
+ 	       . "/out:policy.$policy_file.dll "
+ 	       . "/keyfile:" . $ENV{PWD} . "/$keyfile");
+
+ 	# Clean up the config file
+ 	#unlink("$pkg_dir/policy.$policy_file.config");
+
+	# Set up the scripts
+	if (! $dh{NOSCRIPTS})
+	{
+	    autoscript($package, "postinst", "postinst-clipolicy",
+		       "s/#PACKAGE#/$assembly $version_map/");
+	    autoscript($package, "postrm", "postrm-clipolicy",
+		       "s/#PACKAGE#/$assembly $version_map/");
+	}
+    }    
+}
+
+# Finish up
+exit $errors;
+
+=head1 SEE ALSO
+
+L<debhelper(7)>
+
+This program is a part of cli-common-dev.
+
+=head1 AUTHOR
+
+Dylan R. E. Moonfire <debian@mfgames.com>
+
+=cut
+
+#      <configuration>
+#         <runtime>
+#            <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+#             <dependentAssembly>
+#               <assemblyIdentity name="foo" publicKeyToken="35e10195dab3c99f" />
+#               <bindingRedirect oldVersion="1.2.0.0-1.2.10.0" newVersion="1.3.0.0"/>
+#      	   </dependentAssembly>
+#            </assemblyBinding>
+#         </runtime>
+#      </configuration>

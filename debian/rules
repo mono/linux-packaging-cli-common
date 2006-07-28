@@ -11,7 +11,7 @@ build-stamp:
 	debiandoc2text cli-policy.sgml
 	debiandoc2html cli-policy.sgml
 	debiandoc2pdf cli-policy.sgml
-	for x in dh_clideps dh_makeclilibs dh_installcligac dh_clifixperms; \
+	for x in dh_clideps dh_makeclilibs dh_installcligac dh_clifixperms dh_createclipolicy; \
 	  do chmod +x $$x; pod2man -c "Debhelper for CLI (.NET)" $$x > $$x.1; done
 	touch build-stamp
 
@@ -20,6 +20,7 @@ clean:
 	dh_testroot
 	rm -f dh_clideps.1 dh_makeclilibs.1 dh_installcligac.1 dh_clifixperms.1
 	rm -fr cli-policy.html cli-policy.txt cli-policy.pdf cli-policy.tpt
+	rm -f dh_createclipolicy.1
 	rm -f build-stamp
 	rm -rf $(MONO_SHARED_DIR)/.wapi
 	dh_clean

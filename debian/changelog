@@ -1,7 +1,10 @@
 cli-common (0.4.4) unstable; urgency=low
 
+  * NOT RELEASED YET
   * Dylan R. E. Moonfire
     + Created dh_clifixperms to easily correct file permissions.
+  * Mirco 'meebey Bauer
+    + Updated link in the CLI Policy for MS .NET term usage.
 
  -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Thu, 20 Jul 2006 19:28:07 -0500
 

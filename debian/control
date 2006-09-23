@@ -4,11 +4,10 @@ Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Mirco Bauer <meebey@meebey.net>
 Build-Depends-Indep: debhelper (>= 5.0.0), debiandoc-sgml, tetex-extra
-Standards-Version: 3.6.2.1
+Standards-Version: 3.7.2
 
 Package: cli-common
 Architecture: all
-Depends: cli-common-dev
 Description: common files between all CLI (.NET) packages
  This package must be installed if a CLI (Common Language Infrastructure)/.NET
  runtime environment is desired.
@@ -19,10 +18,6 @@ Description: common files between all CLI (.NET) packages
   * A FAQ for package maintainers of CLI/.NET applications.
   * Integration for CLRs (Common Language Runtime):
     + Installing libraries into existing GACs (Global Assembly Cache)
- .
- For the cli-common to cli-common-dev transistion, this packages also depends
- on cli-common-dev, till all source packages have updated their
- build-dependencies.
 
 Package: cli-common-dev
 Architecture: all
@@ -34,5 +29,5 @@ Description: common files for building CLI (.NET) packages
  .
  It includes debhelper scripts for managing automatic dependency tracking
  between native libraries, CLI libraries and CLI applications:
-  * dh_clideps to generate ${cli:Depends} information for debian/control
+  * dh_clideps to generate cli:Depends information for debian/control
   * dh_makeclilibs to create clilibs files that are needed/used by dh_clideps

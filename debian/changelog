@@ -1,3 +1,11 @@
+cli-common (0.4.5) unstable; urgency=low
+
+  * Mirco 'meebey Bauer
+    + debian/control:
+      - Really added libxml-dom-perl dependency to cli-common-dev.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 24 Sep 2006 20:06:14 +0200
+
 cli-common (0.4.4) unstable; urgency=low
 
   * Dylan R. E. Moonfire

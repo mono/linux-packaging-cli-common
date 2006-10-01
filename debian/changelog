@@ -1,6 +1,17 @@
+cli-common (0.4.6) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + dh_clideps:
+      - Don't parse symlinks that point to CLI assemblies.
+      - Added support for MONO_PATH using -l parameter.
+      - Only use the basename of DLL map targets.
+        (else the shlibs lookup will fail) 
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 24 Sep 2006 20:06:14 +0200
+
 cli-common (0.4.5) unstable; urgency=low
 
-  * Mirco 'meebey Bauer
+  * Mirco 'meebey' Bauer
     + debian/control:
       - Really added libxml-dom-perl dependency to cli-common-dev.
 

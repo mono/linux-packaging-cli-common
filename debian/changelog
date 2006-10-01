@@ -7,7 +7,7 @@ cli-common (0.4.6) unstable; urgency=low
       - Only use the basename of DLL map targets.
         (else the shlibs lookup will fail) 
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 24 Sep 2006 20:06:14 +0200
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Sun, 1 Oct 2006 12:51:20 +0200
 
 cli-common (0.4.5) unstable; urgency=low
 

@@ -397,6 +397,42 @@ sub loadDllMap {
    }
 }
 
+sub loadOverrides {
+   my $package = shift;
+   our $overridedata = shift;
+   
+   # load clideps overrides
+   verbose_print("Loading clideps-override for $package...");
+   my $fh;
+   open($fh, "cat $pwd/debian/$package.clideps-override 2> /dev/null |");
+   while (<$fh>) {
+     /(\S+)\s+(\S+)(?:\s+(\(\S+\s+\S+\)))?\n?/;
+     my ($type, $package, $version);
+     $type = $1;    
+     $package = $2; 
+     $version = $3 if defined($3);
+     if ($version) {
+       $overridedata->{$package} = $type." ".$version;
+     } else {
+       $overridedata->{$package} = $type;
+     }
+   }
+   close($fh);
+}
+
+sub resolveClilibRefs {
+   my $package = shift;
+   my $assembly_filename = shift;
+   my %ret = ( depends => [],
+               recommends => [],
+               suggests => [] );
+
+   my %overridedata;
+   loadOverrides($package, \%overridedata);
+   
+   # TODO: finish me
+}
+
 sub resolveShlibRefs {
    my $package = shift;
    my $assembly_filename = shift;
@@ -416,24 +452,9 @@ sub resolveShlibRefs {
    loadDllMap("/etc/mono/config", \%dllmapdata);
    loadDllMap("$pwd/debian/tmp/etc/mono/config", \%dllmapdata);
    loadDllMap($config_filename, \%dllmapdata);
-    
-   # load clideps overrides
-   verbose_print("Loading clideps-override...");
-   my %clideps_override;
-   open($fh, "cat $pwd/debian/$package.clideps-override 2> /dev/null |");
-   while (<$fh>) {
-     /(\S+)\s+(\S+)(?:\s+(\(\S+\s+\S+\)))?\n?/;
-     my ($type, $package, $version);
-     $type = $1;    
-     $package = $2; 
-     $version = $3 if defined($3);
-     if ($version) {
-       $clideps_override{$package} = $type." ".$version;
-     } else {
-       $clideps_override{$package} = $type;
-     }
-   }
-   close($fh);
+   
+   my %overridedata;
+   loadOverrides($package, \%overridedata);
    
    # parse modulerefs
    my (undef, $tmpfile) = File::Temp::tempfile("/tmp/".basename($0).".XXXX", UNLINK => 1);
@@ -495,10 +516,10 @@ sub resolveShlibRefs {
        $pkg = "libc6 $ver | libc6.1 $ver";
      }
      
-     if (defined($clideps_override{$pkgname})) {
+     if (defined($overridedata{$pkgname})) {
        verbose_print("Found clideps-overidde: $pkgname for: $package");
 
-       my $override = $clideps_override{$pkgname};
+       my $override = $overridedata{$pkgname};
        $override =~ m/(\S+)(?:\s+(\(\S+\s+\S+\)))?/;
        if ($1 eq "suggests" ||
            $1 eq "recommends") {
@@ -514,6 +535,7 @@ sub resolveShlibRefs {
          $pkg = $pkgref;
        }
      }
+     
      push(@{$ret{$type}}, $pkg);
    } 
    close(F);

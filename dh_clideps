@@ -301,9 +301,14 @@ sub filterDuplicates {
   
   my %packagesFiltered;
   for (@{$packages}) {
-    # filter dupes and don't depend on this package
+    # filter undef, empties, dups and don't depend on ourself package
+    if (!$_) {
+      next;
+    }
+    
     /^(\S+)/;
-    if ($1 ne $package) {
+    if ($1 &&
+        $1 ne $package) {
       $packagesFiltered{$_} = 1;
     }
   }
@@ -375,9 +380,9 @@ sub loadOverrides {
 sub resolveOverride {
   my $package = shift;
   my $pkgref = shift;
-  my %ret = ( depends => "",
-              recommends => "",
-              suggests => "" );
+  my %ret = ( depends => undef,
+              recommends => undef,
+              suggests => undef );
 
   my $type = "depends";
   my $newpkgref = $pkgref;
@@ -410,7 +415,7 @@ sub resolveOverride {
       $newpkgref = $pkgref;
     }
   }
-  verbose_print("resolved pkgref: $pkgref to $newpkgref");
+  verbose_print("resolved pkgref: $pkgref to $type: $newpkgref");
   $ret{$type} = $newpkgref;
   
   return %ret; 
@@ -442,7 +447,7 @@ sub resolveClilibRefs {
     return;
   }
         
-  my $ver, $name, $key;
+  my ($ver, $name, $key);
   local *F;
   open(F, $tmpfile);
   while (<F>) {
@@ -451,18 +456,6 @@ sub resolveClilibRefs {
     $name = $1 if /Name=(.*)\n/;
     $ver  = "$1.$2" if /Major\/Minor:\s*(\d+),(\d+)/;
     $ver  .= ".$1.$2" if /Build:\s*(\d+),(\d+)/;
-
-    if ($name eq "mscorlib") {
-      if ($ver eq "1.0.5000.0") {
-        $needs_net_1_0 = 1;
-      } elsif ($ver eq "2.0.3600.0") {
-        $needs_net_2_0 = 1;
-      } elsif ($ver eq "2.0.0.0") {
-        $needs_net_2_0 = 1;
-      } else {
-        warning("Warning: Unknown mscorlib version: $ver!");
-      }
-    } 
 
     if (/0x\S+:.([ABCDEF0123456789 ]+)\n/ || /Token:\s*(\w+)/) {
       $key = $1;
@@ -478,6 +471,18 @@ sub resolveClilibRefs {
         push(@{$ret{recommends}}, $overriddenRef{recommends});
         push(@{$ret{suggests}},   $overriddenRef{suggests});
       }
+
+      if ($name eq "mscorlib") {
+        if ($ver eq "1.0.5000.0") {
+          $needs_net_1_0 = 1;
+        } elsif ($ver eq "2.0.3600.0") {
+          $needs_net_2_0 = 1;
+        } elsif ($ver eq "2.0.0.0") {
+          $needs_net_2_0 = 1;
+        } else {
+          warning("Warning: Unknown mscorlib version: $ver!");
+        }
+      } 
     }
   }
   close(F);
@@ -555,10 +560,10 @@ sub resolveShlibRefs {
        next;
      }
 
-     my %overridenRef = resolveOverride($package, $pkgref);
-     push(@{$ret{depends}},    $overridenRef{depends});
-     push(@{$ret{recommends}}, $overridenRef{recommends});
-     push(@{$ret{suggests}},   $overridenRef{suggests});
+     my %overriddenRef = resolveOverride($package, $pkgref);
+     push(@{$ret{depends}},    $overriddenRef{depends});
+     push(@{$ret{recommends}}, $overriddenRef{recommends});
+     push(@{$ret{suggests}},   $overriddenRef{suggests});
    } 
    close(F);
    

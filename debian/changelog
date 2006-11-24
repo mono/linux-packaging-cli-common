@@ -1,3 +1,12 @@
+cli-common (0.4.7) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer
+    + dh_clideps:
+      - Added support for overriding assembly references using
+        debian/$package.clideps-override.
+
+ -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Fri, 24 Nov 2006 01:11:07 +0100
+
 cli-common (0.4.6) unstable; urgency=low
 
   * Mirco 'meebey' Bauer

@@ -1,4 +1,4 @@
-cli-common (0.4.8) experimental; urgency=low
+cli-common (0.4.7) experimental; urgency=low
   
   * Sebastian 'slomo' Dröge:
     + debian/rules:
@@ -9,17 +9,11 @@ cli-common (0.4.8) experimental; urgency=low
   * Mirco 'meebey' Bauer':
     + dh_clideps:
       - Add support for kfreebsd-i386 and kfreebsd-amd64
-
- -- Sebastian Dröge <slomo@debian.org>  Tue, 27 Feb 2007 14:37:02 +0100
-
-cli-common (0.4.7) unstable; urgency=low
-
-  * Mirco 'meebey' Bauer
     + dh_clideps:
       - Added support for overriding assembly references using
         debian/$package.clideps-override.
 
- -- Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>  Fri, 24 Nov 2006 01:11:07 +0100
+ -- Sebastian Dröge <slomo@debian.org>  Tue, 27 Feb 2007 14:37:02 +0100
 
 cli-common (0.4.6) unstable; urgency=low
 

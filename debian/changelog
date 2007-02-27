@@ -6,6 +6,8 @@ cli-common (0.4.7) experimental; urgency=low
     + debian/control,
       debian/cli-policy.sgml:
       - Update to use my debian.org mail address
+    + debian/control:
+      - Move debhelper to Build-Depends from Build-Depends-Indep
   * Mirco 'meebey' Bauer':
     + dh_clideps:
       - Add support for kfreebsd-i386 and kfreebsd-amd64

@@ -5,7 +5,7 @@
   
   <author>
     <name>Mirco Bauer</name>
-    <email>meebey@meebey.net</email>
+    <email>meebey@debian.org</email>
   </author>
   <author>
     <name>Brandon Hale</name>
@@ -21,7 +21,7 @@
   </author>
   
   <version>
-    Version 0.4.2
+    Version 0.4.3
   </version>
 
   <abstract>
@@ -31,7 +31,7 @@
 
   <copyright>
     <copyrightsummary>
-      Copyright &copy; 2005-2006 Mirco Bauer, Brandon Hale, Sebastian
+      Copyright &copy; 2005-2007 Mirco Bauer, Brandon Hale, Sebastian
       Dr&ouml;ge and Dylan R. E. Moonfire.
     </copyrightsummary>
     
@@ -60,10 +60,18 @@
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
     <p>
+      Changes from 0.4.2 to 0.4.3:
+      <list>
+        <item><ref id="dh_installcligac">: Fixed order of dh_installcligac calls.</item>
+        <item><ref id="debhelper-example">: Fixed debhelper example (order).</item>
+        <item><ref id="cdbs-example">: Fixed cdbs example (order).</item>
+      </list>
+    </p>
+    <p>
       Changes from 0.4.1 to 0.4.2:
       <list>
         <item><ref id="gac-policy-file-example">: Fixed naming of the policy
-        files</item>
+        files.</item>
       </list>
     </p>
     <p>
@@ -785,9 +793,8 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
 	the same time.</p>
 
 	<p><file>dh_installcligac</file> needs to be called after
-	<file>dh_install</file> and before <file>dh_makeclilibs</file>
-	and <file>dh_clideps</file>. See <manref
-	name="dh_installcligac" section="1"> for details.</p>
+	<file>dh_install</file> and before <file>dh_clideps</file>.
+        See <manref name="dh_installcligac" section="1"> for details.</p>
       </sect1>
     </sect>
 
@@ -802,8 +809,8 @@ binary-arch: build install
 	...
 	dh_shlibdeps -a
 	dh_makeclilibs -a -V
-	dh_clideps -a -d
 	dh_installcligac -a
+	dh_clideps -a -d
 	...
           </example>
 
@@ -812,8 +819,8 @@ binary-arch: build install
 binary-indep: build install
 	...
 	dh_makeclilibs -i -V
-	dh_clideps -i
 	dh_installcligac -i
+	dh_clideps -i
 	...
           </example>
         </p>
@@ -827,8 +834,8 @@ binary-indep: build install
 common-binary-predeb-arch common-binary-predeb-indep::
 	dh_shlibdeps
 	dh_makeclilibs -V
-	dh_clideps -d
 	dh_installcligac
+	dh_clideps -d
           </example>
         </p>
       </sect1>

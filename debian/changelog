@@ -1,3 +1,10 @@
+cli-common (0.4.8) experimental; urgency=low
+  
+  * Mirco 'meebey' Bauer':
+    + Includes CLI policy version 0.4.3.
+
+ -- Mirco Bauer <meebey@debian.org>  Tue, 3 Apr 2007 22:26:20 +0200
+
 cli-common (0.4.7) experimental; urgency=low
   
   * Sebastian 'slomo' Dröge:

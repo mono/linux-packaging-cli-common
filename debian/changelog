@@ -1,6 +1,8 @@
 cli-common (0.4.8) unstable; urgency=low
 
   * Upload to unstable
+  * Sebastian 'slomo' Dröge:
+    + Depend on texlive packages instead of old tetex-extra
   * Mirco 'meebey' Bauer':
     + Includes CLI policy version 0.4.3.
 

@@ -1,3 +1,13 @@
+cli-common (0.4.9~pre1) unstable; urgency=low
+
+  * NOT RELEASED YET
+  * Mirco 'meebey' Bauer':
+    + dh_clistrip:
+      - New debhelper tool similar to dh_strip to strip (delete) or move
+        debugging symbols of CLI applications and libraries.
+
+ -- Mirco Bauer <meebey@debian.org>  Mon, 21 May 2007 01:43:14 +0200
+
 cli-common (0.4.8) unstable; urgency=low
 
   * Upload to unstable

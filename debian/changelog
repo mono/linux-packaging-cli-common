@@ -1,12 +1,17 @@
-cli-common (0.4.9~pre1) unstable; urgency=low
+cli-common (0.4.9) unstable; urgency=low
 
-  * NOT RELEASED YET
   * Mirco 'meebey' Bauer':
+    + debian/control:
+      - Added dh_installcligac, dh_createclipolicy, dh_clifixperms and
+        dh_clistrip to cli-common-dev package description.
+      - Added perl-modules to cli-common and cli-common-dev dependencies.
+        (Closes: #431586)
+      - Using my Debian email address now.
     + dh_clistrip:
       - New debhelper tool similar to dh_strip to strip (delete) or move
         debugging symbols of CLI applications and libraries.
 
- -- Mirco Bauer <meebey@debian.org>  Mon, 21 May 2007 01:43:14 +0200
+ -- Mirco Bauer <meebey@debian.org>  Wed, 04 Jul 2007 20:44:13 +0200
 
 cli-common (0.4.8) unstable; urgency=low
 

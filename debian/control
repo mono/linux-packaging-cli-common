@@ -2,13 +2,14 @@ Source: cli-common
 Section: interpreters
 Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
-Uploaders: Mirco Bauer <meebey@meebey.net>, Sebastian Dröge <slomo@debian.org>
+Uploaders: Mirco Bauer <meebey@debian.org>, Sebastian Dröge <slomo@debian.org>
 Build-Depends: debhelper (>= 5.0.0)
 Build-Depends-Indep: debiandoc-sgml, texlive-base-bin, texlive-base, texlive-latex-base, texlive-latex-extra, texlive-fonts-recommended, texlive-latex-recommended
 Standards-Version: 3.7.2
 
 Package: cli-common
 Architecture: all
+Depends: perl-modules
 Description: common files between all CLI (.NET) packages
  This package must be installed if a CLI (Common Language Infrastructure)/.NET
  runtime environment is desired.
@@ -23,7 +24,7 @@ Description: common files between all CLI (.NET) packages
 Package: cli-common-dev
 Architecture: all
 Replaces: cli-common (<< 0.4.0)
-Depends: debhelper (>= 5.0.0), mono-utils | cil-disassembler, mono-mcs | strong-name-tool, libxml-dom-perl
+Depends: debhelper (>= 5.0.0), perl-modules, mono-utils | cil-disassembler, mono-mcs | strong-name-tool, libxml-dom-perl
 Description: common files for building CLI (.NET) packages
  This package must be installed if a CLI (Common Language Infrastructure)/.NET
  packaging environment is desired.
@@ -32,3 +33,7 @@ Description: common files for building CLI (.NET) packages
  between native libraries, CLI libraries and CLI applications:
   * dh_clideps to generate cli:Depends information for debian/control
   * dh_makeclilibs to create clilibs files that are needed/used by dh_clideps
+  * dh_installcligac to register assemblies to be late installed into a GAC
+  * dh_createclipolicy to create the CLI policy files for installing into a GAC
+  * dh_clifixperms to fix permissions of files in CLI package build directories
+  * dh_clistrip to strip CLI debug symbols from package build directories

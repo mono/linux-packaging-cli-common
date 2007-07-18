@@ -17,7 +17,7 @@ B<dh_createclipolicy> [S<I<debhelper options>>] [B<-n>]
 
 dh_createclipolicy is a debhelper program that is responsible for
 creating, compiling, and installing policy files for a Debian package.
-This automatically includes postinst and prerum commands needed to
+This automatically includes postinst and prerm commands needed to
 install these policies into the system.
 
 =head1 OPTIONS
@@ -35,14 +35,19 @@ I<policyassemblies> or I<packagename.policyassemblies>) to generate
 the policy file. It supports multiple versions of the policy,
 including mapping multiple versions to a single file.
 
-The file format of the I<policyassemblies> file is:
-
-path/to/Assembly.dll  <Version Range>  <Key File>
-
-The fields can be separated with spaces or tabs. Comments start the
-line with I<#> characters.
+The file format of the I<policyassemblies> file consists of six
+properties per line, each one separated by whitespace.
 
 =over 4
+=item B<Keyfile> is a path, from the package root, to the .snk file
+=used to sign the assembly.
+
+=item B<CLI directory> is the directory inside I<usr/lib/cli> that
+=contains the assemblies. This is typically found in the install
+=file of the package.
+
+=item B<Assembly> is the name of the assembly, without the .dll
+=extension. For example, for log4net.dll, use I<log4net>.
 
 =item B<Version Range> can be a single four-part version, such as
 =1.2.3.4, or a full range, such as 1.2.3.4-1.2.6.7. For a single line,
@@ -50,17 +55,30 @@ line with I<#> characters.
 =multiple versions, such as 1.2.0.0 to 2.4.0.0, there needs to be one
 =line for each version range.
 
-=item B<Key File>: The path to the .snk or key file used to sign the
-=assembly. Policy files have to be compiled with the same key, so this
-=is required.
+=item B<Assembly version> is the version of the assembly being
+=built.
+
+=item B<Priority> defines the priority of the policy files.
+=Typically, each version will increase the priority and
+=contains all the policy controls for prior versions.
 
 =back
+
+The fields can be separated with spaces or tabs. Comments start the
+line with I<#> characters and blank lines are ignored.
 
 =head1 NOTES
 
 Note that this command is not idempotent. "dh_clean -k" should be called
 between invocations of this command. Otherwise, it may cause multiple
 instances of the same text to be added to maintainer scripts.
+
+=head1 EXAMPLE
+
+For the log4net 1.2.10.0 version, a policy file is used to map all
+versions from 1.2.8.0 to 1.2.9.99 into the current version.
+
+debian/log4net.snk log4net-1.2 log4net 1.2.8.0-1.2.9.99 1.2.10.0 10
 
 =cut
 
@@ -93,70 +111,40 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	next if /^\#/;
 	next if /^$/;
 
-	# Check for variables
-	if (/^([\w_]+)\s*=\s*(.*)\s*$/)
-	{
-	    # Do additional checking
-	    if ($1 eq "KEYFILE")
-	    {
-		# Make sure the key file exists
-		if (! -f $2)
-		{
-		    $errors = 1;
-		    print STDERR "E: $package $.: Cannot find key $2\n";
-		    next;
-		}
+	# Each line consists of six parts:
+	#   1. snk file for encryption, relative to the package root
+	#   2. Directory in debian/package/usr/lib/cli
+	#   3. Assembly name
+	#   4. Versions to map from
+	#   5. Versions to map to
+	#   6. Priority of this policy
 
-		# Save it
-		$keyfile = $2;
-
-		# Parse the keyfile for some additional information
-		my $cmd = "/usr/bin/cli-sn -t $keyfile | grep 'Public Key' "
-		    . "| cut -f 2- -d :";
-		$token = `$cmd`;
-		$token =~ s/^\s*(.*?)\s*$/$1/sg;
-	    }
-	    elsif ($1 eq "CLI_DIR")
-	    {
-		# Make sure the directory exists
-		if (! -d "$tmp/usr/lib/cli/$2")
-		{
-		    $errors = 1;
-		    print STDERR "E: $package $.: Cannot find CLI directory: "
-			. "$2\n";
-		    next;
-		}
-
-		# Set the directory
-		$cli_dir = $2;
-		$pkg_tmp = "$tmp/usr/lib/cli/$cli_dir";
-	    }
-	    elsif ($1 eq "PRIORITY")
-	    {
-		$priority = $2;
-	    }
-
-	    # Finish up
-	    next;
-	}
-
-	# Otherwise, the line is in three parts: assembly, versions to
-	# map, the version to use. This allows a file to contain
-	# mappings for files outside of this specific package (like
-	# breaking A.B.C compatibility.
-	my ($assembly, $map, $version) = split(/\s+/);
+	my ($snk, $cli_dir, $assembly, $map, $version, $priority) = split(/\s+/);
 
 	# Verify the fields
 	my $version_map;
 
-	if (! -f "$pkg_tmp/$assembly.dll")
+	# Remove the .dll to normalize it
+	$assembly =~ s/\.dll$//;
+
+	my $assembly_tmp = "$tmp/usr/lib/cli/$cli_dir/$assembly.dll";
+
+	if (! -f $assembly_tmp)
 	{
 	    $errors = 1;
 	    print STDERR "E: $package $.: Cannot find assembly: "
-		. "$assembly.dll in $pkg_tmp\n";
+		. "$assembly.dll in $tmp/usr/lib/cli\n";
 	    next;
 	}
 
+	# Get the token from the file
+	my $cmd = "/usr/bin/cli-sn -t '$snk' | grep 'Public Key' "
+	    . "| cut -f 2- -d :";
+	my $token = `$cmd`;
+	$token =~ s/^\s*(.*?)\s*$/$1/sg;
+	
+
+	# Check the version numbers
 	if ($map =~ /^(\d+\.\d+)\.\d+\.\d+$/)
 	{
 	    $version_map = $1;
@@ -189,18 +177,18 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	# We have now gathered up everything we need. We use a hash to
 	# consolidate all the various bindings into the unique
 	# combinations of policy files we need.
-	my $pk = "$assembly--$version_map--$keyfile--$cli_dir";
+	my $pk = join("--", $snk, $cli_dir, $assembly, $version_map, $priority);
 
  	$policies{$pk} .=
  	    join("\n",
- 		 '<assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">',
- 		 '  <dependentAssembly>',
- 		 "    <assemblyIdentity name=\"$assembly\" "
+ 		 '    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">',
+ 		 '      <dependentAssembly>',
+ 		 "        <assemblyIdentity name=\"$assembly\" "
 		 . "publicKeyToken=\"$token\"/>",
- 		 "      <bindingRedirect oldVersion="
+ 		 "          <bindingRedirect oldVersion="
  		 . "\"$map\" newVersion=\"$version\"/>",
- 		 "  </dependentAssembly>",
- 		 "</assemblyBinding>");
+ 		 "      </dependentAssembly>",
+ 		 "    </assemblyBinding>") . "\n";
     }
 
     close POLICY;
@@ -216,7 +204,7 @@ foreach my $package (@{$dh{DOPACKAGES}})
     foreach my $pk (keys %policies)
     {
 	# Get the pkg_dir
-	my ($assembly, $version_map, $keyfile, $cli_dir) = split(/--/, $pk);
+	my ($snk, $cli_dir, $assembly, $version_map, $priority) = split(/--/, $pk);
 	my $pkg_dir = "$tmp/usr/lib/cli/$cli_dir";
 	my $policy_file = "$version_map.$assembly";
 
@@ -235,9 +223,9 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	}
 
 	# Write out the policy file
-	print PF "<configuration>\n<runtime>\n";
+	print PF "<configuration>\n  <runtime>\n";
 	print PF $policies{$pk};
-	print PF "</runtime>\n</configuration>\n";
+	print PF "  </runtime>\n</configuration>\n";
 	close PF;
 
  	# Compile the assembly file. We have to change directory first
@@ -245,7 +233,7 @@ foreach my $package (@{$dh{DOPACKAGES}})
  	system("cd $pkg_dir/ && /usr/bin/cli-al "
  	       . "/link:policy.$policy_file.config "
  	       . "/out:policy.$policy_file.dll "
- 	       . "/keyfile:" . $ENV{PWD} . "/$keyfile");
+ 	       . "/keyfile:" . $ENV{PWD} . "/$snk");
 
  	# Clean up the config file
  	#unlink("$pkg_dir/policy.$policy_file.config");

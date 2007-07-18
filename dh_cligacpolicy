@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-dh_createclipolicy - created the CLI policy files for a package
+dh_cligacpolicy - creates and installs a CLI policy file for a package
 
 =cut
 
@@ -11,14 +11,14 @@ use Debian::Debhelper::Dh_Lib;
 
 =head1 SYNOPSIS
 
-B<dh_createclipolicy> [S<I<debhelper options>>] [B<-n>]
+B<dh_cligacpolicy> [S<I<debhelper options>>] [B<-n>]
 
 =head1 DESCRIPTION
 
-dh_createclipolicy is a debhelper program that is responsible for
-creating, compiling, and installing policy files for a Debian package.
-This automatically includes postinst and prerm commands needed to
-install these policies into the system.
+dh_cligacpolicy is a debhelper program that is responsible for creating,
+compiling, and installing policy files for a Debian package.  This
+automatically includes postinst and prerm commands needed to install
+these policies into the system.
 
 =head1 OPTIONS
 
@@ -30,21 +30,17 @@ Do not modify postinst/prerm scripts.
 
 =head1 FILE FORMAT
 
-This file uses the I<policyassemblies> files (either
-I<policyassemblies> or I<packagename.policyassemblies>) to generate
+This file uses the I<debian/cligacpolicy> files (either
+I<policyassemblies> or I<debian/packagename.cligacpolicy>) to generate
 the policy file. It supports multiple versions of the policy,
 including mapping multiple versions to a single file.
 
-The file format of the I<policyassemblies> file consists of six
+The file format of the I<cligacpolicy> file consists of five
 properties per line, each one separated by whitespace.
 
 =over 4
 =item B<Keyfile> is a path, from the package root, to the .snk file
 =used to sign the assembly.
-
-=item B<CLI directory> is the directory inside I<usr/lib/cli> that
-=contains the assemblies. This is typically found in the install
-=file of the package.
 
 =item B<Assembly> is the name of the assembly, without the .dll
 =extension. For example, for log4net.dll, use I<log4net>.
@@ -78,7 +74,7 @@ instances of the same text to be added to maintainer scripts.
 For the log4net 1.2.10.0 version, a policy file is used to map all
 versions from 1.2.8.0 to 1.2.9.99 into the current version.
 
-debian/log4net.snk log4net-1.2 log4net 1.2.8.0-1.2.9.99 1.2.10.0 10
+debian/log4net.snk log4net 1.2.8.0-1.2.9.99 1.2.10.0 10
 
 =cut
 
@@ -92,7 +88,7 @@ foreach my $package (@{$dh{DOPACKAGES}})
 {
     # Set up our internal variables
     my $tmp = tmpdir($package);
-    my $policy = pkgfile($package, "policyassemblies");
+    my $policy = pkgfile($package, "cligacpolicy");
     my %policies = ();
     
     # If $policy is blank, then there is no file
@@ -113,29 +109,19 @@ foreach my $package (@{$dh{DOPACKAGES}})
 
 	# Each line consists of six parts:
 	#   1. snk file for encryption, relative to the package root
-	#   2. Directory in debian/package/usr/lib/cli
-	#   3. Assembly name
-	#   4. Versions to map from
-	#   5. Versions to map to
-	#   6. Priority of this policy
+	#   2. Assembly name
+	#   3. Versions to map from
+	#   4. Versions to map to
+	#   5. Priority of this policy
 
-	my ($snk, $cli_dir, $assembly, $map, $version, $priority) = split(/\s+/);
+	my ($snk, $assembly, $map, $version, $priority) =
+	    split(/\s+/);
 
 	# Verify the fields
 	my $version_map;
 
 	# Remove the .dll to normalize it
 	$assembly =~ s/\.dll$//;
-
-	my $assembly_tmp = "$tmp/usr/lib/cli/$cli_dir/$assembly.dll";
-
-	if (! -f $assembly_tmp)
-	{
-	    $errors = 1;
-	    print STDERR "E: $package $.: Cannot find assembly: "
-		. "$assembly.dll in $tmp/usr/lib/cli\n";
-	    next;
-	}
 
 	# Get the token from the file
 	my $cmd = "/usr/bin/cli-sn -t '$snk' | grep 'Public Key' "
@@ -177,11 +163,12 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	# We have now gathered up everything we need. We use a hash to
 	# consolidate all the various bindings into the unique
 	# combinations of policy files we need.
-	my $pk = join("--", $snk, $cli_dir, $assembly, $version_map, $priority);
+	my $pk = join("--", $snk, $assembly, $version_map, $priority);
 
  	$policies{$pk} .=
  	    join("\n",
- 		 '    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">',
+ 		 '    <assemblyBinding '
+		 . 'xmlns="urn:schemas-microsoft-com:asm.v1">',
  		 '      <dependentAssembly>',
  		 "        <assemblyIdentity name=\"$assembly\" "
 		 . "publicKeyToken=\"$token\"/>",
@@ -204,18 +191,20 @@ foreach my $package (@{$dh{DOPACKAGES}})
     foreach my $pk (keys %policies)
     {
 	# Get the pkg_dir
-	my ($snk, $cli_dir, $assembly, $version_map, $priority) = split(/--/, $pk);
-	my $pkg_dir = "$tmp/usr/lib/cli/$cli_dir";
+	my ($snk, $assembly, $version_map, $priority) =
+	    split(/--/, $pk);
+	my $pkg_dir = "$usr/share-cli/common/policies.d/$package/";
+	my $tmp_pkg_dir = "$tmp/$pkg_dir";
 	my $policy_file = "$version_map.$assembly";
 
 	# Open the policy file chooser
 	open CHOOSER, ">$tmp/usr/share/cli-common/policies.d/"
 	    . sprintf("%03d-%s.%s", $priority, $version_map, $assembly);
-	print CHOOSER "/usr/lib/cli/$cli_dir/policy.$policy_file.dll\n";
+	print CHOOSER "/$pkg_dir/policy.$policy_file.dll\n";
 	close CHOOSER;
 
 	# Open up the file
-	unless (open PF, ">$pkg_dir/policy.$policy_file.config")
+	unless (open PF, ">$tmp_pkg_dir/policy.$policy_file.config")
 	{
 	    $errors = 1;
 	    print STDERR "E: $package: Cannot write $policy_file.config";
@@ -230,20 +219,20 @@ foreach my $package (@{$dh{DOPACKAGES}})
 
  	# Compile the assembly file. We have to change directory first
  	# because of AL limitation.
- 	system("cd $pkg_dir/ && /usr/bin/cli-al "
+ 	system("cd $tmp_pkg_dir/ && /usr/bin/cli-al "
  	       . "/link:policy.$policy_file.config "
  	       . "/out:policy.$policy_file.dll "
  	       . "/keyfile:" . $ENV{PWD} . "/$snk");
 
  	# Clean up the config file
- 	#unlink("$pkg_dir/policy.$policy_file.config");
+ 	unlink("$pkg_dir/policy.$policy_file.config");
 
 	# Set up the scripts
 	if (! $dh{NOSCRIPTS})
 	{
-	    autoscript($package, "postinst", "postinst-clipolicy",
+	    autoscript($package, "postinst", "postinst-cligacpolicy",
 		       "s/#PACKAGE#/$assembly $version_map/");
-	    autoscript($package, "postrm", "postrm-clipolicy",
+	    autoscript($package, "postrm", "postrm-cligacpolicy",
 		       "s/#PACKAGE#/$assembly $version_map/");
 	}
     }    

@@ -1,9 +1,11 @@
 cli-common (0.4.10) unstable; urgency=low
 
   * Dylan R. E. Moonfire
-    + dh_createclipolicy:
+    + dh_cligacpolicy:
       - Cleaned up the code to simplify the file.
       - Corrected some typos in the man page.
+      - Removed some of the variables.
+      - Renamed from dh_createclipolicy
 
  -- Dylan R. E. Moonfire <debian@mfgames.com>  Tue, 17 Jul 2007 21:18:43 -0500
 

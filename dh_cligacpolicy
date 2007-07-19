@@ -184,6 +184,9 @@ foreach my $package (@{$dh{DOPACKAGES}})
     if (! -d "$tmp/usr/share/cli-common/policies.d") {
 	doit("install","-d","$tmp/usr/share/cli-common/policies.d");
     }
+    if (! -d "$tmp/usr/share/cli-common/policies.d/$package") {
+	doit("install","-d","$tmp/usr/share/cli-common/policies.d/$package");
+    }
 
     # Once all the various <assemblyBinding> tags are consolidated, we
     # then generate the policy files. This will result in one policy file for
@@ -193,7 +196,7 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	# Get the pkg_dir
 	my ($snk, $assembly, $version_map, $priority) =
 	    split(/--/, $pk);
-	my $pkg_dir = "$usr/share-cli/common/policies.d/$package/";
+	my $pkg_dir = "usr/share/cli-common/policies.d/$package";
 	my $tmp_pkg_dir = "$tmp/$pkg_dir";
 	my $policy_file = "$version_map.$assembly";
 
@@ -207,7 +210,8 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	unless (open PF, ">$tmp_pkg_dir/policy.$policy_file.config")
 	{
 	    $errors = 1;
-	    print STDERR "E: $package: Cannot write $policy_file.config";
+	    print STDERR "E: $package: Cannot write $policy_file.config\n";
+	    print STDERR "E: $package: $!\n";
 	    next;
 	}
 
@@ -225,7 +229,7 @@ foreach my $package (@{$dh{DOPACKAGES}})
  	       . "/keyfile:" . $ENV{PWD} . "/$snk");
 
  	# Clean up the config file
- 	unlink("$pkg_dir/policy.$policy_file.config");
+ 	#unlink("$tmp_pkg_dir/policy.$policy_file.config");
 
 	# Set up the scripts
 	if (! $dh{NOSCRIPTS})

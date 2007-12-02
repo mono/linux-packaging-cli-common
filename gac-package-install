@@ -140,7 +140,6 @@ foreach my $clr (glob("/usr/share/cli-common/runtimes.d/*"))
     my $t = scalar(@install) . " assemblies";
     $t = "1 assembly" if (@install == 1);
 
-    #print "D: ", join(", ", @install), "\n";
-    print STDERR "* Installing $t from $pkg into $formal\n";
+    print STDOUT "* Installing $t from $pkg into $formal\n";
     system($clr, "install", $pkg, @install);
 }

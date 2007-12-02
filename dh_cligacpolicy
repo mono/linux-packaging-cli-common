@@ -235,9 +235,9 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	if (! $dh{NOSCRIPTS})
 	{
 	    autoscript($package, "postinst", "postinst-cligacpolicy",
-		       "s/#PACKAGE#/$assembly $version_map/");
+		       "s/#ASSEMBLY# #VERSION#/$assembly $version_map/");
 	    autoscript($package, "postrm", "postrm-cligacpolicy",
-		       "s/#PACKAGE#/$assembly $version_map/");
+		       "s/#ASSEMBLY# #VERSION#/$assembly $version_map/");
 	}
     }    
 }

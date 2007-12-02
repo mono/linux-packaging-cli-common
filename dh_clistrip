@@ -96,7 +96,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 
 L<debhelper(7)>
 
-This program is a part of cli-common.
+This program is part of cli-common-dev.
 
 =head1 AUTHOR
 

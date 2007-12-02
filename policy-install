@@ -24,9 +24,9 @@ do
     # Copy this one as a installcligac
     cp $file /usr/share/cli-common/packages.d/$POLICY.installcligac
 
-    # Install it
-    /usr/share/cli-common/gac-package-install $POLICY > /dev/null
-
+    #echo "Installing GAC policy file ($POLICY) into available GACs"
+    /usr/share/cli-common/gac-package-install $POLICY > /dev/null || exit 1
+    	    
     # We just deal with the one
     exit
 done

@@ -1,5 +1,8 @@
-cli-common (0.4.10) unstable; urgency=low
+cli-common (0.5.0) unstable; urgency=low
 
+  * Mirco 'meebey' Bauer:
+    + Includes CLI policy version 0.5.0.
+    + Remvoed ".NET" from package descriptions.
   * Dylan R. E. Moonfire
     + dh_cligacpolicy:
       - Cleaned up the code to simplify the file.
@@ -7,7 +10,7 @@ cli-common (0.4.10) unstable; urgency=low
       - Removed some of the variables.
       - Renamed from dh_createclipolicy
 
- -- Dylan R. E. Moonfire <debian@mfgames.com>  Tue, 17 Jul 2007 21:18:43 -0500
+ -- Mirco Bauer <meebey@debian.org>  Sun, 02 Dec 2007 16:29:03 +0100
 
 cli-common (0.4.9) unstable; urgency=low
 

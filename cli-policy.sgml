@@ -21,7 +21,7 @@
   </author>
   
   <version>
-    Version 0.4.3
+    Version 0.5.0
   </version>
 
   <abstract>
@@ -59,6 +59,14 @@
     
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
+    <p>
+      Changes from 0.4.4 to 0.5.0:
+      <list>
+        <item>Removed DRAFT tag, the policy is now official.</item>
+        <item><ref id="build-deps">: Added C# 3.0 to the compiler list.</item>
+        <item><ref id="file-perms">: Added dh_clifixperms as alternative to the find command.</item>
+      </list>
+    </p>
     <p>
       Changes from 0.4.2 to 0.4.3:
       <list>
@@ -257,7 +265,7 @@
         </p>
 
         <p>
-          Never ever install application files (<file>.exe</file>) directly into <file>/usr/bin</file>.
+          You <em>must not</em> install application files (<file>.exe</file>) directly into <file>/usr/bin</file>.
           Instead create a <qref id="wrapper-script-example">wrapper script</qref>
 	  into <file>/usr/bin</file> to allow them to be run without the <file>.exe</file> suffix.
         </p>
@@ -291,6 +299,8 @@
 find debian/ -type f -name "*.dll" -or -name "*.mdb" -or -name "*.cs" -or -name "*.config" | xargs chmod -x
 find debian/ -type f -name "*.exe" | xargs chmod +x
           </example>
+          Alternatively you can call <file>dh_clifixperms</file> after
+          <file>dh_fixperms</file>.
         </p>        
       </sect1>
 
@@ -298,8 +308,8 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         <heading>Build Dependencies</heading>
         
         <p>
-          At a minimum, CLI packages <em>must</em> Build-Depends on
-          <package>cli-common-dev</package> (&gt;= 0.4.0) and the
+          At a minimum, CLI packages <em>should</em> Build-Depends on
+          <package>cli-common-dev</package> (&gt;= 0.4.4) and the
 	  appropriate CLI compiler(s).
         </p>
         
@@ -311,6 +321,9 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
             </item>
             <item>
               C# 2.0: <package>mono-gmcs</package> (&gt;= 1.1.8) | c-sharp-2.0-compiler
+            </item>
+            <item>
+              C# 3.0: <package>mono-gmcs</package> (&gt;= 1.2.5) | c-sharp-3.0-compiler
             </item>
             <item>
               Nemerle: <package>nemerle</package> (&gt;= 0.9)

@@ -10,8 +10,8 @@ Standards-Version: 3.7.2
 Package: cli-common
 Architecture: all
 Depends: perl-modules
-Description: common files between all CLI (.NET) packages
- This package must be installed if a CLI (Common Language Infrastructure)/.NET
+Description: common files between all CLI packages
+ This package must be installed if a CLI (Common Language Infrastructure)
  runtime environment is desired.
  .
  It covers useful integration and information for CLI implementations in
@@ -25,8 +25,8 @@ Package: cli-common-dev
 Architecture: all
 Replaces: cli-common (<< 0.4.0)
 Depends: debhelper (>= 5.0.0), perl-modules, mono-utils | cil-disassembler, mono-mcs | strong-name-tool, libxml-dom-perl
-Description: common files for building CLI (.NET) packages
- This package must be installed if a CLI (Common Language Infrastructure)/.NET
+Description: common files for building CLI packages
+ This package must be installed if a CLI (Common Language Infrastructure)
  packaging environment is desired.
  .
  It includes debhelper scripts for managing automatic dependency tracking
@@ -34,6 +34,6 @@ Description: common files for building CLI (.NET) packages
   * dh_clideps to generate cli:Depends information for debian/control
   * dh_makeclilibs to create clilibs files that are needed/used by dh_clideps
   * dh_installcligac to register assemblies to be late installed into a GAC
-  * dh_cligacpolicy to create the CLI policy files for installing into a GAC
+  * dh_cligacpolicy to create and install the policy files into a GAC
   * dh_clifixperms to fix permissions of files in CLI package build directories
   * dh_clistrip to strip CLI debug symbols from package build directories

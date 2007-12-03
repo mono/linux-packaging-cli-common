@@ -1,12 +1,12 @@
 ildasm-monodis		/usr/share/cli-common/
 dh_makeclilibs		/usr/bin/
 dh_clideps		/usr/bin/
-dh_installcligac	/usr/bin/
 dh_clifixperms		/usr/bin/
+
+dh_installcligac	/usr/bin/
 postinst-cligac		/usr/share/debhelper/autoscripts/
 prerm-cligac		/usr/share/debhelper/autoscripts/
 
 dh_cligacpolicy		/usr/bin/
-policy-install		/usr/share/cli-common/
 postinst-cligacpolicy	/usr/share/debhelper/autoscripts/
 postrm-cligacpolicy     /usr/share/debhelper/autoscripts/

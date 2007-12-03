@@ -1,3 +1,12 @@
+cli-common (0.5.1) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer:
+    + Moved policy-install script from cli-common-dev to cli-common package,
+      and added needed Replaces field to cli-common in debian/control.
+      (Closes: #454136)
+
+ -- Mirco Bauer <meebey@debian.org>  Mon, 03 Dec 2007 20:52:44 +0100
+
 cli-common (0.5.0) unstable; urgency=low
 
   * Mirco 'meebey' Bauer:

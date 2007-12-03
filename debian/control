@@ -9,6 +9,7 @@ Standards-Version: 3.7.2
 
 Package: cli-common
 Architecture: all
+Replaces: cli-common-dev (= 0.5.0)
 Depends: perl-modules
 Description: common files between all CLI packages
  This package must be installed if a CLI (Common Language Infrastructure)

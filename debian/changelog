@@ -1,3 +1,12 @@
+cli-common (0.5.2) unstable; urgency=low
+
+  * Mirco 'meebey' Bauer:
+    + Replaces: cli-common-dev (= 0.5.0) is not enough, the policy-install file
+      is also in older versions present, << 0.5.1 allows upgrades from etch and
+      lenny.
+
+ -- Mirco Bauer <meebey@debian.org>  Mon, 03 Dec 2007 23:08:17 +0100
+
 cli-common (0.5.1) unstable; urgency=low
 
   * Mirco 'meebey' Bauer:

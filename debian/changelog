@@ -1,3 +1,13 @@
+cli-common (0.5.3) unstable; urgency=low
+
+  * dh_clideps:
+    + Added CLI 2.1 runtime support (Moonlight/Silverlight).
+    + Raised required cli-common version to >= 0.5.1 for packages that use the
+      late-GAC install feature (dh_installcligac), as older versions silently
+      missed installing policy files.
+
+ -- Mirco Bauer <meebey@debian.org>  Thu, 20 Dec 2007 22:58:27 +0100
+
 cli-common (0.5.2) unstable; urgency=low
 
   * Mirco 'meebey' Bauer:
@@ -20,7 +30,7 @@ cli-common (0.5.0) unstable; urgency=low
 
   * Mirco 'meebey' Bauer:
     + Includes CLI policy version 0.5.0.
-    + Remvoed ".NET" from package descriptions.
+    + Removed ".NET" from package descriptions.
   * Dylan R. E. Moonfire
     + dh_cligacpolicy:
       - Cleaned up the code to simplify the file.

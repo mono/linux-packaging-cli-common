@@ -1,6 +1,5 @@
-cli-common (0.5.4~pre1) UNRELEASED; urgency=low
+cli-common (0.5.4) unstable; urgency=low
 
-  * NOT RELEASED YET
   * debian/cli-common-dev.install:
     + Added dh_clistrip, which all CLI packages should use to handle .mdb
       files automatically.

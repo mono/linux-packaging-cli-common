@@ -274,7 +274,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
   my $dh_ref = "";
   if (-f "$tmp/usr/share/cli-common/packages.d/$package.installcligac") {
     # this package uses late GAC install, thus we need cli-common at package install time
-    if (-f "debian/cligacpolicy" || "debian/$package.cligacpolicy") {
+    if (-f "debian/cligacpolicy" || -f "debian/$package.cligacpolicy") {
       # if this package uses dh_cligacpolicy then we need 0.5.4 for the policy-remove script in .postrm
       $dh_ref = "cli-common (>= 0.5.4), ";
     } else {

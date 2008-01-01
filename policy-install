@@ -13,8 +13,7 @@ POLICY="policy.$VERSION.$ASSEMBLY"
 
 # Remove the old policy, if we have one installed
 if [ -f /usr/share/cli-common/packages.d/$POLICY.installcligac ]; then
-    /usr/share/cli-common/gac-package-remove $POLICY > /dev/null
-    rm -f /usr/share/cli-common/packages.d/$POLICY.installcligac
+    /usr/share/cli-common/policy-remove $ASSEMBLY $VERSION > /dev/null
 fi
 
 # Choose the correct one

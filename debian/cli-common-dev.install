@@ -2,6 +2,7 @@ ildasm-monodis		/usr/share/cli-common/
 dh_makeclilibs		/usr/bin/
 dh_clideps		/usr/bin/
 dh_clifixperms		/usr/bin/
+dh_clistrip		/usr/bin/
 
 dh_installcligac	/usr/bin/
 postinst-cligac		/usr/share/debhelper/autoscripts/

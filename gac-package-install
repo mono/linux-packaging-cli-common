@@ -60,7 +60,7 @@ while (<INPUT>)
 
     if (! -f $dll)
     {
-	print STDERR "! Assembly $dll does not exist, ignoring\n";
+	print STDERR "! Assembly $dll does not exist\n";
 	exit 3;
     }
 

@@ -270,11 +270,20 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
       $vm_ref = "pnet-interpreter (>= $cli_version), ";
     }
   }
-    
+  
+  my $dh_ref = "";
   if (-f "$tmp/usr/share/cli-common/packages.d/$package.installcligac") {
-    $vm_ref .= "cli-common (>= 0.5.1), ";
+    # this package uses late GAC install, thus we need cli-common at package install time
+    if (-f "debian/$package.cligacpolicy") {
+      # if this package uses dh_cligacpolicy then we need 0.5.4 for the policy-remove script in .postrm
+      $dh_ref = "cli-common (>= 0.5.4), ";
+    } else {
+      # we still need at least 0.5.1, as older versions silently missed installing policy files
+      $dh_ref = "cli-common (>= 0.5.1), ";
+    }
   }
-    
+  $vm_ref .= $dh_ref;
+  
     #$deps .= join(", ", "",
     #    sort {
     #        # beautify the sort order, requested by meebey

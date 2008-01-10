@@ -18,9 +18,8 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f dh_clideps.1 dh_makeclilibs.1 dh_installcligac.1 dh_clifixperms.1 dh_clistrip.1
+	rm -f dh_clideps.1 dh_makeclilibs.1 dh_installcligac.1 dh_clifixperms.1 dh_clistrip.1 dh_cligacpolicy.1
 	rm -fr cli-policy.html cli-policy.txt cli-policy.pdf cli-policy.tpt
-	rm -f dh_cligacpolicy.1
 	rm -f build-stamp
 	rm -rf $(MONO_SHARED_DIR)/.wapi
 	dh_clean

@@ -10,6 +10,8 @@ cli-common (0.5.6) unstable; urgency=low
       support error unwind here.
   * debian/dh_clideps:
     + Require cli-common >= 0.5.6 for packages that use dh_cligacpolicy.
+  * debian/cli-common-dev.manpages:
+    + Added dh_clistrip.1
   * debian/control:
     + Updated Standards-Version to 3.7.3 (no changes needed).
 

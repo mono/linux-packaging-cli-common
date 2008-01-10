@@ -1,0 +1,1 @@
+export MONO_SHARED_DIR=$(CURDIR)

@@ -1,4 +1,6 @@
 ildasm-monodis		/usr/share/cli-common/
+#cli.make		/usr/share/cli-common/
+
 dh_makeclilibs		/usr/bin/
 dh_clideps		/usr/bin/
 dh_clifixperms		/usr/bin/

@@ -86,8 +86,8 @@ init();
   open(FILE, 'debian/control');
   my @filedata = <FILE>;
   close(FILE);
-  if (!($filedata[0] =~ /Build-Depends(-Indep)?: .*cli-common-dev \(>= 0\.5\.4\)/)) {
-      warning("Warning! No Build-Depends(-Indep) on cli-common-dev (>= 0.5.4)!");
+  if (!($filedata[0] =~ /Build-Depends(-Indep)?: .*cli-common-dev \(>= 0\.5\.5\)/)) {
+      warning("Warning! No Build-Depends(-Indep) on cli-common-dev (>= 0.5.5)!");
   }
 }
 

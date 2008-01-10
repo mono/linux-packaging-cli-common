@@ -3,9 +3,9 @@ Section: interpreters
 Priority: optional
 Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
 Uploaders: Mirco Bauer <meebey@debian.org>, Sebastian Dröge <slomo@debian.org>
-Build-Depends: debhelper (>= 5.0.0)
+Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: debiandoc-sgml, texlive-base-bin, texlive-base, texlive-latex-base, texlive-latex-extra, texlive-fonts-recommended, texlive-latex-recommended
-Standards-Version: 3.7.2
+Standards-Version: 3.7.3
 
 Package: cli-common
 Architecture: all

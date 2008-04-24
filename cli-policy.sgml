@@ -207,7 +207,7 @@
         Mono stores the GAC at <file>/usr/lib/mono/gac</file>
       </p>
       <p>
-        Portable.NET stores the GAC at <file>/usr/lib/cscc/lib</file>
+        DotGNU Portable.NET stores the GAC at <file>/usr/lib/cscc/lib</file>
       </p>
     </sect>
   </chapt>

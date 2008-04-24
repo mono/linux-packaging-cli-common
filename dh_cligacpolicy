@@ -137,8 +137,8 @@ foreach my $package (@{$dh{DOPACKAGES}})
 	my $cmd = "/usr/bin/cli-sn -t '$snk' | grep 'Public Key' "
 	    . "| cut -f 2- -d :";
 	my $token = `$cmd`;
+	# FIXME: error handling here!
 	$token =~ s/^\s*(.*?)\s*$/$1/sg;
-	
 
 	# Check the version numbers
 	if ($map =~ /^(\d+\.\d+)\.\d+\.\d+$/)

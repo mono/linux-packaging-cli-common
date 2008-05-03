@@ -1,6 +1,9 @@
 cli-common (0.5.7) UNRELEASED; urgency=low
 
   * NOT RELEASED YET
+  * debian/postrm-cligacpolicy:
+    + Remove GAC policy files also in "upgrade" stage, else upgrades and
+      downgrades will leave policy files around.
 
  -- Mirco Bauer <meebey@debian.org>  Fri, 11 Jan 2008 00:49:38 +0100
 

@@ -1,5 +1,6 @@
 ildasm-monodis		/usr/share/cli-common/
-#cli.make		/usr/share/cli-common/
+cli.make		/usr/share/cli-common/
+cli.pm			/usr/share/perl5/Debian/Debhelper/Sequence/
 
 dh_makeclilibs		/usr/bin/
 dh_clideps		/usr/bin/

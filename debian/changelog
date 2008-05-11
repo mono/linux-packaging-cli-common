@@ -1,21 +1,23 @@
-cli-common (0.5.7) UNRELEASED; urgency=low
+cli-common (0.5.7) unstable; urgency=low
 
-  * NOT RELEASED YET
-  * postrm-cligacpolicy:
-    + Remove GAC policy files also in "upgrade" stage, else upgrades and
-      downgrades will leave policy files around.
+  * The "debhelper 7 integration" release
   * cli.make:
     + Makefile to be included by source packages in debian/rules.
   * cli.pm:
     + Sequence file to support our dh_*cli* scripts with debhelper's dh tool.
+  * postrm-cligacpolicy:
+    + Remove GAC policy files also in "upgrade" stage, else upgrades and
+      downgrades will leave policy files around.
   * debian/control:
     + Updated debhelper dependency to >= 7.0.8 for cli-common-dev, as cli.make
       hooks into debhelper's dh sequence support.
+    + Changed Maintainer to Debian CLI Common Team.
+    + Added Homepage, Vcs-Svn and Vcs-Browser fields.
   * debian/cli-common-dev.install:
     + Added cli.make
     + Added cli.pm
 
- -- Mirco Bauer <meebey@debian.org>  Fri, 11 Jan 2008 00:49:38 +0100
+ -- Mirco Bauer <meebey@debian.org>  Sun, 11 May 2008 13:13:41 +0200
 
 cli-common (0.5.6) unstable; urgency=low
 

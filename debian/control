@@ -1,11 +1,20 @@
 Source: cli-common
 Section: interpreters
 Priority: optional
-Maintainer: Debian Mono Group <pkg-mono-group@lists.alioth.debian.org>
+Maintainer: Debian CLI Common Team <pkg-cli-common-team@lists.alioth.debian.org>
 Uploaders: Mirco Bauer <meebey@debian.org>, Sebastian Dröge <slomo@debian.org>
 Build-Depends: debhelper (>= 5)
-Build-Depends-Indep: debiandoc-sgml, texlive-base-bin, texlive-base, texlive-latex-base, texlive-latex-extra, texlive-fonts-recommended, texlive-latex-recommended
+Build-Depends-Indep: debiandoc-sgml,
+ texlive-base-bin,
+ texlive-base,
+ texlive-latex-base,
+ texlive-latex-extra,
+ texlive-fonts-recommended,
+ texlive-latex-recommended
 Standards-Version: 3.7.3
+Homepage: http://alioth.debian.org/projects/pkg-cli-common/
+Vcs-Svn: svn://svn.debian.org/pkg-cli-common/package/trunk
+Vcs-Browser: http://svn.debian.org/wsvn/pkg-cli-common/package/trunk/
 
 Package: cli-common
 Architecture: all

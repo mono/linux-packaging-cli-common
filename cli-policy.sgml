@@ -21,7 +21,7 @@
   </author>
   
   <version>
-    Version 0.5.0
+    Version 0.5.1
   </version>
 
   <abstract>
@@ -31,8 +31,10 @@
 
   <copyright>
     <copyrightsummary>
-      Copyright &copy; 2005-2007 Mirco Bauer, Brandon Hale, Sebastian
-      Dr&ouml;ge and Dylan R. E. Moonfire.
+      Copyright &copy; 2005-2008 Mirco Bauer
+      Copyright &copy; 2005 Brandon Hale
+      Copyright &copy; 2006 Sebastian Dr&ouml;ge
+      Copyright &copy; 2006 Dylan R. E. Moonfire.
     </copyrightsummary>
     
     <p>This manual is free software; you may redistribute it and/or modify it
@@ -59,6 +61,13 @@
     
     <p>Here are the changes to the Debian CLI Policy document.</p>
     
+    <p>
+      Changes from 0.5.0 to 0.5.1:
+      <list>
+        <item><ref id="package-names">: Added examples for the different meanings of package name.</item>
+        <item><ref id="gac-naming-versioning">: Explicitly name the "lib" prefix requirement for library packages.</item>
+      </list>
+    </p>
     <p>
       Changes from 0.4.4 to 0.5.0:
       <list>
@@ -210,6 +219,48 @@
         DotGNU Portable.NET stores the GAC at <file>/usr/lib/cscc/lib</file>
       </p>
     </sect>
+
+    <sect id="package-names">
+      <heading>Package Names</heading>
+
+      <p>
+        There are different set of package names we refer in this policy to.
+        Here a list of examples for the different names:
+        <list>
+           <item>
+             assembly (file) names:
+             <example>gtk-sharp.dll</example>
+             <example>log4net.dll</example>
+             <example>FlickrNet.dll</example>
+           </item>
+           <item>
+             (debian) source package names:
+             <example>gtk-sharp2</example>
+             <example>log4net</example>
+             <example>libflickrnet</example>
+           </item>
+           <item>
+             (debian) binary package names:
+             <example>libgtk2.0-cil</example>
+             <example>libgnome2.0-cil</example>
+             <example>liblog4net1.2-cil</example>
+             <example>libflickrnet2.1.5-cil</example>
+           </item>
+           <item>
+             upstream package names (a good indicator is the pkg-config file name):
+             <example>gtk-sharp-2.0</example>
+             <example>log4net</example>
+             <example>flickrnet</example>
+           </item>
+           <item>
+             upstream tarball names (not the file name):
+             <example>gtk-sharp</example>
+             <example>log4net</example>
+             <example>FlickrNet</example>
+           </item>
+        </list>
+      </p>
+    </sect>
   </chapt>
 
   <chapt id="packaging">
@@ -232,7 +283,7 @@
         </p>
         <p>
           Packages containing a mix of managed and native code <em>must</em> be "Architecure: any" or
-         depending on the specific package a more restricted set of architectures is valid.
+          depending on the specific package a more restricted set of architectures is valid.
         </p>
       </sect1>
 
@@ -241,33 +292,51 @@
         
         <p>
           The package's applications, libraries and meta-data <em>must</em> be installed into
-          <file>/usr/lib/packagename</file>.
+          <file>
+            /usr/lib/<qref id="package-names"><var>upstream_package_name</var></qref>
+          </file>.
         <p>
 
         <p>
-          Libraries that will be installed into the GAC <em>should</em> be installed into <file>/usr/lib/cli/packagename-X.Y</file> 
+          Libraries that will be installed into the GAC <em>should</em> be installed into
+          <file>
+            /usr/lib/cli/<qref id="package-names"><var>upstream_package_name</var></qref>-X.Y
+          </file> 
           (for more details about the X.Y version see <qref id="gac-naming-versioning">GAC versioning</qref>).
-          The commonly seen <file>/usr/lib/mono/packagename</file> path should <em>only</em> be used for Mono project packages.
+          The commonly seen
+          <file>
+            /usr/lib/<strong>mono</strong>/<qref id="package-names"><var>upstream_package_name</var></qref>
+          </file>
+          path should <em>only</em> be used for Mono project packages.
         </p>
-              
+
+        <p>
+          Example path for the <package>log4net</package> package:
+          <example>
+/usr/lib/cli/log4net-1.2
+          </example>
+        </p>
+        
         <p>
           Never install native "glue" libraries into <file>/usr/lib</file>, instead install them at
-          <file>/usr/lib/cli/packagename-X.Y</file>. When moving libraries
+          <file>
+            /usr/lib/cli/<qref id="package-names"><var>upstream_package_name</var></qref>-X.Y
+          </file>. When moving libraries
           update the references to the new location using a DLL Map.  See the
           <qref id="dll-maps-intro">Mono DLL maps</qref> secion for an example.
         </p>
 
         <p>
           The only exception here is for native libraries that are of wider use;
-	  can be used other packages. Native libraries should be packaged according to the
-	  <url id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html"
+          can be used other packages. Native libraries should be packaged according to the
+          <url id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html"
           name="Library Packaging Guide"> in a Debain Policy conformant way.
         </p>
 
         <p>
           You <em>must not</em> install application files (<file>.exe</file>) directly into <file>/usr/bin</file>.
           Instead create a <qref id="wrapper-script-example">wrapper script</qref>
-	  into <file>/usr/bin</file> to allow them to be run without the <file>.exe</file> suffix.
+          into <file>/usr/bin</file> to allow them to be run without the <file>.exe</file> suffix.
         </p>
       </sect1>
 
@@ -392,6 +461,10 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
         </p>
         
         <p>
+          The library package name <em>must</em> be prefixed with <file>lib</file>.
+        </p>
+
+        <p>
           To reflect the ABI stability and prevent breakages when a
           ABI-incompatible version is released, a similar solution for
 	  <url id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html#naminglibpkg"
@@ -408,7 +481,7 @@ find debian/ -type f -name "*.exe" | xargs chmod +x
           package should be named <package>libfoo123-X.Y-cil</package>
 	  (i.e. <package>libmono-c5-0.5-cil</package>) to improve the
           readability.
-	</p>
+        </p>
         
         <p>
           The <file>-cil</file> suffix is chosen to prevent confusion

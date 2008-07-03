@@ -323,7 +323,7 @@
             /usr/lib/cli/<qref id="package-names"><var>upstream_package_name</var></qref>-X.Y
           </file>. When moving libraries
           update the references to the new location using a DLL Map.  See the
-          <qref id="dll-maps-intro">Mono DLL maps</qref> secion for an example.
+          <qref id="dll-maps-intro">Mono DLL maps</qref> section for an example.
         </p>
 
         <p>

@@ -34,7 +34,11 @@ Description: common files between all CLI packages
 Package: cli-common-dev
 Architecture: all
 Replaces: cli-common (<< 0.4.0)
-Depends: debhelper (>= 7.0.8), perl-modules, mono-utils | cil-disassembler, mono-1.0-devel | strong-name-tool, libxml-dom-perl
+Depends: debhelper (>= 7.0.8),
+ perl-modules,
+ mono-utils | cil-disassembler,
+ mono-devel | strong-name-tool,
+ libxml-dom-perl
 Description: common files for building CLI packages
  This package must be installed if a CLI (Common Language Infrastructure)
  packaging environment is desired.

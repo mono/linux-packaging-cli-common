@@ -11,7 +11,7 @@ Build-Depends-Indep: debiandoc-sgml,
  texlive-latex-extra,
  texlive-fonts-recommended,
  texlive-latex-recommended
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 Homepage: http://alioth.debian.org/projects/pkg-cli-common/
 Vcs-Svn: svn://svn.debian.org/pkg-cli-common/package/trunk
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-cli-common/package/trunk/
@@ -34,7 +34,7 @@ Description: common files between all CLI packages
 Package: cli-common-dev
 Architecture: all
 Replaces: cli-common (<< 0.4.0)
-Depends: debhelper (>= 7.1.0),
+Depends: debhelper (>= 7.0.8),
  perl-modules,
  mono-utils (>= 2.0) | cil-disassembler,
  mono-devel (>= 2.0) | strong-name-tool,

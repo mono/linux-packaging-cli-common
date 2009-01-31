@@ -1,4 +1,4 @@
-cli-common (0.6.0~pre1) UNRELEASED; urgency=low
+cli-common (0.6.0) experimental; urgency=low
 
   [ David Paleino ]
   * debian/control:
@@ -10,11 +10,11 @@ cli-common (0.6.0~pre1) UNRELEASED; urgency=low
     debian/dh_makeclilibs:
     + Pass parameters we use to init() of debhelper (as required by dh 7.1).
   * debian/control:
-    + Bumped debhelper binary dependency for cli-common-dev to >= 7.1.0
     + Versioned mono-devel and mono-utils dependency for cli-common-dev to
       ensure we get an experimental buildd friendly version.
+    + Bumped Standards-Version to 3.8.0 (no changes needed)
 
- -- Mirco Bauer <meebey@debian.org>  Wed, 21 Jan 2009 23:40:21 +0100
+ -- Mirco Bauer <meebey@debian.org>  Sat, 31 Jan 2009 18:19:41 +0100
 
 cli-common (0.5.7) unstable; urgency=low
 

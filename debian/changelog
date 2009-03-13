@@ -1,3 +1,15 @@
+cli-common (0.6.2) unstable; urgency=low
+
+  * cli-nant.make
+    cli_nant.pm
+    debian/dh_auto_build_nant
+    debian/dh_auto_clean_nant:
+    + Initial implementation of nant integration with debhelper's "dh" tool.
+      Just include /usr/share/cli-common/cli-nant.make in your debian/rules
+      file and you are done!
+
+ -- Mirco Bauer <meebey@debian.org>  Fri, 13 Mar 2009 00:55:01 +0100
+
 cli-common (0.6.1) unstable; urgency=low
 
   * Upload to unstable.

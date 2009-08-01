@@ -370,8 +370,22 @@ sub loadDllMap {
    foreach my $mapentry (@mapentries) {
      my $dll = $mapentry->getAttribute("dll");
      my $target = $mapentry->getAttribute("target");
-     #verbose_print("DLL map: '$dll' target: '$target'");
-     $dllmapdata->{$dll} = $target;
+     my $os = $mapentry->getAttribute("os");
+     my $valid = 1;
+     if ($os) {
+       $valid = ($os =~ m/^!/);
+       $os =~ s/^!//;
+       foreach (split(/,/, $os)) {
+         if ($_ eq "linux") {
+           $valid = !$valid;
+           last;
+         }
+       }
+     }
+     if ($valid) {
+       verbose_print("DLL map: '$dll' target: '$target'");
+       $dllmapdata->{$dll} = $target;
+     }
    }
 }
 

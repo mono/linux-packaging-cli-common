@@ -1,3 +1,11 @@
+cli-common (0.6.3) UNRELEASED; urgency=low
+
+  * debian/dh_clideps:
+    + Add support for the "os" attribute in <dllmap> entries
+      (http://www.mono-project.com/Config_DllMap).
+
+ -- Sam Hocevar <sho@debian.org>  Sat, 01 Aug 2009 11:22:34 +0000
+
 cli-common (0.6.2) unstable; urgency=low
 
   * cli-nant.make

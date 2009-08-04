@@ -10,7 +10,8 @@ Build-Depends-Indep: debiandoc-sgml,
  texlive-latex-base,
  texlive-latex-extra,
  texlive-fonts-recommended,
- texlive-latex-recommended
+ texlive-latex-recommended,
+ ghostscript
 Standards-Version: 3.8.0
 Homepage: http://alioth.debian.org/projects/pkg-cli-common/
 Vcs-Svn: svn://svn.debian.org/pkg-cli-common/package/trunk

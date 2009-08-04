@@ -20,6 +20,8 @@ cli-common (0.7) unstable; urgency=low
     + Added the public and private key of Mono so libraries that don't have
       a key shipped by upstream can use this one, as defined in
       Debian CLI Policy v0.7 §3.2.5
+  * debian/control:
+    + Added ghostscript to build-deps-indep.
 
   [ Sam Hocevar ]
   * dh_clideps:

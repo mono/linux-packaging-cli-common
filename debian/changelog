@@ -6,7 +6,7 @@ cli-common (0.7) unstable; urgency=low
       found in the History section of the policy.
   * gac-package-install:
     + Cascade error condition when calling runtime scripts. (Closes: #517198)
-      (thanks to Loïc Minier <lool@dooz.org> for the investigation and
+      (thanks to LoÃ¯c Minier <lool@dooz.org> for the investigation and
        providing the patch)
   * dh_cligacpolicy:
     + Fixed syntax error causing the description of Keyfile to be omitted.
@@ -19,7 +19,7 @@ cli-common (0.7) unstable; urgency=low
     mono.snk:
     + Added the public and private key of Mono so libraries that don't have
       a key shipped by upstream can use this one, as defined in
-      Debian CLI Policy v0.7 §3.2.5
+      Debian CLI Policy v0.7 Â§3.2.5
   * debian/control:
     + Added ghostscript to build-deps-indep.
 

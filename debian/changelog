@@ -1,4 +1,4 @@
-cli-common (0.7~pre1) UNRELEASED; urgency=low
+cli-common (0.7) unstable; urgency=low
 
   [ Mirco Bauer ]
   * cli-policy.sgml:

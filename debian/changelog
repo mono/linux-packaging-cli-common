@@ -7,6 +7,9 @@ cli-common (0.7~pre1) UNRELEASED; urgency=low
     + Cascade error condition when calling runtime scripts.
       (thanks to Loïc Minier <lool@dooz.org> for the investigation and
        providing the patch. Closes: #517198)
+  * dh_cligacpolicy:
+    + Fixed syntax error causing the description of Keyfile to be omitted.
+      (Closes: #487464)
 
  -- Sam Hocevar <sho@debian.org>  Sat, 01 Aug 2009 11:22:34 +0000
 

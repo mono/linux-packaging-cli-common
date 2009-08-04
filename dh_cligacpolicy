@@ -39,6 +39,7 @@ The file format of the I<cligacpolicy> file consists of five
 properties per line, each one separated by whitespace.
 
 =over 4
+
 =item B<Keyfile> is a path, from the package root, to the .snk file
 =used to sign the assembly.
 

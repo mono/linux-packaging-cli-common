@@ -1,8 +1,12 @@
-cli-common (0.6.3) UNRELEASED; urgency=low
+cli-common (0.7~pre1) UNRELEASED; urgency=low
 
-  * debian/dh_clideps:
+  * dh_clideps:
     + Add support for the "os" attribute in <dllmap> entries
       (http://www.mono-project.com/Config_DllMap).
+  * gac-package-install:
+    + Cascade error condition when calling runtime scripts.
+      (thanks to Loïc Minier <lool@dooz.org> for the investigation and
+       providing the patch. Closes: #517198)
 
  -- Sam Hocevar <sho@debian.org>  Sat, 01 Aug 2009 11:22:34 +0000
 

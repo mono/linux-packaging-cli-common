@@ -141,5 +141,5 @@ foreach my $clr (glob("/usr/share/cli-common/runtimes.d/*"))
     $t = "1 assembly" if (@install == 1);
 
     print STDOUT "* Installing $t from $pkg into $formal\n";
-    system($clr, "install", $pkg, @install);
+    system($clr, "install", $pkg, @install) == 0 or die "E: Installation of $pkg with $clr failed\n";
 }

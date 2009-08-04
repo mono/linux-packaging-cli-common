@@ -958,7 +958,7 @@ binary-indep: build install
 
         <p>
           With debhelper's 7 <file>/usr/bin/dh</file> you don't need to add any
-          extra commands to <file>debian/rules</files> yourself as debhelper has
+          extra commands to <file>debian/rules</file> yourself as debhelper has
           an API that allows to extend it.
           <package>cli-common-dev</package> as of version 0.5.7 can extend
           debhelper 7 with all commands that are needed. You can enable this by

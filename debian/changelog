@@ -1,5 +1,8 @@
 cli-common (0.7~pre1) UNRELEASED; urgency=low
 
+  * cli-policy.sgml:
+    + Updated to version 0.7, containing important changes which can be
+      found in the History section of the policy.
   * dh_clideps:
     + Add support for the "os" attribute in <dllmap> entries
       (http://www.mono-project.com/Config_DllMap).
@@ -10,6 +13,11 @@ cli-common (0.7~pre1) UNRELEASED; urgency=low
   * dh_cligacpolicy:
     + Fixed syntax error causing the description of Keyfile to be omitted.
       (Closes: #487464)
+  * mono.pub
+    mono.snk:
+    + Added the public and private key of Mono so libraries that don't have
+      a key shipped by upstream can use this one, as defined in
+      Debian CLI Policy v0.7 §3.2.5
 
  -- Sam Hocevar <sho@debian.org>  Sat, 01 Aug 2009 11:22:34 +0000
 

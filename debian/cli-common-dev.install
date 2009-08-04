@@ -18,3 +18,6 @@ prerm-cligac		/usr/share/debhelper/autoscripts/
 dh_cligacpolicy		/usr/bin/
 postinst-cligacpolicy	/usr/share/debhelper/autoscripts/
 postrm-cligacpolicy     /usr/share/debhelper/autoscripts/
+
+mono.pub		/usr/share/cli-common/keys/
+mono.snk		/usr/share/cli-common/keys/

@@ -156,10 +156,11 @@ if (defined($dh{INTERNAL_MONO_FLAG}) ||
 {
   local $/="";
   open(FILE, 'debian/control');
-  my @filedata = <FILE>;
+  my $srcblock = <FILE>;
   close(FILE);
-  if (!($filedata[0] =~ /Build-Depends(-Indep)?: .*cli-common-dev \(>= 0\.4\.4\)/)) {
-      warning("Warning! No Build-Depends(-Indep) on cli-common-dev (>= 0.4.4)!");
+  if ($srcblock =~ m/Build-Depends(?:\-Indep)?\:[^:]*cli\-common\-dev\s*\(>=\s*([^\)]+)\)/ &&
+      system("dpkg", "--compare-versions", $1, ">=", "0.4.4") != 0) {
+    warning("Warning! No Build-Depends(-Indep) on cli-common-dev (>= 0.4.4)!");
   }
 }
 

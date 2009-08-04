@@ -1,25 +1,32 @@
 cli-common (0.7~pre1) UNRELEASED; urgency=low
 
+  [ Mirco Bauer ]
   * cli-policy.sgml:
     + Updated to version 0.7, containing important changes which can be
       found in the History section of the policy.
-  * dh_clideps:
-    + Add support for the "os" attribute in <dllmap> entries
-      (http://www.mono-project.com/Config_DllMap).
   * gac-package-install:
-    + Cascade error condition when calling runtime scripts.
+    + Cascade error condition when calling runtime scripts. (Closes: #517198)
       (thanks to Loïc Minier <lool@dooz.org> for the investigation and
-       providing the patch. Closes: #517198)
+       providing the patch)
   * dh_cligacpolicy:
     + Fixed syntax error causing the description of Keyfile to be omitted.
       (Closes: #487464)
+  * dh_clideps
+    dh_makeclilibs:
+    + Fix cli-common-dev build-dep(-indep) detection logic. (Closes: #500329)
+      (thanks to Chow Loong Jin <hyperair@gmail.com> for the patch)
   * mono.pub
     mono.snk:
     + Added the public and private key of Mono so libraries that don't have
       a key shipped by upstream can use this one, as defined in
       Debian CLI Policy v0.7 §3.2.5
 
- -- Sam Hocevar <sho@debian.org>  Sat, 01 Aug 2009 11:22:34 +0000
+  [ Sam Hocevar ]
+  * dh_clideps:
+    + Add support for the "os" attribute in <dllmap> entries
+      (http://www.mono-project.com/Config_DllMap).
+
+ -- Mirco Bauer <meebey@debian.org>  Tue, 04 Aug 2009 05:50:09 +0200
 
 cli-common (0.6.2) unstable; urgency=low
 

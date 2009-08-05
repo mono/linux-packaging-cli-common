@@ -64,7 +64,7 @@
     <p>
       Changes from 0.5.1 to 0.7:
       <list>
-        <item><ref id="file-locations">: GAC libraries must now go in /usr/lib/cli/assembly_name-X.Y instead of /usr/lib/upstream_package_name-X.Y. as one source package might ship many assemblies with different ABI versions.  This would produce very confusing directory names.</item>
+        <item><ref id="file-locations">: GAC libraries must now go in /usr/lib/cli/assembly_name-X.Y instead of /usr/lib/cli/upstream_package_name-X.Y, as one source package might ship many assemblies with different ABI versions.  This would produce very confusing directory names.</item>
         <item><ref id="gac-naming-versioning">: Late-GAC install is now mandatory.</item>
         <item><ref id="build-deps">: Added CLI SDKs as alternative to the compiler.</item>
         <item><ref id="signing">: Using the mono.snk key of cli-common-dev is now mandatory if upstream doesn't ship one.</item>

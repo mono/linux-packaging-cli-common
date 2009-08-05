@@ -15,6 +15,9 @@ cli-common (0.7) unstable; urgency=low
     dh_makeclilibs:
     + Fix cli-common-dev build-dep(-indep) detection logic. (Closes: #500329)
       (thanks to Chow Loong Jin <hyperair@gmail.com> for the patch)
+  * dh_makeclilibs:
+    + Pass by default MONO_GAC_PREFIX=debian/tmp/usr so monodis can find
+      libraries devided into multi-binary packages. (Closes: #498868)
   * mono.pub
     mono.snk:
     + Added the public and private key of Mono so libraries that don't have
@@ -28,7 +31,7 @@ cli-common (0.7) unstable; urgency=low
     + Add support for the "os" attribute in <dllmap> entries
       (http://www.mono-project.com/Config_DllMap).
 
- -- Mirco Bauer <meebey@debian.org>  Tue, 04 Aug 2009 05:50:09 +0200
+ -- Mirco Bauer <meebey@debian.org>  Wed, 05 Aug 2009 16:03:59 +0200
 
 cli-common (0.6.2) unstable; urgency=low
 

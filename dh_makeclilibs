@@ -200,7 +200,11 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
                warning "$libfile has no valid signature, ignoring";
                next dll;
             }
-            my $dis = `$cli_parser --assembly $libfile 2>&1`;
+
+            my $command = "LANG=C MONO_GAC_PREFIX=\$MONO_GAC_PREFIX:$tmp/usr $cli_parser --assembly $libfile 2>&1";
+            verbose_print("running CLI parser command: $command");
+
+            my $dis = `$command`;
             if ($dis =~ m/Name:\s+(\S+)/) {
                $library = $1;
                $dis =~ m/Version:\s+(\S+)/;

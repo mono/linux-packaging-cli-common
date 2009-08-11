@@ -1,3 +1,11 @@
+cli-common (0.7.1) unstable; urgency=low
+
+  * debian/control:
+    + Updated Vcs-* fields pointing to the git repository now.
+    + Changed Section to cli-mono.
+
+ -- Mirco Bauer <meebey@debian.org>  Tue, 11 Aug 2009 15:27:58 +0200
+
 cli-common (0.7) unstable; urgency=low
 
   [ Mirco Bauer ]
@@ -17,7 +25,7 @@ cli-common (0.7) unstable; urgency=low
       (thanks to Chow Loong Jin <hyperair@gmail.com> for the patch)
   * dh_makeclilibs:
     + Pass by default MONO_GAC_PREFIX=debian/tmp/usr so monodis can find
-      libraries devided into multi-binary packages. (Closes: #498868)
+      libraries divided into multi-binary packages. (Closes: #498868)
   * mono.pub
     mono.snk:
     + Added the public and private key of Mono so libraries that don't have

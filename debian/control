@@ -1,5 +1,5 @@
 Source: cli-common
-Section: interpreters
+Section: cli-mono
 Priority: optional
 Maintainer: Debian CLI Common Team <pkg-cli-common-team@lists.alioth.debian.org>
 Uploaders: Mirco Bauer <meebey@debian.org>, Sebastian Dröge <slomo@debian.org>
@@ -14,8 +14,8 @@ Build-Depends-Indep: debiandoc-sgml,
  ghostscript
 Standards-Version: 3.8.0
 Homepage: http://alioth.debian.org/projects/pkg-cli-common/
-Vcs-Svn: svn://svn.debian.org/pkg-cli-common/package/trunk
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-cli-common/package/trunk/
+Vcs-Svn: git://git.debian.org/git/pkg-cli-common/packages/cli-common.git
+Vcs-Browser: http://git.debian.org/?p=pkg-cli-common/packages/cli-common.git
 
 Package: cli-common
 Architecture: all

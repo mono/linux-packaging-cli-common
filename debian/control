@@ -14,7 +14,7 @@ Build-Depends-Indep: debiandoc-sgml,
  ghostscript
 Standards-Version: 3.8.0
 Homepage: http://alioth.debian.org/projects/pkg-cli-common/
-Vcs-Svn: git://git.debian.org/git/pkg-cli-common/packages/cli-common.git
+Vcs-Git: git://git.debian.org/git/pkg-cli-common/packages/cli-common.git
 Vcs-Browser: http://git.debian.org/?p=pkg-cli-common/packages/cli-common.git
 
 Package: cli-common

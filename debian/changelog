@@ -4,7 +4,7 @@ cli-common (0.7.1) unstable; urgency=low
     + Updated Vcs-* fields pointing to the git repository now.
     + Changed Section to cli-mono.
 
- -- Mirco Bauer <meebey@debian.org>  Tue, 11 Aug 2009 15:27:58 +0200
+ -- Mirco Bauer <meebey@debian.org>  Wed, 06 Jan 2010 11:22:31 +0100
 
 cli-common (0.7) unstable; urgency=low
 

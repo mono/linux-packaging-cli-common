@@ -1,10 +1,12 @@
-cli-common (0.7.1) unstable; urgency=low
+cli-common (0.7.1) UNRELEASED; urgency=low
 
   * debian/control:
     + Updated Vcs-* fields pointing to the git repository now.
     + Changed Section to cli-mono.
+  * dh_clifixperms:
+    + Only operate on files (not symlinks).
 
- -- Mirco Bauer <meebey@debian.org>  Wed, 06 Jan 2010 11:22:31 +0100
+ -- Mirco Bauer <meebey@debian.org>  Thu, 07 Jan 2010 11:45:29 +0100
 
 cli-common (0.7) unstable; urgency=low
 

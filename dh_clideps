@@ -693,7 +693,11 @@ sub resolvePrivateLibrary {
     $library_file = basename($target);
   }
   verbose_print("Looking for $target at $library_file");
-  return 1 if -f $library_file || -s $library_file;
+  if (-f $library_file || -s $library_file) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
 
 =head1 SEE ALSO

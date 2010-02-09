@@ -243,7 +243,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
   use File::Spec;
   my @exclude_dirs = ();
   foreach(@{$dh{EXCLUDE}}) {
-      push(@exclude_dirs, File::Spec->catdir($tmp, $_));
+    push(@exclude_dirs, File::Spec->catdir($tmp, $_));
   }
   $needs_net_1_0 = 0;
   $needs_net_2_0 = 0;
@@ -264,10 +264,10 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     }
 
     foreach(@exclude_dirs) {
-	if($File::Find::dir =~ m/^$_/) {
-	    verbose_print("Excluding module $file from dir $File::Find::dir");
-	    return;
-	}
+      if($File::Find::dir =~ m/^$_/) {
+        verbose_print("Excluding module $file from dir $File::Find::dir");
+        return;
+      }
     }
     verbose_print("Package: $package Assembly: $file");
         
@@ -634,24 +634,24 @@ sub resolveShlibRefs {
        # for DLL maps that have an unversioned library as target
        $pkgref = $shlibdata{$target.".0"};
      } else {
-	 if(!resolvePrivateLibrary($package, $fullTarget, $package)) {
-	     # Private library can't be found in the current package.  Try to resolve it
-	     # in the other binary packages, and add a strong dependency if we find it.
-	     foreach my $binary_package (@{$dh{DOPACKAGES}}) {
-		 if(resolvePrivateLibrary($package, $fullTarget, $binary_package)) {
-		     verbose_print("Found private library in $binary_package");
-		     $pkgref = $binary_package . " (= \${binary:Version})";
-		     verbose_print("pkgref is $pkgref");
-		     last;
-		 }
-	     }
-	     if (!defined($pkgref)) {
-		 error("Missing shlibs entry: $target or $name for: $assembly_filename!");
-	     }
-	 } else {
-	     verbose_print("Found private library $target for $name");
-	     next;
-	 }
+       if(!resolvePrivateLibrary($package, $fullTarget, $package)) {
+         # Private library can't be found in the current package.  Try to resolve it
+         # in the other binary packages, and add a strong dependency if we find it.
+         foreach my $binary_package (@{$dh{DOPACKAGES}}) {
+           if(resolvePrivateLibrary($package, $fullTarget, $binary_package)) {
+             verbose_print("Found private library in $binary_package");
+             $pkgref = $binary_package . " (= \${binary:Version})";
+             verbose_print("pkgref is $pkgref");
+             last;
+           }
+         }
+         if (!defined($pkgref)) {
+           error("Missing shlibs entry: $target or $name for: $assembly_filename!");
+         }
+       } else {
+         verbose_print("Found private library $target for $name");
+         next;
+       }
      }
 
      my %overriddenRef = resolveOverride($package, $pkgref);
@@ -665,35 +665,35 @@ sub resolveShlibRefs {
 }
 
 sub resolvePrivateLibrary {
-    my $package = shift;
-    my $target = shift;
-    my $resolveIn = shift;
-    my $library_file;
+  my $package = shift;
+  my $target = shift;
+  my $resolveIn = shift;
+  my $library_file;
 
-    use File::Spec;
-    if (File::Spec->file_name_is_absolute($target)) {
-	# If the DLLMap target is absolute, we should check that the target
-	# exists in that location.  Since we're currently in the directory
-	# with the assembly, we need to back out first.
-	my @targetDirs = File::Spec->splitdir($target);
-	my @cwdComponents = File::Spec->splitdir(File::Spec->rel2abs(File::Spec->curdir()));
-	my @upDirs = ("../", "../");
+  use File::Spec;
+  if (File::Spec->file_name_is_absolute($target)) {
+    # If the DLLMap target is absolute, we should check that the target
+    # exists in that location.  Since we're currently in the directory
+    # with the assembly, we need to back out first.
+    my @targetDirs = File::Spec->splitdir($target);
+    my @cwdComponents = File::Spec->splitdir(File::Spec->rel2abs(File::Spec->curdir()));
+    my @upDirs = ("../", "../");
 
-	# Find where the last occurance of tmpdir is in $curdir, and add enough
-	# updirs to get there from cwd.
-	while(join("/", ($cwdComponents[-2], $cwdComponents[-1])) ne tmpdir($package)) {
-	    pop(@cwdComponents);
-	    push(@upDirs, "../");
-	}
-
-	$library_file = File::Spec->rel2abs(File::Spec->catdir((File::Spec->curdir(), @upDirs, tmpdir($resolveIn), @targetDirs)));
-    } else {
-	# If the DLLMap target is not absolute, look in the same directory
-	# as the assembly.
-	$library_file = basename($target);
+    # Find where the last occurance of tmpdir is in $curdir, and add enough
+    # updirs to get there from cwd.
+    while(join("/", ($cwdComponents[-2], $cwdComponents[-1])) ne tmpdir($package)) {
+      pop(@cwdComponents);
+      push(@upDirs, "../");
     }
-    verbose_print("Looking for $target at $library_file");
-    return 1 if -f $library_file || -s $library_file;
+
+    $library_file = File::Spec->rel2abs(File::Spec->catdir((File::Spec->curdir(), @upDirs, tmpdir($resolveIn), @targetDirs)));
+  } else {
+    # If the DLLMap target is not absolute, look in the same directory
+    # as the assembly.
+    $library_file = basename($target);
+  }
+  verbose_print("Looking for $target at $library_file");
+  return 1 if -f $library_file || -s $library_file;
 }
 
 =head1 SEE ALSO

@@ -65,6 +65,12 @@ paths will be made absolute for the benefit of monodis.
 Note that the directory given should be the complete or relative path to a directory that contains
 the library. See example below.
 
+=item B<-X>path B<--exclude=>path
+
+Paths to exclude from the .dll/.exe search.  Assemblies in these paths or their subdirectories
+will not be searched for dependencies, and assemblies missing references will not cause dh_clideps 
+to fail.
+
 =item B<internal-mono>                             
 
 Uses the mono runtime in . (used for bootstrapping mono packages)  
@@ -83,6 +89,10 @@ or
 or
   (MONO_GAC_PREFIX example)
   dh_clideps -l debian/tmp/usr
+
+Suppose your source package libquux1.0-cil also ships some examples in /usr/share, and you don't
+want to pull in those dependencies.
+  dh_clideps -X/usr/share
 
 =cut
 
@@ -229,6 +239,12 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
                recommends => [],
                suggests => [] );
   my $found_exe = 0;
+
+  use File::Spec;
+  my @exclude_dirs = ();
+  foreach(@{$dh{EXCLUDE}}) {
+      push(@exclude_dirs, File::Spec->catdir($tmp, $_));
+  }
   $needs_net_1_0 = 0;
   $needs_net_2_0 = 0;
   $needs_net_2_1 = 0;
@@ -247,6 +263,12 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
       $found_exe = 1;
     }
 
+    foreach(@exclude_dirs) {
+	if($File::Find::dir =~ m/^$_/) {
+	    verbose_print("Excluding module $file from dir $File::Find::dir");
+	    return;
+	}
+    }
     verbose_print("Package: $package Assembly: $file");
         
     my %shlibRefs = resolveShlibRefs($package, $file);

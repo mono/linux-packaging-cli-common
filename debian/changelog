@@ -1,4 +1,4 @@
-cli-common (0.7.1) UNRELEASED; urgency=low
+cli-common (0.7.1) unstable; urgency=low
 
   * debian/control:
     + Updated Vcs-* fields pointing to the git repository now.

@@ -2,7 +2,7 @@ Source: cli-common
 Section: cli-mono
 Priority: optional
 Maintainer: Debian CLI Common Team <pkg-cli-common-team@lists.alioth.debian.org>
-Uploaders: Mirco Bauer <meebey@debian.org>, Sebastian Dröge <slomo@debian.org>
+Uploaders: Mirco Bauer <meebey@debian.org>
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: debiandoc-sgml,
  texlive-base-bin,

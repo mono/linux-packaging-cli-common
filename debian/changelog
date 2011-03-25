@@ -1,3 +1,17 @@
+cli-common (0.8~2.gbpca22e7) UNRELEASED; urgency=low
+
+  ** SNAPSHOT build @ca22e76b58ca4abab9cb2d8f9f59b6a3cd5d885d **
+
+  * Cleaned up Uploaders
+  * Added .NET 4.0 support (requires mono-runtime >= 2.10.1)
+  * Fixed minimum build-dep version check in dh_clideps and dh_makeclilibs
+    (closes: #597440)
+  * Enhanced error handling for signature parsing and ignore delay-signed
+    assemblies in dh_makeclilibs
+  * Bumped minimum cli-common-dev version to 0.8~
+
+ -- Mirco Bauer <meebey@debian.org>  Fri, 25 Mar 2011 01:30:40 +0100
+
 cli-common (0.7.1) unstable; urgency=low
 
   * debian/control:

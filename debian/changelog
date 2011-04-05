@@ -1,5 +1,6 @@
 cli-common (0.8~2.gbpca22e7) UNRELEASED; urgency=low
 
+  [ Mirco Bauer ]
   ** SNAPSHOT build @ca22e76b58ca4abab9cb2d8f9f59b6a3cd5d885d **
 
   * Cleaned up Uploaders
@@ -10,7 +11,14 @@ cli-common (0.8~2.gbpca22e7) UNRELEASED; urgency=low
     assemblies in dh_makeclilibs
   * Bumped minimum cli-common-dev version to 0.8~
 
- -- Mirco Bauer <meebey@debian.org>  Fri, 25 Mar 2011 01:30:40 +0100
+  [ Christopher James Halse Rogers ]
+  * dh_clideps:
+    + Also resolve references to private native libraries.
+    + Now that we can cover all dllmap cases, fail the build when unable to
+      resolve a native library dependency.
+    + Add -X/--exclude option to remove libraries from dependency resolution
+
+ -- Christopher James Halse Rogers <raof@ubuntu.com>  Tue, 05 Apr 2011 21:04:03 +1000
 
 cli-common (0.7.1) unstable; urgency=low
 

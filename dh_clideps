@@ -71,12 +71,12 @@ Paths to exclude from the .dll/.exe search.  Assemblies in these paths or their 
 will not be searched for dependencies, and assemblies missing references will not cause dh_clideps 
 to fail.
 
-=item B<--exclude-modulref=>moduleref
+=item B<--exclude-moduleref=>moduleref
 
 ModuleRef to exclude from dependency resolution.  dh_clideps will not attempt to resolve dependencies
 of these ModuleRefs.  In particular, dh_clideps will not fail if these modulerefs are unresolvable.
 
-May be specified multiple times.  Each time it exculdes a new ModuleRef.
+May be specified multiple times.  Each time it excludes a new ModuleRef.
 
 =item B<internal-mono>                             
 

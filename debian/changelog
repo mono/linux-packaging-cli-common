@@ -1,3 +1,13 @@
+cli-common (0.8~exp2) experimental; urgency=low
+
+  [ Christopher James Halse Rogers ]
+  * Add --exclude-moduleref option to dh_clideps
+
+  [ Mirco Bauer ]
+  * Fixed minor typos in pod
+
+ -- Mirco Bauer <meebey@debian.org>  Sat, 09 Apr 2011 14:32:20 +0200
+
 cli-common (0.8~exp1) experimental; urgency=low
 
   [ Mirco Bauer ]

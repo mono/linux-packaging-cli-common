@@ -112,6 +112,20 @@ a package dependency or failing if the libbaz dependency is unresolvable.
 
 =cut
 
+# Static list of modulerefs to automatically exclude
+@{$dh{MODULE_EXCLUDE}} = (
+  "i:comctl32.dll",
+  "i:dwmapi.dll",
+  "i:gdi32.dll"
+  "i:imm32.dll"
+  "i:kernel32.dll",
+  "i:shell32.dll",
+  "i:shlwapi.dll",
+  "i:system32.dll",
+  "i:user32.dll",
+  "i:uxtheme.dll",
+  );
+
 # Add an item to the moduleref exclude list.
 sub AddModulerefExclude { my($option,$value)=@_;
 	push @{$dh{MODULE_EXCLUDE}},$value;

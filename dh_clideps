@@ -78,6 +78,10 @@ of these ModuleRefs.  In particular, dh_clideps will not fail if these moduleref
 
 May be specified multiple times.  Each time it excludes a new ModuleRef.
 
+ModuleRefs to be excluded can be optionally prefixed with "i:" to specify a case-insensitive match.
+
+If foo is excluded, both foo and foo.dll will be considered when matching the exclude.
+
 =item B<internal-mono>                             
 
 Uses the mono runtime in . (used for bootstrapping mono packages)  
@@ -621,10 +625,23 @@ sub resolveShlibRefs {
      if (!defined($name)) {
        next;
      }
-     if ($name ~~ @{$dh{MODULE_EXCLUDE}}) {
-       # Ignore this moduleref as requested
-       next;
+     my $skip = 0;
+     foreach my $excluded_moduleref (@{$dh{MODULE_EXCLUDE}}) {
+       # explicitly excluded modulerefs are never checked
+       $excluded_moduleref =~ /^(i:)(.*)/;
+       if ($1 eq "i:" && $2 =~ /$name(.dll)?/i) {
+         # i: specified; case insensitive match
+         verbose_print("Ignoring moduleref $name (case insensitive)");
+         $skip = 1;
+         last;
+       } elsif ($2 =~ /$name(.dll)?/) {
+         # case sensitive
+         verbose_print("Ignoring moduleref $name");
+         $skip = 1;
+         last;
+       }
      }
+     next if $skip;
      my $target = $dllmapdata{$name};
      my $fullTarget = $target;
      

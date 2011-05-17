@@ -117,8 +117,8 @@ a package dependency or failing if the libbaz dependency is unresolvable.
   "i:advapi32.dll",
   "i:comctl32.dll",
   "i:dwmapi.dll",
-  "i:gdi32.dll"
-  "i:imm32.dll"
+  "i:gdi32.dll",
+  "i:imm32.dll",
   "i:kernel32.dll",
   "i:netapi32.dll",
   "i:oleaut32.dll",

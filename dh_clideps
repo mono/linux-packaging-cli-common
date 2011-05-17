@@ -648,8 +648,8 @@ sub resolveShlibRefs {
      my $skip = 0;
      foreach my $excluded_moduleref (@{$dh{MODULE_EXCLUDE}}) {
        # explicitly excluded modulerefs are never checked
-       $excluded_moduleref =~ /^(i:)(.*)/;
-       if ($1 eq "i:" && $2 =~ /$name(.dll)?/i) {
+       $excluded_moduleref =~ /^(i:)?(.*)/;
+       if (defined $1 && $1 eq "i:" && $2 =~ /$name(.dll)?/i) {
          # i: specified; case insensitive match
          verbose_print("Ignoring moduleref $name (case insensitive)");
          $skip = 1;

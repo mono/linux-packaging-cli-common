@@ -1,3 +1,19 @@
+cli-common (0.8~xamarin1) experimental; urgency=low
+
+  [ Iain Lane ]
+  * Support case-insensitive excludes and search foo and foo.dll
+  * Automatically exclude some common windows libraries
+  * cli-policy: We now use the upstream name for pcfiles
+
+  [ Julian Taylor ]
+  * auto exclude more windows libs
+  * fix syntax error, missing commas
+
+  [ Iain Lane ]
+  * Fix case insensitive ignore
+
+ -- Mirco Bauer <meebey@debian.org>  Wed, 18 May 2011 01:21:58 +0200
+
 cli-common (0.8~exp2) experimental; urgency=low
 
   [ Christopher James Halse Rogers ]

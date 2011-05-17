@@ -114,16 +114,22 @@ a package dependency or failing if the libbaz dependency is unresolvable.
 
 # Static list of modulerefs to automatically exclude
 @{$dh{MODULE_EXCLUDE}} = (
+  "i:advapi32.dll",
   "i:comctl32.dll",
   "i:dwmapi.dll",
-  "i:gdi32.dll"
-  "i:imm32.dll"
+  "i:gdi32.dll",
+  "i:imm32.dll",
   "i:kernel32.dll",
+  "i:netapi32.dll",
+  "i:oleaut32.dll",
+  "i:opengl32.dll",
   "i:shell32.dll",
   "i:shlwapi.dll",
   "i:system32.dll",
   "i:user32.dll",
   "i:uxtheme.dll",
+  "i:winmm.dll",
+  "i:ws2_32.dll",
   );
 
 # Add an item to the moduleref exclude list.
@@ -642,8 +648,8 @@ sub resolveShlibRefs {
      my $skip = 0;
      foreach my $excluded_moduleref (@{$dh{MODULE_EXCLUDE}}) {
        # explicitly excluded modulerefs are never checked
-       $excluded_moduleref =~ /^(i:)(.*)/;
-       if ($1 eq "i:" && $2 =~ /$name(.dll)?/i) {
+       $excluded_moduleref =~ /^(i:)?(.*)/;
+       if (defined $1 && $1 eq "i:" && $2 =~ /$name(.dll)?/i) {
          # i: specified; case insensitive match
          verbose_print("Ignoring moduleref $name (case insensitive)");
          $skip = 1;

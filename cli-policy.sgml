@@ -608,10 +608,7 @@
 
         <p>
           All GAC library packages should have a pkg-config <file>.pc</file> file located in <file>/usr/lib/pkgconfig</file>.
-          The filename <em>must</em> be named: <file>package-X.Y.pc</file> including the versioning.
-          The version <em>must</em> reflect the same X.Y version as the package name.
-          There <em>must</em> also be a symlink without the version to the latest version, as follows:
-          from <file>package.pc</file> to <file>package-X.Y.pc</file>
+          The filename <em>must</em> be identical to that shipped by upstream.
         </p>
       </sect1>
 

@@ -152,6 +152,7 @@ my $cli_version = `$cli --version 2>&1`;
 my $cli_parser;
 my $cli_parser_paths;
 my $pwd = `pwd`;
+my @allpackages = getpackages();
 chomp $pwd;
 
 my $mono_gac_prefix = "";
@@ -696,7 +697,8 @@ sub resolveShlibRefs {
        if(!resolvePrivateLibrary($package, $fullTarget, $package)) {
          # Private library can't be found in the current package.  Try to resolve it
          # in the other binary packages, and add a strong dependency if we find it.
-         foreach my $binary_package (@{$dh{DOPACKAGES}}) {
+         foreach my $binary_package (@allpackages) {
+	   verbose_print("Checking $binary_package for $fullTarget");
            if(resolvePrivateLibrary($package, $fullTarget, $binary_package)) {
              verbose_print("Found private library in $binary_package");
              $pkgref = $binary_package . " (= \${binary:Version})";

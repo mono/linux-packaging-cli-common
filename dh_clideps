@@ -275,6 +275,7 @@ our $needs_net_1_0;
 our $needs_net_2_0;
 our $needs_net_2_1;
 our $needs_net_4_0;
+my $failure = 0;
 
 foreach my $package (@{$dh{DOPACKAGES}}) {
   my $tmp = tmpdir($package);
@@ -315,6 +316,9 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     verbose_print("Package: $package Assembly: $file");
         
     my %shlibRefs = resolveShlibRefs($package, $file);
+    if ($shlibRefs{failure} == 1) {
+        $failure = 1;
+    }
     push(@{$refs{depends}},    @{$shlibRefs{depends}});
     push(@{$refs{recommends}}, @{$shlibRefs{recommends}});
     push(@{$refs{suggests}},   @{$shlibRefs{suggests}});
@@ -384,6 +388,10 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
   addsubstvar($package, "cli:Depends",    $vm_ref . join(", ", @{$refs{depends}}));
   addsubstvar($package, "cli:Recommends", join(", ", @{$refs{recommends}}));
   addsubstvar($package, "cli:Suggests",   join(", ", @{$refs{suggests}}));
+}
+
+if ($failure != 0) {
+  error("Error: unresolvable module references or missing shlibs entries, please check above errors!");
 }
 
 sub filterDuplicates {
@@ -607,7 +615,8 @@ sub resolveShlibRefs {
    my $config_filename = $assembly_filename.".config";
    my %ret = ( depends => [],
                recommends => [],
-               suggests => [] );
+               suggests => [],
+               failure => 0);
    if (-r $config_filename) {
      verbose_print("Found DLL map: $config_filename");
    } else {
@@ -681,7 +690,8 @@ sub resolveShlibRefs {
        verbose_print("Resolved moduleref to private library lib" . $name . ".so");
        next;
      } else {
-       error("Could not resolve moduleref: $name for: $assembly_filename!");
+       warning("Error: Could not resolve moduleref: $name for: $assembly_filename!");
+       $ret{failure} = 1;
        next;
      }
  
@@ -707,7 +717,8 @@ sub resolveShlibRefs {
            }
          }
          if (!defined($pkgref)) {
-           error("Missing shlibs entry: $target or $name for: $assembly_filename!");
+           warning("Error: Missing shlibs entry: $target or $name for: $assembly_filename!");
+           $ret{failure} = 1;
          }
        } else {
          verbose_print("Found private library $target for $name");

@@ -1,3 +1,14 @@
+cli-common (0.8~xamarin2) experimental; urgency=low
+
+  [ Julian Taylor ]
+  * try to resolve all module references before failing
+
+  [ Christopher James Halse Rogers ]
+  * dh_clideps: Search all binary packages to resolve private libraries,
+    not just the currently active ones.
+
+ -- Mirco Bauer <meebey@debian.org>  Thu, 29 Sep 2011 22:59:53 +0200
+
 cli-common (0.8~xamarin1) experimental; urgency=low
 
   [ Iain Lane ]

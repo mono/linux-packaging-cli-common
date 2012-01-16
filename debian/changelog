@@ -1,3 +1,11 @@
+cli-common (0.8) unstable; urgency=low
+
+  * Upload to unstable
+  * Fixed matching excluded modulerefs
+  * Added deprecation warning to cli.make
+
+ -- Mirco Bauer <meebey@debian.org>  Mon, 16 Jan 2012 07:10:31 +0100
+
 cli-common (0.8~xamarin2) experimental; urgency=low
 
   [ Julian Taylor ]

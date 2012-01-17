@@ -659,7 +659,7 @@ sub resolveShlibRefs {
      foreach my $excluded_moduleref (@{$dh{MODULE_EXCLUDE}}) {
        # explicitly excluded modulerefs are never checked
        $excluded_moduleref =~ /^(i:)?(.*)/;
-       $exclude_pattern = "^$2(.dll)?\$";
+       my $exclude_pattern = qr/^$2(.dll)?$/;
        if (defined $1 && $1 eq "i:" && $moduleref =~ /$exclude_pattern/i) {
          # i: specified; case insensitive match
          verbose_print("Ignoring moduleref $moduleref (case insensitive)");
@@ -679,7 +679,7 @@ sub resolveShlibRefs {
      if (defined($target)) {
        $target = basename($target);
        verbose_print("Resolved moduleref via DLL map: $moduleref to: $target");
-     } elsif (defined($shlibdata{$name})) {
+     } elsif (defined($shlibdata{$moduleref})) {
        verbose_print("Resolved moduleref via direct match in shlibs");
      } elsif (resolvePrivateLibrary($package, $moduleref, $package)) {
        # There is no DllMap, but the package ships the private library alongside the assembly

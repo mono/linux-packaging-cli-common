@@ -1,3 +1,11 @@
+cli-common (0.8.1) unstable; urgency=low
+ 
+  * Brown paper bag upload
+  * dh_clideps: Fix perl syntax errors which prevented interpretation of file
+    (Closes: #656188)
+
+ -- Iain Lane <laney@debian.org>  Tue, 17 Jan 2012 10:53:43 +0000
+
 cli-common (0.8) unstable; urgency=low
 
   * Upload to unstable

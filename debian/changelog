@@ -1,3 +1,10 @@
+cli-common (0.8.2) unstable; urgency=low
+
+  * Don't quote the regexp. Perl doesn't allow quoted (compiled) regexps to
+    subsequently have modifiers added. Broke case insensitive "i:" excludes. 
+
+ -- Iain Lane <laney@debian.org>  Tue, 17 Jan 2012 20:25:28 +0000
+
 cli-common (0.8.1) unstable; urgency=low
  
   * Brown paper bag upload

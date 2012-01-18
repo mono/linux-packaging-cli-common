@@ -659,7 +659,7 @@ sub resolveShlibRefs {
      foreach my $excluded_moduleref (@{$dh{MODULE_EXCLUDE}}) {
        # explicitly excluded modulerefs are never checked
        $excluded_moduleref =~ /^(i:)?(.*)/;
-       my $exclude_pattern = qr/^$2(.dll)?$/;
+       my $exclude_pattern = "^$2(.dll)?\$";
        if (defined $1 && $1 eq "i:" && $moduleref =~ /$exclude_pattern/i) {
          # i: specified; case insensitive match
          verbose_print("Ignoring moduleref $moduleref (case insensitive)");

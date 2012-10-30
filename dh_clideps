@@ -293,6 +293,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
   $needs_net_2_0 = 0;
   $needs_net_2_1 = 0;
   $needs_net_4_0 = 0;
+  $needs_net_4_5 = 0;
   
   # for idempotency
   delsubstvar($package, "cli:Depends");
@@ -336,7 +337,9 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
   my $vm_ref = "";
   if (!defined($dh{R_FLAG}) && $found_exe) {
     if ($clr eq "mono") {
-      if ($needs_net_4_0) {
+      if ($needs_net_4_5) {
+        $vm_ref = "mono-runtime (>= 3.0~), ";
+      } elsif ($needs_net_4_0) {
         $vm_ref = "mono-runtime (>= 2.10.1), ";
       } elsif ($needs_net_2_1) {
         $vm_ref = "mono-runtime (>= 1.2.6), ";
@@ -597,7 +600,13 @@ sub resolveClilibRefs {
         } elsif ($ver eq "2.1.0.0") {
           $needs_net_2_1 = 1;
         } elsif ($ver eq "4.0.0.0") {
-          $needs_net_4_0 = 1;
+          # HACK: Mono 3.0 only provides a .NET 4.0 corlib for development
+          # support. At runtime Mono 3.0 always loads the 4.5 corlib though as 
+          # .NET 4.5 and .NET 4.0 both contain a corlib with the same assembly
+          # version but the 4.5 corlib contains more symbols! Thus we need to
+          # always depend on the 4.5 corlib with Mono 3.0.
+          # TODO: check cli_version for >= 3.0 and fallback to needs_net_4_0
+          $needs_net_4_5 = 1;
         } else {
           warning("Warning: Unknown mscorlib version: $ver!");
         }

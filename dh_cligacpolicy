@@ -28,6 +28,8 @@ these policies into the system.
 
 Do not modify postinst/prerm scripts.
 
+=back
+
 =head1 FILE FORMAT
 
 This file uses the I<debian/cligacpolicy> files (either

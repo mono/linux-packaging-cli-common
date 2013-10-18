@@ -86,6 +86,8 @@ If foo is excluded, both foo and foo.dll will be considered when matching the ex
 
 Uses the mono runtime in . (used for bootstrapping mono packages)  
 
+=back
+
 =head1 EXAMPLES
 
 Suppose that your source package produces libfoo1.0-cil and libbar1.0-cil

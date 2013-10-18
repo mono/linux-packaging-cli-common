@@ -43,23 +43,23 @@ properties per line, each one separated by whitespace.
 =over 4
 
 =item B<Keyfile> is a path, from the package root, to the .snk file
-=used to sign the assembly.
+used to sign the assembly.
 
 =item B<Assembly> is the name of the assembly, without the .dll
-=extension. For example, for log4net.dll, use I<log4net>.
+extension. For example, for log4net.dll, use I<log4net>.
 
 =item B<Version Range> can be a single four-part version, such as
-=1.2.3.4, or a full range, such as 1.2.3.4-1.2.6.7. For a single line,
-=the first two numbers must be identical. To have an assembly apply to
-=multiple versions, such as 1.2.0.0 to 2.4.0.0, there needs to be one
-=line for each version range.
+1.2.3.4, or a full range, such as 1.2.3.4-1.2.6.7. For a single line,
+the first two numbers must be identical. To have an assembly apply to
+multiple versions, such as 1.2.0.0 to 2.4.0.0, there needs to be one
+line for each version range.
 
 =item B<Assembly version> is the version of the assembly being
 =built.
 
 =item B<Priority> defines the priority of the policy files.
-=Typically, each version will increase the priority and
-=contains all the policy controls for prior versions.
+Typically, each version will increase the priority and
+contains all the policy controls for prior versions.
 
 =back
 

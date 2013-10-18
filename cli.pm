@@ -13,6 +13,7 @@ insert_before("dh_installdeb", "dh_clistrip");
 insert_before("dh_installdeb", "dh_cligacpolicy");
 insert_before("dh_installdeb", "dh_makeclilibs");
 insert_before("dh_installdeb", "dh_installcligac");
+insert_before("dh_installdeb", "dh_installcliframework");
 insert_before("dh_installdeb", "dh_clideps");
 
 1;

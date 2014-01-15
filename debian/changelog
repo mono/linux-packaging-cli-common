@@ -1,3 +1,19 @@
+cli-common (0.9) unstable; urgency=medium
+
+  * The "Hello Mono 3 and F#" release
+
+  [ Mirco Bauer ]
+  * Mono 3.0 no longer ships 4.0/sn.exe but 4.5/sn.exe
+  * Added .NET 4.5 support of Mono 3.0
+  * Fixed failing pod2man
+  * Fixed syntax screwup of dh_cligacpolicy's manpage
+
+  [ Christopher James Halse Rogers ]
+  * Add missing need_dot_net_4_5 variable declaration to dh_clideps
+  * Add dh_installcliframework
+
+ -- Mirco Bauer <meebey@debian.org>  Wed, 15 Jan 2014 07:08:16 +0100
+
 cli-common (0.8.2) unstable; urgency=low
 
   * Don't quote the regexp. Perl doesn't allow quoted (compiled) regexps to

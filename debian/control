@@ -37,8 +37,8 @@ Architecture: all
 Replaces: cli-common (<< 0.4.0)
 Depends: debhelper (>= 7.0.8),
  perl-modules,
- mono-utils (>= 3.0~) | cil-disassembler,
- mono-devel (>= 3.0~) | strong-name-tool,
+ mono-utils (>= 4.4~) | cil-disassembler,
+ mono-devel (>= 4.4~) | strong-name-tool,
  libxml-dom-perl
 Description: common files for building CLI packages
  This package must be installed if a CLI (Common Language Infrastructure)

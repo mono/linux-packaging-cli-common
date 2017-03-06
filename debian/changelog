@@ -1,3 +1,10 @@
+cli-common (0.9~xamarin2) unstable; urgency=medium
+
+  * [5316f58] Use ikdasm, not monodis, as disassembler
+  * [091f776] Mono 4.4 required for sufficiently featureful ikdasm
+
+ -- Jo Shields <joshield@microsoft.com>  Mon, 06 Mar 2017 14:09:32 +0000
+
 cli-common (0.9~xamarin1) stable; urgency=medium
 
   * Upload to Xamarin repository, for 0.9 features on older Debian

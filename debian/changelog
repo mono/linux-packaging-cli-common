@@ -1,3 +1,14 @@
+cli-common (0.9+xamarin3) alpha; urgency=medium
+
+  [ Xamarin Public Jenkins (auto-signing) ]
+  * New release:
+
+  [ Ubuntu ]
+  * [075e580] Merge branch 'master' of github.com:directhex/xamarin-cli-
+    common [70032d6] Handle PPDB in dh_clistrip
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Mon, 03 Jul 2017 21:52:18 +0000
+
 cli-common (0.9+xamarin2) alpha; urgency=medium
 
   * New release:

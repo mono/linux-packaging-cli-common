@@ -535,6 +535,9 @@ sub resolveOverride {
     } else {
       $newpkgref = $pkgref;
     }
+    if ($1 eq "ignores") {
+      $newpkgref = "";
+    }
   }
   verbose_print("resolved pkgref: $pkgref to $type: $newpkgref");
   $ret{$type} = $newpkgref;

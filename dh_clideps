@@ -132,6 +132,7 @@ a package dependency or failing if the libbaz dependency is unresolvable.
   "i:uxtheme",
   "i:winmm",
   "i:ws2_32",
+  "i:MonoPosixHelper"
   );
 
 # Add an item to the moduleref exclude list.

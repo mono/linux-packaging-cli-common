@@ -1,3 +1,28 @@
+cli-common (0.9+xamarin7) preview; urgency=medium
+
+  * New release:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 28 Mar 2018 15:10:31 +0000
+
+cli-common (0.9+xamarin6) preview; urgency=medium
+
+  * New release:
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 28 Mar 2018 15:04:36 +0000
+
+cli-common (0.9+xamarin5) preview; urgency=medium
+
+  [ Xamarin Public Jenkins (auto-signing) ]
+  * New release:
+
+  [ Ubuntu ]
+  * [038f571] Merge branch 'master' of github.com:mono/linux-packaging-
+    cli-common [adb0974] Merge branch 'master' of github.com:mono/linux-
+    packaging-cli-common [1a34141] Fix "ignores" in overrides (Closes:
+    #891637)
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Tue, 27 Feb 2018 17:34:32 +0000
+
 cli-common (0.9+xamarin4) preview; urgency=medium
 
   * New release:

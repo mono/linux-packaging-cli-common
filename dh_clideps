@@ -776,6 +776,9 @@ sub resolvePrivateLibrary {
     }
 
     $library_file = File::Spec->rel2abs(File::Spec->catdir((File::Spec->curdir(), @upDirs, tmpdir($resolveIn), @targetDirs)));
+  } elsif (index($target, '/') != -1) {
+    # not absolute, but in a subdirectory, so process accordingly
+    $library_file = File::Spec->rel2abs(File::Spec->catfile(File::Spec->curdir(), $target));
   } else {
     # If the DLLMap target is not absolute, look in the same directory
     # as the assembly.

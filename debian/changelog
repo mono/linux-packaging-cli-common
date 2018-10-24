@@ -1,3 +1,15 @@
+cli-common (0.9+xamarin8) preview; urgency=medium
+
+  [ Xamarin Public Jenkins (auto-signing) ]
+  * New release:
+
+  [ Ubuntu ]
+  * [f7c05a2] Handle modulerefs in subdirectories (used in XA, common in
+    NuGets) [2fce2dc] Merge branch 'master' of github.com:mono/linux-
+    packaging-cli-common [c8ef6fb] Skip MonoPosixHelper deps
+
+ -- Xamarin Public Jenkins (auto-signing) <releng@xamarin.com>  Wed, 24 Oct 2018 20:15:40 +0000
+
 cli-common (0.9+xamarin7) preview; urgency=medium
 
   * New release:

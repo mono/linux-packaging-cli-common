@@ -319,6 +319,13 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
       }
     }
     verbose_print("Package: $package Assembly: $file");
+
+    my $pedetector = '/usr/lib/cli/binfmt-detector-cli';
+    my $isnet = `$pedetector $file`;
+    if (${^CHILD_ERROR_NATIVE}) {
+      verbose_print("Skipping $file - is not an assembly");
+      return
+    }
         
     my %shlibRefs = resolveShlibRefs($package, $file);
     if ($shlibRefs{failure} == 1) {

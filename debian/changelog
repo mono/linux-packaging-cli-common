@@ -1,3 +1,63 @@
+cli-common (0.10) unstable; urgency=medium
+
+  * The Cambridge BSP ‘Let’s RM the world’ release.
+
+  [ Jo Shields ]
+  * Use ikdasm, not monodis, as disassembler.
+  * Mono 4.4 required for sufficiently featureful ikdasm.
+  * Handle PPDB in dh_clistrip.
+  * Fix "ignores" in overrides (Closes: #891637).
+  * Skip MonoPosixHelper deps.
+  * Handle modulerefs in subdirectories (used in XA, common in NuGets).
+  * Use maintainer address from alioth-lists.debian.net (Closes: #919139).
+
+ -- Andrej Shadura <andrewsh@debian.org>  Mon, 11 Mar 2019 16:26:56 +0100
+
+cli-common (0.9+nmu3) unstable; urgency=medium
+
+  * Non-maintainer upload.
+
+  [ Mirco Bauer ]
+  * cli-policy.sgml: --with param to dh preferred over including cli.make
+
+  [ Niels Thykier ]
+  * dh_makechilibs: Remove only compat code for debhelper compat 3
+  * dh_*: Optimize out some fork+exec calls
+  * Add NOOP promises so dh can optimize them out
+
+  [ Daniel Kahn Gillmor ]
+  * use Salsa for Vcs-* and Homepage
+
+  [ Jeremy Bicha ]
+  * Have cli-common-dev Provide dh-sequence-cli
+
+ -- Jeremy Bicha <jbicha@debian.org>  Sat, 12 Jan 2019 13:47:28 -0500
+
+cli-common (0.9+nmu2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Replace references and usage of "dh_clean -k" with "dh_prep".
+  * dh_makeclilibs: Update to support "Rules-Requires-Root: no" (R³).
+    Thanks to Daniel Kahn Gillmor for reporting the issue.
+    (Closes: #910559)
+  * Set "Rules-Requires-Root" (R³) to "no".
+  * d/rules: Remove dh_installcliframework.1 on clean.
+  * d/rules: Add required build-arch and build-indep targets.
+
+ -- Niels Thykier <niels@thykier.net>  Sun, 28 Oct 2018 17:08:11 +0000
+
+cli-common (0.9+nmu1) unstable; urgency=medium
+
+  * Non-maintainer upload fixing a bug blocking serious bug #777597 --
+    perl-modules: upgrade regression: dpkg: dependency problems prevent
+    configuration of perl-modules
+
+  * replace dependencies on 'perl-modules' with just 'perl' as per Perl policy
+    existence of perl-modules package is an implementation detail
+    (Closes: #779113)
+
+ -- Damyan Ivanov <dmn@debian.org>  Wed, 25 Feb 2015 20:56:32 +0000
+
 cli-common (0.9+xamarin9) preview; urgency=medium
 
   * New release:

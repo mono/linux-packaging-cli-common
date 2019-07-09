@@ -85,7 +85,7 @@ Do not modify postinst/prerm scripts.
 
 =head1 NOTES
 
-Note that this command is not idempotent. "dh_clean -k" should be called
+Note that this command is not idempotent. "dh_prep" should be called
 between invocations of this command. Otherwise, it may cause multiple
 instances of the same text to be added to maintainer scripts.
 
@@ -94,6 +94,8 @@ instances of the same text to be added to maintainer scripts.
 init();
 
 my @allpackages = getpackages();
+
+# PROMISE: DH NOOP WITHOUT installcliframework
 
 foreach my $package (@{$dh{DOPACKAGES}}) {
     my $tmp = tmpdir($package);
@@ -141,16 +143,14 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 	}
 	close CLIFRAMEWORK;
 
-	if (! -d "$tmp/usr/share/cli-common/packages.d") {
-	    doit("install","-d","$tmp/usr/share/cli-common/packages.d");
-	}
-	doit("install", "-m0644", $cliframework, "$tmp/usr/share/cli-common/packages.d/$package.installcliframework");
+	install_dir("$tmp/usr/share/cli-common/packages.d");
+	install_file($cliframework, "$tmp/usr/share/cli-common/packages.d/$package.installcliframework");
 
 	if (! $dh{NOSCRIPTS}) {
 	    autoscript($package, "postinst", "postinst-cliframework",
-		       "s/#PACKAGE#/$package/");
+                                   { 'PACKAGE' => $package });
 	    autoscript($package, "prerm", "prerm-cliframework",
-		       "s/#PACKAGE#/$package/");
+                                   { 'PACKAGE' => $package });
 	}
     }
 }

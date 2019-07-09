@@ -68,7 +68,7 @@ line with I<#> characters and blank lines are ignored.
 
 =head1 NOTES
 
-Note that this command is not idempotent. "dh_clean -k" should be called
+Note that this command is not idempotent. "dh_prep" should be called
 between invocations of this command. Otherwise, it may cause multiple
 instances of the same text to be added to maintainer scripts.
 
@@ -96,6 +96,8 @@ init();
 
 # Go through each of the packages being built
 my $errors = 0;
+
+# PROMISE: DH NOOP WITHOUT cligacpolicy
 
 foreach my $package (@{$dh{DOPACKAGES}})
 {
@@ -194,12 +196,7 @@ foreach my $package (@{$dh{DOPACKAGES}})
     close POLICY;
 
     # Make sure the policies.d directory exists
-    if (! -d "$tmp/usr/share/cli-common/policies.d") {
-	doit("install","-d","$tmp/usr/share/cli-common/policies.d");
-    }
-    if (! -d "$tmp/usr/share/cli-common/policies.d/$package") {
-	doit("install","-d","$tmp/usr/share/cli-common/policies.d/$package");
-    }
+    install_dir("$tmp/usr/share/cli-common/policies.d/$package");
 
     # Once all the various <assemblyBinding> tags are consolidated, we
     # then generate the policy files. This will result in one policy file for

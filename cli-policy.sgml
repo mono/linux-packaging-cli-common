@@ -347,7 +347,7 @@
           The only exception here is for native libraries that are of wider use;
           can be used other packages. Native libraries should be packaged according to the
           <url id="http://www.netfort.gr.jp/~dancer/column/libpkg-guide/libpkg-guide.html"
-          name="Library Packaging Guide"> in a Debain Policy conformant way.
+          name="Library Packaging Guide"> in a Debian Policy conformant way.
         </p>
 
         <p>
@@ -959,10 +959,10 @@ binary-indep: build install
           an API that allows to extend it.
           <package>cli-common-dev</package> as of version 0.5.7 can extend
           debhelper 7 with all commands that are needed. You can enable this by
-          including the <file>cli.make</file> file in <file>debain/rules</file>
-          like this:
+          passing "cli" to dh in <file>debian/rules</file> like this:
           <example>
-include /usr/share/cli-common/cli.make
+%:
+    dh $@ --with cli
           </example>
 
           That's it, you are done! :-)

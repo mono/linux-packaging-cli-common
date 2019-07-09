@@ -6,6 +6,8 @@ export MONO_SHARED_DIR=$(CURDIR)
 VERSION = $(shell dpkg-parsechangelog | grep ^Vers | cut -d\  -f2)
 
 build: build-stamp
+build-arch: build-stamp
+build-indep: build-stamp
 build-stamp:
 	dh_testdir
 	debiandoc2text cli-policy.sgml
@@ -18,7 +20,7 @@ build-stamp:
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f dh_clideps.1 dh_makeclilibs.1 dh_installcligac.1 dh_clifixperms.1 dh_clistrip.1 dh_cligacpolicy.1
+	rm -f dh_clideps.1 dh_makeclilibs.1 dh_installcligac.1 dh_clifixperms.1 dh_clistrip.1 dh_cligacpolicy.1 dh_installcliframework.1
 	rm -fr cli-policy.html cli-policy.txt cli-policy.pdf cli-policy.tpt
 	rm -f build-stamp
 	rm -rf $(MONO_SHARED_DIR)/.wapi
@@ -27,7 +29,7 @@ clean:
 install: build
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 # Build architecture-independent files here.

@@ -172,7 +172,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     my %seen;
     my $need_ldconfig = 0;
 
-    doit("rm", "-f", "$tmp/DEBIAN/clilibs");
+    rm_files("$tmp/DEBIAN/clilibs");
     if (-e "debian/$package.clilibs" ) {
         complex_doit("cat debian/$package.clilibs > $tmp/DEBIAN/clilibs");
     } else {
@@ -233,9 +233,6 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
                 return;
             }
 
-            if (!-d "$tmp/DEBIAN") {
-                doit("install", "-d", "$tmp/DEBIAN");
-            }
             my $deps = $package;
 
             # Call isnative becuase it sets $dh{VERSION}
@@ -243,12 +240,8 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
             isnative($package);
             my $version = $dh{VERSION};
 
-            # Old compatibility levels include the
-            # debian revision, while new do not.
-            if (!compat(3)) {
-                # Remove debian version, if any.
-                $version =~ s/-[^-]+$//;
-            }
+            # Remove debian version, if any.
+            $version =~ s/-[^-]+$//;
 
             if (defined($dh{M_PARAMS}) && $dh{M_PARAMS} ne '') {
                 $version = $dh{M_PARAMS};
@@ -287,6 +280,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 #                if ( my $extra = extraDeps ($libfile) )   { $line .= ", $extra";  }
                 if (!$seen{$line}) {
                     $seen{$line} = 1;
+                    install_dir("$tmp/DEBIAN");
                     complex_doit("echo '$line' >> $tmp/DEBIAN/clilibs");
                 }
             }
@@ -295,8 +289,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     close FIND;
 
     if (-e "$tmp/DEBIAN/clilibs") {
-        doit("chmod", 644,   "$tmp/DEBIAN/clilibs");
-        doit("chown", "0:0", "$tmp/DEBIAN/clilibs");
+        reset_perm_and_owner(0644, "$tmp/DEBIAN/clilibs");
     }
 }
 

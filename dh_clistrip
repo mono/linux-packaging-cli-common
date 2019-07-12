@@ -80,12 +80,14 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 			verbose_print("debug_dir: $debug_dir");
 			$debug_dir = $pwd . "/debian/$debug_pkg/" . $debug_dir;
 			verbose_print("debug_dir: $debug_dir");
-			install_dir($debug_dir);
+			if (! -d $debug_dir) {
+				doit("install", "-d", $debug_dir);
+			}
 			verbose_print("moving $file to $debug_dir");
 			doit("mv", $file, $debug_dir);
 		} else {
 			verbose_print("deleting $file");
-			rm_files($file);
+			doit("rm", $file);
 		}
 	}, $tmp);
 }

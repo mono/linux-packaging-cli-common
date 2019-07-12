@@ -143,14 +143,16 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 	}
 	close CLIFRAMEWORK;
 
-	install_dir("$tmp/usr/share/cli-common/packages.d");
-	install_file($cliframework, "$tmp/usr/share/cli-common/packages.d/$package.installcliframework");
+	if (! -d "$tmp/usr/share/cli-common/packages.d") {
+	    doit("install","-d","$tmp/usr/share/cli-common/packages.d");
+	}
+	doit("install", "-m0644", $cliframework, "$tmp/usr/share/cli-common/packages.d/$package.installcliframework");
 
 	if (! $dh{NOSCRIPTS}) {
 	    autoscript($package, "postinst", "postinst-cliframework",
-                                   { 'PACKAGE' => $package });
+		       "s/#PACKAGE#/$package/");
 	    autoscript($package, "prerm", "prerm-cliframework",
-                                   { 'PACKAGE' => $package });
+		       "s/#PACKAGE#/$package/");
 	}
     }
 }

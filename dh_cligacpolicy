@@ -196,7 +196,12 @@ foreach my $package (@{$dh{DOPACKAGES}})
     close POLICY;
 
     # Make sure the policies.d directory exists
-    install_dir("$tmp/usr/share/cli-common/policies.d/$package");
+    if (! -d "$tmp/usr/share/cli-common/policies.d") {
+	doit("install","-d","$tmp/usr/share/cli-common/policies.d");
+    }
+    if (! -d "$tmp/usr/share/cli-common/policies.d/$package") {
+	doit("install","-d","$tmp/usr/share/cli-common/policies.d/$package");
+    }
 
     # Once all the various <assemblyBinding> tags are consolidated, we
     # then generate the policy files. This will result in one policy file for

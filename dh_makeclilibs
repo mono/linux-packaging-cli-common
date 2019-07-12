@@ -172,7 +172,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     my %seen;
     my $need_ldconfig = 0;
 
-    rm_files("$tmp/DEBIAN/clilibs");
+    doit("rm", "-f", "$tmp/DEBIAN/clilibs");
     if (-e "debian/$package.clilibs" ) {
         complex_doit("cat debian/$package.clilibs > $tmp/DEBIAN/clilibs");
     } else {
@@ -233,6 +233,9 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
                 return;
             }
 
+            if (!-d "$tmp/DEBIAN") {
+                doit("install", "-d", "$tmp/DEBIAN");
+            }
             my $deps = $package;
 
             # Call isnative becuase it sets $dh{VERSION}
@@ -280,7 +283,6 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 #                if ( my $extra = extraDeps ($libfile) )   { $line .= ", $extra";  }
                 if (!$seen{$line}) {
                     $seen{$line} = 1;
-                    install_dir("$tmp/DEBIAN");
                     complex_doit("echo '$line' >> $tmp/DEBIAN/clilibs");
                 }
             }

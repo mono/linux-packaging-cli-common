@@ -65,14 +65,16 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 		}
 		close CLIGAC;
 
-		install_dir("$tmp/usr/share/cli-common/packages.d");
-		install_file($cligac, "$tmp/usr/share/cli-common/packages.d/$package.installcligac");
+		if (! -d "$tmp/usr/share/cli-common/packages.d") {
+			doit("install","-d","$tmp/usr/share/cli-common/packages.d");
+		}
+		doit("install", "-m0644", $cligac, "$tmp/usr/share/cli-common/packages.d/$package.installcligac");
 
 		if (! $dh{NOSCRIPTS}) {
 			autoscript($package, "postinst", "postinst-cligac",
-                                   { 'PACKAGE' => $package });
+				"s/#PACKAGE#/$package/");
 			autoscript($package, "prerm", "prerm-cligac",
-                                   { 'PACKAGE' => $package });
+				"s/#PACKAGE#/$package/");
 		}
 	}
 }

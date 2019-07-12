@@ -291,7 +291,8 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     close FIND;
 
     if (-e "$tmp/DEBIAN/clilibs") {
-        reset_perm_and_owner(0644, "$tmp/DEBIAN/clilibs");
+        doit("chmod", 644,   "$tmp/DEBIAN/clilibs");
+        doit("chown", "0:0", "$tmp/DEBIAN/clilibs");
     }
 }
 

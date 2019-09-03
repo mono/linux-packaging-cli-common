@@ -21,6 +21,7 @@ Package: cli-common
 Architecture: all
 Replaces: cli-common-dev (<< 0.5.1)
 Depends: perl
+Pre-Depends: mono-runtime-common (>= 5.20)
 Description: common files between all CLI packages
  This package must be installed if a CLI (Common Language Infrastructure)
  runtime environment is desired.
